@@ -1,0 +1,38 @@
+:root{
+  --Primary-Color: #6366F1;
+  --Accent-Color: #14B8A6;
+  --Text-Light: #111827;
+  --Text-Background: #F9FAFB;
+  --Section-Divider: #F3F4F6;
+  --Code-Block: #1E293B;
+  --Code-Header: #303E57;
+}
+
+@font-face {
+  font-family: Sora;
+  src: url("./assets/font/Sora-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: Inter;
+  src: url("./assets/font/Inter-VariableFont_wght.ttf");
+}
+
+body{
+  margin: 0;
+}
+
+ul,li {
+  padding: 0;
+  list-style: none;
+  margin: 0;
+}
+
+a{
+  text-decoration: none;
+  color: inherit;
+}
+
+h1,h2,h3,h4,h5,h6,p {
+  margin: 0;
+}

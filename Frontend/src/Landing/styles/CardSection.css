@@ -1,0 +1,55 @@
+.cardSection{
+    margin: 0 100px;
+    min-height: 90vh;
+}
+
+.cardSectionTitle{
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--Primary-Color);
+    text-align: center;
+    font-family: Sora;
+}
+
+.cardHolder{
+    margin-top: 50px;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(3,1fr);
+}
+
+.cardSection hr{
+    width: 80%;
+    margin-top: 50px;
+    border-radius: 2px;
+    opacity: 0.8;
+    border: 3px solid rgb(179, 179, 179);
+}
+
+@media screen and (max-width : 850px) {
+    .cardSection{
+        margin: 0 60px;
+    }
+
+    .cardSectionTitle{
+        font-size: 1.75rem;
+    }
+
+    .cardHolder{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media screen and (max-width : 550px) {
+    .cardSection{
+        margin: 0 30px;
+    }
+
+    .cardSectionTitle{
+        font-size: 1.5rem;
+    }
+
+    .cardHolder{
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,13 @@
+.faqHolder{
+    margin: 50px 100px;
+}
+
+.faqComponentHolder{
+    width: 100%;
+}
+
+.faqQuestion{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}

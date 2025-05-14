@@ -1,0 +1,58 @@
+/* Styles for Landing */
+main {
+    margin: 150px 100px 0;
+    display: flex;
+    height: calc(100vh - 200px);
+}
+
+.content{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.content img{
+    right: 0;
+    top: -25%;
+    position: absolute;
+}
+
+main h1{
+    font-family: Sora;
+    font-weight: 700;
+    font-size: 3rem;
+    color: var(--Primary-Color);
+}
+
+main h3{
+    margin-top: 10px;
+    font-family: Inter;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+main p{
+    font-family: Inter;
+    margin-top: 20px;
+    font-size: 1.125rem;
+}
+
+.signUpCTA {
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 1.115rem;
+    font-family: Sora;
+    font-weight: 400;
+    background-color: var(--Accent-Color);
+    border: none;
+}
+
+.signUpCTA span{
+    font-weight: 600;
+}
+
+.content small{
+    margin-top: 5px;
+    font-family: Inter;
+}

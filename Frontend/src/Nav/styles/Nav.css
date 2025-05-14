@@ -1,0 +1,150 @@
+nav {
+    display: flex;
+    margin: 10px 100px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+#ipWho{
+    font-family: Sora;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--Primary-Color);
+}
+
+nav ul{
+    display: flex;
+    gap: 0.35rem;
+}
+
+nav ul li{
+    font-family: Inter;
+    font-size: 1.125rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 1rem;
+    font-weight: 400;
+    cursor: pointer;
+    color: var(--Text-Light);
+}
+
+nav ul li:hover{
+    background-color: #e1e1e1;
+    scale: 1.05;
+    color: var(--Primary-Color);
+    transition: all 250ms;
+}
+
+nav ul li:nth-last-child(1) {
+    background-color: var(--Accent-Color);
+}
+
+nav ul li:nth-last-child(1):hover {
+    color: var(--Text-Light);
+    scale: 1.05;
+    transition: all 150ms;
+}
+
+nav ul li:nth-last-child(1):active {
+    scale: 1;
+    transition: all 150ms;
+}
+
+.menuIcon{
+    display: block;
+    z-index: 100;
+}
+
+.hide{
+    display: none;
+}
+
+@media screen and (max-width:850px) {
+    nav{
+        margin: 10px 60px;
+    }
+
+    .logo{
+        gap: 0.5rem;
+    }
+
+    .logo svg{
+        width: 35px;
+        height: 35px;
+    }
+
+    #ipWho{
+        font-size: 1.25rem;
+    }
+    
+    nav ul li{
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .nav-items{
+        top: 60px;
+        right: 0;
+        z-index: 10;
+        position: absolute;
+        flex-direction: column;
+        transform: translate(100%);
+        background-color: var(--Section-Divider);
+        width: 100%;
+        padding: 1rem 0;
+        transition: all 250ms ease-in-out;
+    }
+    
+    .showNav{
+        transform: translate(0%);
+        transition: all 250ms ease-in-out;
+    }
+
+    .hide{
+        display: block;
+    }
+
+    .nav-items li{
+        margin: 0 auto;
+    }
+
+}
+
+@media screen and (max-width:450px) {
+    nav{
+        margin: 5px 30px;
+    }
+
+    .logo{
+        gap: 0.35rem;
+    }
+
+    .menuIcon svg{
+        width: 30px;
+        height: 30px;
+    }
+
+    .logo svg{
+        width: 30px;
+        height: 30px;
+    }
+
+    #ipWho{
+        font-size: 1.125rem;
+    }
+
+    nav ul li{
+        font-size: 0.85rem;
+    }
+
+    .nav-items {
+        top: 40px;
+    }
+}
