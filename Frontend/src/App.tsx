@@ -154,3 +154,60 @@ function formatJsonToLines(json: string): string[] {
     return [`{ "error": "Invalid JSON" }`];
   }
 }
+
+export function TerminalTypewriter({ lines }: { lines: string[] }) {
+  const [displayedLines, setDisplayedLines] = useState<string[]>([]);
+  const [currentLine, setCurrentLine] = useState('');
+  const [lineIndex, setLineIndex] = useState(0);
+  const [cursorVisible, setCursorVisible] = useState(true);
+
+  useEffect(() => {
+    const blink = setInterval(() => setCursorVisible(prev => !prev), 500);
+    return () => clearInterval(blink);
+  }, []);
+
+  useEffect(() => {
+    if (lineIndex >= lines.length) return;
+    let charIndex = 0;
+    const line = lines[lineIndex];
+    const interval = setInterval(() => {
+      charIndex++;
+      setCurrentLine(line.slice(0, charIndex));
+      if (charIndex >= line.length) {
+        clearInterval(interval);
+        setTimeout(() => {
+          setDisplayedLines(prev => [...prev, line]);
+          setCurrentLine('');
+          setLineIndex(prev => prev + 1);
+        }, 100);
+      }
+    }, 20);
+    return () => clearInterval(interval);
+  }, [lineIndex, lines]);
+
+  return (
+    <div
+      style={{
+        background: "#0f172a",
+        color: "#f8f8f2",
+        borderRadius: "8px",
+        padding: "1rem",
+        fontSize: "0.9rem",
+        fontFamily: "Fira Code, monospace",
+        maxWidth: "700px",
+        margin: "0 auto",
+        whiteSpace: "pre-wrap"
+      }}
+    >
+      {displayedLines.map((line, i) => (
+        <div key={i}>{line}</div>
+      ))}
+      {currentLine && (
+        <div>
+          {currentLine}
+          {cursorVisible && <span style={{ color: "#38bdf8" }}>|</span>}
+        </div>
+      )}
+    </div>
+  );
+}
