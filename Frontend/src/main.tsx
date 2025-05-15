@@ -64,3 +64,5 @@ function formatJsonToLines(json: string): string[] {
     return [`{ "error": "Invalid JSON" }`];
   }
 }
+
+// TODO ADD THIS  [Your site name or product name] uses the IP2Location LITE database for <a href="https://lite.ip2location.com">IP geolocation</a>.
