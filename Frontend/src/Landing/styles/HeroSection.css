@@ -2,7 +2,9 @@
 main {
     margin: 150px 100px 0;
     display: flex;
-    height: calc(100vh - 200px);
+    gap: 1rem;
+    justify-content: space-around;
+    min-height: calc(100vh - 200px);
 }
 
 .content{
@@ -16,7 +18,20 @@ main {
     right: 0;
     top: -25%;
     position: absolute;
+    animation: spin 10s linear infinite;
+    transform-origin: center center;
 }
+
+@keyframes spin {
+    from {
+        transform: translateX(0);
+      transform: rotate(0deg);
+    }
+    to {
+        transform: translateX(10px);
+      transform: rotate(360deg);
+    }
+  }  
 
 main h1{
     font-family: Sora;
@@ -34,6 +49,7 @@ main h3{
 
 main p{
     font-family: Inter;
+    max-width: 50ch;
     margin-top: 20px;
     font-size: 1.125rem;
 }
@@ -43,6 +59,7 @@ main p{
     padding: 0.5rem 1rem;
     font-size: 1.115rem;
     font-family: Sora;
+    margin-top: 1rem;
     font-weight: 400;
     background-color: var(--Accent-Color);
     border: none;
@@ -55,4 +72,95 @@ main p{
 .content small{
     margin-top: 5px;
     font-family: Inter;
+}
+
+.line, .line p{
+    margin: 1px;
+}
+
+@media screen and (max-width:1200px) {
+    main {
+        justify-content: space-between;
+    }
+
+    .title{
+        font-size: 2.5rem;
+    }
+
+    .subTitle {
+        font-size: 1.25rem;
+    }
+
+    .content p{
+        font-size: 1rem;
+    }
+
+    .line, .line p{
+        font-size: 1rem;
+    }
+
+    .signUpCTA{
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width:850px) {
+    main {
+        margin: 200px 60px 0;
+        min-height: calc(100vh - 200px);
+    }
+}
+
+@media screen and (max-width:700px) {
+    main {
+        margin: 100px 60px 0;
+        gap: 2rem;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .content img{
+        height: 180px;
+    }
+
+    .title{
+        font-size: 2rem;
+    }
+
+    .subTitle {
+        font-size: 1.125rem;
+    }
+
+    .content p{
+        font-size: 0.95rem;
+    }
+
+    .line, .line p{
+        font-size: 0.95rem;
+    }
+
+    .signUpCTA{
+        font-size: 0.95rem;
+    }
+}
+
+@media screen and (max-width:450px) {
+    main {
+        margin: 80px 30px 0;
+        justify-content: unset;
+        min-height: calc(100vh - 150px);
+    }
+
+    .title{
+        font-size: 2rem;
+    }
+
+    .subTitle {
+        font-size: 1rem;
+    }
+
+    .content p, .line, .line p, .signUpCTA{
+        font-size: 0.85rem;
+    }
 }

@@ -1,3 +1,4 @@
+import { TerminalTypewriter } from '../../App';
 import '../styles/FeatureComponent.css'
 type Props = {
     title: string,
@@ -5,7 +6,7 @@ type Props = {
     para2: string,
 }
 
-export function FeatureComponent({title,para1,para2}:Props) {
+export function FeatureComponent({title,para1,para2,lines}:Props) {
     return (
         <>
             <div className="featureComponentHolder">
@@ -14,8 +15,8 @@ export function FeatureComponent({title,para1,para2}:Props) {
                     <p className="featurePara1">{ para1 }</p>
                     <p className="featurePara2">{ para2 }</p>
                 </div>
-                <div>
-
+                <div className='codeBlock'>
+                    <TerminalTypewriter lines={lines} />
                 </div>
             </div>
         </>

@@ -1,6 +1,7 @@
 .featureComponentHolder{
     display: flex;
-    gap: 1rem;
+    gap: 2.5rem;
+    align-items: center;
 }
 
 .featureInfo{
@@ -46,5 +47,19 @@
 
     .featurePara1, .featurePara2{
         font-size: 0.85rem;
+    }
+}
+
+.featureHolder div:nth-child(2){
+    flex-direction: row-reverse;
+}
+
+.featureHolder div:nth-child(4){
+    flex-direction: row-reverse;
+}
+
+@media screen and (max-width:850px) {
+    .codeBlock{
+        display: none;
     }
 }

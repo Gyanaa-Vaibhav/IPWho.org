@@ -181,16 +181,18 @@ export function TerminalTypewriter({ lines }: { lines: string[] }) {
           setLineIndex(prev => prev + 1);
         }, 100);
       }
-    }, 20);
+    }, 5);
     return () => clearInterval(interval);
   }, [lineIndex, lines]);
 
   return (
+    <div>
     <div
       style={{
         background: "#0f172a",
         color: "#f8f8f2",
         borderRadius: "8px",
+        minWidth: "30vw",
         padding: "1rem",
         fontSize: "0.9rem",
         fontFamily: "Fira Code, monospace",
@@ -200,14 +202,15 @@ export function TerminalTypewriter({ lines }: { lines: string[] }) {
       }}
     >
       {displayedLines.map((line, i) => (
-        <div key={i}>{line}</div>
+        <div className="line" key={i}><p>{ line }</p></div>
       ))}
       {currentLine && (
         <div>
-          {currentLine}
+          <p className="line">{currentLine}</p>
           {cursorVisible && <span style={{ color: "#38bdf8" }}>|</span>}
         </div>
       )}
+      </div>
     </div>
   );
 }

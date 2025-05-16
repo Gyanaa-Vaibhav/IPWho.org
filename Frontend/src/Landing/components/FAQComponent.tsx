@@ -1,7 +1,6 @@
 import "../styles/FAQComponent.css";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import PlusIcon from '../../assets/svg/Baseline-plus.svg'
 
 const faqs = [
   {

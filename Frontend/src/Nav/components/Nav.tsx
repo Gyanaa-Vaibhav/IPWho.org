@@ -4,14 +4,12 @@ import '../styles/Nav.css';
 export function Nav() {
     const [showSideBar, setShowSideBar] = useState<boolean>(false);
     function handelShowSideBar() {
-        console.log("clicked");
         setShowSideBar((p)=>!p)
     }
 
     useEffect(() => {
         const myObserver = new ResizeObserver(entries => {
             entries.forEach(entry => {
-                // console.log('width', entry.contentRect.width);
                 if (entry.contentRect.width < 650) {
                     setShowSideBar(true)
                 } else {

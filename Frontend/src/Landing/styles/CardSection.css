@@ -1,6 +1,5 @@
 .cardSection{
     margin: 0 100px;
-    min-height: 90vh;
 }
 
 .cardSectionTitle{
@@ -28,7 +27,7 @@
 
 @media screen and (max-width : 850px) {
     .cardSection{
-        margin: 0 60px;
+        margin: 50px 60px;
     }
 
     .cardSectionTitle{
@@ -42,7 +41,7 @@
 
 @media screen and (max-width : 550px) {
     .cardSection{
-        margin: 0 30px;
+        margin: 30px;
     }
 
     .cardSectionTitle{
@@ -50,6 +49,7 @@
     }
 
     .cardHolder{
+        margin-top: 20px;
         grid-template-columns: 1fr;
     }
 }

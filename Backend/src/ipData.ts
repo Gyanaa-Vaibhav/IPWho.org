@@ -28,7 +28,12 @@ class IPData{
     }
 
     public getData(ip: string) {
-        return this.getGeoData(ip)
+        try {
+            return this.getGeoData(ip)
+        } catch (e) {
+            console.log(e);
+            return false
+        }
     }
 
     private getGeoData(ip: string) {
@@ -39,8 +44,8 @@ class IPData{
         const cityData = IPData.cityLookup.get(ip);
         const asnData = IPData.asnLookup.get(ip);
         let subdivisions
-        console.log(cityData);
         
+        if(!cityData || !asnData) return
         
         if (cityData.subdivisions) {
             subdivisions = cityData.subdivisions[0]
@@ -54,6 +59,7 @@ class IPData{
             continentCode: cityData?.continent?.code,
             country: cityData?.country?.names?.en,
             countryCode: cityData?.country?.iso_code,
+            capital: extraData?.capital,
             region: subdivisions?.names?.en || null,
             regionCode: subdivisions?.iso_code || null,
             city: cityData?.city?.names?.en || null,
@@ -86,7 +92,7 @@ class IPData{
 
 // const ipDataInit = new IPData()
 export const ipDataService = await IPData.getInstance()
-console.log(ipDataService.getData('157.45.67.214'))
+// console.log(ipDataService.getData('157.45.67.214'))
 // console.log(ipDataService.getData('92.97.230.6'))
 
 
@@ -118,3 +124,20 @@ console.log(ipDataService.getData('157.45.67.214'))
 
 // fs.writeFileSync(path.join(baseDir, 'CountryExtras2.json'), JSON.stringify(result, null, 2));
 // console.log("✅ CountryExtras.json generated with flag, dial_code, and is_in_eu.");
+
+// const baseDir = path.resolve(__dirname, '../mainFiles/json');
+// const countryData = JSON.parse(fs.readFileSync(path.join(baseDir, 'Countries.json'), 'utf-8'));
+// const extrasData = JSON.parse(fs.readFileSync(path.join(baseDir, 'CountryExtras2.json'), 'utf-8'));
+
+// const result = { ...extrasData };
+
+// for (const country of countryData.countries.country) {
+//     const code = country.countryCode;
+//     const capital = country.capital || null;
+
+//     if (result[code]) {
+//         result[code].capital = capital;
+//     }
+// }
+
+

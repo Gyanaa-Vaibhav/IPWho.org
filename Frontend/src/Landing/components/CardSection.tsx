@@ -66,7 +66,6 @@ export function CardSection() {
                 <div className='cardHolder'>
                     {filledData}
                 </div>
-                <hr />
             </section>
         </>
     )

@@ -1,5 +1,5 @@
 .featureSection{
-    margin: 30px 100px;
+    margin: 50px 100px;
     min-height: 80vh;
 }
 
@@ -20,7 +20,7 @@
 
 @media screen and (max-width : 850px) {
     .featureSection{
-        margin: 30px 60px;
+        margin: 50px 60px;
     }
 
     .featureSectionTitle{
@@ -28,6 +28,7 @@
     }
 
     .featureHolder{
+        margin-top: 25px;
         gap: 30px;
     }
 }
@@ -43,5 +44,6 @@
 
     .featureHolder{
         gap: 20px;
+        margin-top: 25px;
     }
 }

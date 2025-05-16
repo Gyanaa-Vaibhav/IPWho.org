@@ -5,6 +5,10 @@ import "./index.css";
 import { Nav } from "./Nav/components/Nav.tsx";
 import { Landing } from "./Landing/components/Landing.tsx";
 import {App, TerminalTypewriter} from "./App.tsx";
+import PrivacyPolicy from "./Legal/PrivacyPolicy.tsx";
+import TermsAndConditions from "./Legal/TermsAndConditions.tsx";
+import CodeOfConduct from "./Legal/CodeOfConduct.tsx";
+import { Footer } from "./Footer/Footer.tsx";
 
 const jsonMode = false; // toggle with a button
 
@@ -31,7 +35,11 @@ createRoot(document.getElementById("root")!).render(
         <Route path="/home" element={<Landing />} />
         <Route path="/app" element={<App />} />
         <Route path="/app2" element={<TerminalTypewriter lines={lines}/>} />
+        <Route path="/legal/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/legal/terms-and-condition" element={<TermsAndConditions />} />
+        <Route path="/legal/code-of-conduct" element={<CodeOfConduct />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   </StrictMode>
 );

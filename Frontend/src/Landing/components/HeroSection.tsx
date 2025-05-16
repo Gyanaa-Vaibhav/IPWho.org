@@ -1,6 +1,20 @@
 import '../styles/HeroSection.css';
 import globe from '../../assets/svg/Globe.svg'
+import { TerminalTypewriter } from '../../App';
 
+const rawData = {
+    ip: "49.206.110.31",
+    country: "India",
+    country_code: "IN",
+    org: "Airtel Broadband",
+    latitude: 17.3850,
+    longitude: 78.4867,
+    currency: { code: "INR", symbol: "₹" },
+    is_vpn: false
+};
+
+const lines = formatJsonToLines(JSON.stringify(rawData));
+  
 export function HeroSection(){ 
     return (
         <main>
@@ -13,8 +27,18 @@ export function HeroSection(){
                 <img src={globe} alt="World Globe" />
             </div>
             <div>
-
+                <TerminalTypewriter lines={lines}/>
             </div>
         </main>
     );
 }
+
+export function formatJsonToLines(json: string): string[] {
+    try {
+        const parsed = JSON.parse(json);
+        const pretty = JSON.stringify(parsed, null, 2); // 2-space indentation
+        return pretty.split('\n');
+    } catch {
+        return [`{ "error": "Invalid JSON" }`];
+    }
+  }
