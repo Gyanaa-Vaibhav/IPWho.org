@@ -4,6 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import { ipDataService } from './ipData.js';
 import dotenv from 'dotenv';
+import {cacheGetter, cacheSetter} from "./services/servicesExport.js";
 dotenv.config();
 
 const app = express()
@@ -13,6 +14,7 @@ const __dirname = path.dirname(__filename);
 const reactStaticPath = path.resolve(__dirname, '..', '..', '..', 'html', 'ipwho.org');
 console.log(path.resolve(__dirname,'..','..','..','html','ipwho.org'))
 
+app.set('trust proxy', true);
 app.use(cors())
 
 app.get('/', (req, res) => {
@@ -38,8 +40,14 @@ app.get('/docs', (req, res) => {
 });
 
 
-app.get('/ip/:ip', (req, res) => {
+app.get('/ip/:ip', async (req, res) => {
     const ip = req.params.ip
+    const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
+    if(cachedData){
+        res.json({ success: true, data:JSON.parse(cachedData) })
+        return
+    }
+
     const getQuery = req.query.get
     const data = ipDataService.getData(ip)
     if(getQuery){
@@ -64,21 +72,32 @@ app.get('/ip/:ip', (req, res) => {
                 newData[item] = data[item];
             }
         }
+        await cacheSetter.query({type:'incr',key:`${ip}RM`})
+        await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
         res.json({ success: true, data:newData })
         return;
     }
     }
 
+    await cacheSetter.query({type:'incr',key:`${ip}RM`})
+    await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
     res.json({ success: true, data })
 })
 
-app.get('/me', (req, res) => {
+app.get('/me', async (req, res) => {
     const ip = req.ip;
+    const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
+    if(cachedData){
+        res.json({ success: true, data:JSON.parse(cachedData) })
+        return
+    }
     const data = ipDataService.getData(ip!)
     if (!data) {
         res.json({success:false,message:"Failed"})
         return
     }
+    await cacheSetter.query({type:'incr',key:`${ip}RM`})
+    await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
     res.json({ success: true, data })
 })
 

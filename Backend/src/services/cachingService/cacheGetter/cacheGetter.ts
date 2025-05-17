@@ -1,6 +1,6 @@
-import { redisClient } from "../cacheLayer";
-import { CacheInterface } from "../cacheInterface";
-import { logError } from "../../logger/loggerExport";
+import { redisClient } from "../cacheLayer.js";
+import { CacheInterface } from "../cacheInterface.js";
+import { logError } from "../../logger/loggerExport.js";
 
 const client = await redisClient.getInstance();
 
@@ -15,12 +15,12 @@ const client = await redisClient.getInstance();
  * - keys: Get keys matching a pattern
  *
  * @example
- * const cache = new CacheGetter();
- * await cache.query({ type: 'get', key: 'foo' });
- * await cache.query({ type: 'hget', key: 'user:1', field: 'name' });
- * await cache.query({ type: 'lindex', key: 'mylist', index: 0 });
- * await cache.query({ type: 'mget', keys: ['foo', 'bar'] });
- * await cache.query({ type: 'keys', key: 'user:*' });
+ * const cacheGetter = new CacheGetter();
+ * await cacheGetter.query({ type: 'get', key: 'foo' });
+ * await cacheGetter.query({ type: 'hget', key: 'user:1', field: 'name' });
+ * await cacheGetter.query({ type: 'lindex', key: 'mylist', index: 0 });
+ * await cacheGetter.query({ type: 'mget', keys: ['foo', 'bar'] });
+ * await cacheGetter.query({ type: 'keys', key: 'user:*' });
  */
 class CacheGetter implements CacheInterface {
     private cache = client;

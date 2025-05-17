@@ -1,5 +1,5 @@
 import {createClient} from 'redis'
-import {logError} from "../logger/loggerService";
+import {logError} from "../logger/loggerService.js";
 
 /**
  * Core CacheLayer holder class following the Singleton pattern.
