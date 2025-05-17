@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ipwho.org/sitemap.xml
