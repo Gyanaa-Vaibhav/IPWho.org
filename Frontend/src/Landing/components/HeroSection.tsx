@@ -1,21 +1,54 @@
 import '../styles/HeroSection.css';
 import globe from '../../assets/svg/Globe.svg'
 import { TerminalTypewriter } from '../../App';
+import React from "react";
 
-const rawData = {
-    ip: "49.206.110.31",
-    country: "India",
-    country_code: "IN",
-    org: "Airtel Broadband",
-    latitude: 17.3850,
-    longitude: 78.4867,
-    currency: { code: "INR", symbol: "₹" },
-    is_vpn: false
-};
+const url = import.meta.env.VITE_SERVER ? `${import.meta.env.VITE_SERVER}/me` : "/me";
 
-const lines = formatJsonToLines(JSON.stringify(rawData));
-  
-export function HeroSection(){ 
+function formatData(data: any) {
+    return {
+        ip:data.ip,
+        country: data.country,
+        country_code: data.country_code,
+        location: {
+            latitude:data.latitude,
+            longitude:data.longitude,
+            time_zone: data.time_zone,
+        },
+        is_in_eu: data.is_in_eu,
+        asn: {
+            number : data.asn.number,
+            org:data.asn.org
+        },
+    };
+}
+
+export function HeroSection(){
+    const [lines,setLines] = React.useState<string[]>([""]);
+
+    React.useEffect(()=>{
+        let rawData = {
+            ip: "49.206.110.31",
+            country: "India",
+            country_code: "IN",
+            org: "Airtel Broadband",
+            latitude: 17.3850,
+            longitude: 78.4867,
+            currency: { code: "INR", symbol: "₹" },
+            is_vpn: false
+        };
+
+        fetch(url).then(r => r.json()).then(d => {
+            if(d.success){
+                const data = formatJsonToLines(JSON.stringify(formatData(d.data)))
+                setLines(data);
+            }else{
+                setLines(formatJsonToLines(JSON.stringify(rawData)))
+            }
+        })
+
+    },[])
+
     return (
         <main>
             <div className='content'>

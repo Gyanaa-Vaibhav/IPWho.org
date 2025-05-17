@@ -8,15 +8,15 @@ export function Footer() {
                     <h4>Navigation</h4>
                     <ul>
                         <li><a href="">Docs</a></li>
-                        <li><a href="">GitHub</a></li>
+                        <li><a href="https://github.com/Gyanaa-Vaibhav/ipwho.org" target="_blank">GitHub</a></li>
                         <li><a href="">API Status</a></li>
                     </ul>
                 </div>
                 <div className='footerOpenSource'>
                     <h4>Open Source</h4>
                     <ul>
-                        <li><a href="">MIT License</a></li>
-                        <li><a href="">Contribute on Github</a></li>
+                        <li><a href="https://github.com/Gyanaa-Vaibhav/IPWho.org/blob/main/LICENSE" target="_blank">MIT License</a></li>
+                        <li><a href="https://github.com/Gyanaa-Vaibhav/ipwho.org" target="_blank">Contribute on Github</a></li>
                     </ul>
                 </div>
                 <div className='footerLegal'>

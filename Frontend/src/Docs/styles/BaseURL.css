@@ -1,0 +1,116 @@
+.baseurl {
+    margin: 50px 100px;
+}
+
+.endPointTable{
+    overflow-x: auto;
+}
+
+.apiTable {
+    max-width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    margin-top: 25px;
+    font-family: Inter, sans-serif;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.05);
+    background-color: #fff;
+}
+
+.baseurl h2, .baseurl h3, .baseurl h4 {
+    font-family: Sora, serif;
+    color: var(--Primary-Color);
+}
+
+.baseurl h3{
+    margin: 1rem 0;
+}
+
+.baseurl pre {
+    font-size: 1rem;
+    font-family: Inter, sans-serif;
+    margin: 10px 0;
+}
+
+.apiTable thead {
+    background-color: #f5f5f5;
+}
+
+.apiTable th, .apiTable td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+    font-size: 1rem;
+}
+
+.apiTable th {
+    font-weight: 600;
+    /*color: #333;*/
+    font-family: Sora, serif;
+    color: var(--Primary-Color);
+}
+
+.apiTable td {
+    color: #444;
+}
+
+.apiTable tr:hover {
+    background-color: #fafafa;
+}
+
+pre > pre{
+    padding: 0.5rem 2rem !important;
+}
+
+.baseurl .codeBlock {
+    background-color: #f8f8f8;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 0.95rem;
+    color: #2d2d2d;
+    overflow-x: auto;
+    line-height: 1.6;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.03);
+}
+
+@media screen and (max-width: 850px) {
+    .baseurl{
+        margin: 50px 60px;
+    }
+
+    .baseurl h2 {
+        font-size: 1.25rem;
+    }
+
+    .baseurl h3{
+        font-size: 1rem;
+    }
+
+    .apiTable th, .apiTable td {
+        font-size: 0.95rem;
+    }
+
+    pre > pre{
+        padding: 0.5rem 1rem !important;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .baseurl {
+        margin:30px;
+    }
+
+    .baseurl h2 {
+        font-size: 1.125rem;
+    }
+
+    .baseurl h3{
+        font-size: 0.95rem;
+    }
+
+    .apiTable th, .apiTable td {
+        font-size: 0.80rem;
+    }
+}

@@ -1,6 +1,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://ipwho.org/</loc></url>
-  <url><loc>https://ipwho.org/home</loc></url>
+  <url>
+    <loc>https://ipwho.org/</loc>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://ipwho.org/home</loc>
+    <priority>0.99</priority>
+  </url>
   <url><loc>https://ipwho.org/legal</loc></url>
   <url><loc>https://ipwho.org/docs</loc></url>
   <url><loc>https://ipwho.org/auth</loc></url>

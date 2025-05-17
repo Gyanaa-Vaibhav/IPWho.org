@@ -1,0 +1,68 @@
+.overviewContainer{
+    margin: 50px 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+
+.overview h2, .whyIPWHO h3, .builtFor h3{
+    font-family: Sora, serif;
+    color: var(--Primary-Color);
+}
+
+.overview p {
+    margin-top: 0.5rem;
+    font-family: Inter, sans-serif;
+}
+
+.whyIPWHO ul, .builtFor ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.5rem 0 0 2rem;
+    font-family: Inter, sans-serif;
+}
+
+.whyIPWHO li, .builtFor li {
+    list-style: disc;
+}
+
+
+@media screen and (max-width: 850px) {
+    .overviewContainer{
+        margin: 50px 60px;
+    }
+
+    .overview h2{
+        font-size: 1.25rem;
+    }
+
+    .whyIPWHO h3, .builtFor h3 {
+        font-size: 1rem;
+    }
+
+    .overview p, .whyIPWHO li, .builtFor li{
+        font-size: 0.95rem;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .overviewContainer{
+        margin:30px;
+    }
+
+    .overview h2{
+        font-size: 1.125rem;
+    }
+
+    .whyIPWHO h3, .builtFor h3 {
+        font-size: 0.95rem;
+    }
+
+    .overview p, .whyIPWHO li, .builtFor li{
+        font-size: 0.85rem;
+    }
+
+
+}

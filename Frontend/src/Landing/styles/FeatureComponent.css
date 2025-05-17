@@ -14,11 +14,11 @@
     color: var(--Primary-Color);
     font-weight: 600;
     font-size: 1.5rem;
-    font-family: Sora;
+    font-family: Sora, serif;
 }
 
 .featurePara1, .featurePara2{
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 1rem;
 }
 
@@ -58,8 +58,17 @@
     flex-direction: row-reverse;
 }
 
+.codeBlock{
+    min-width: 30vw;
+}
+
 @media screen and (max-width:850px) {
+    .featureComponentHolder, .featureHolder div:nth-child(2), .featureHolder div:nth-child(4){
+        flex-direction: column;
+    }
+
     .codeBlock{
-        display: none;
+        /*display: none;*/
+        width: 100%;
     }
 }

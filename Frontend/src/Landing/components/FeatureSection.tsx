@@ -6,10 +6,10 @@ type data = {
     title: string,
     para1: string,
     para2: string,
-    lines:string[]
+    lines:string
 }
 
-const rawData = {
+const currencyData = {
     currency: {
         code: 'INR',
         symbol: '₹',
@@ -30,9 +30,17 @@ const asnData = {
     asn: { number: 55836, org: 'Reliance Jio Infocomm Limited' }
 }
 
-const currencyLines = formatJsonToLines(JSON.stringify(rawData));
-const locationLines = formatJsonToLines(JSON.stringify(locationData));
-const asnLines = formatJsonToLines(JSON.stringify(asnData));
+const lastData = {
+    is_in_eu: false,
+    dial_code: "+1",
+    flag: "🇺🇸",
+    flag_unicode: "U+1F1FA U+1F1F8",
+}
+
+const currencyLines = formatJsonToLines(JSON.stringify(currencyData)).join('\n');
+const locationLines = formatJsonToLines(JSON.stringify(locationData)).join('\n');
+const asnLines = formatJsonToLines(JSON.stringify(asnData)).join('\n');
+const lastLines = formatJsonToLines(JSON.stringify(lastData)).join('\n');
 
 export function FeatureSection() {
 
@@ -59,12 +67,12 @@ export function FeatureSection() {
             title: "No Tokens. No Waiting. Just Speed.",
             para1: "Every call to ipwho.org is blazing fast and completely rate-limit-free for up to 100,000 requests/month. You don’t need a credit card, signup, or API token to try it — just make a request. That means faster development, better prototyping, and one less barrier between you and your users.",
             para2: "Most IP APIs gate everything behind tokens, keys, quotas, and sometimes even region blocks. We want to change that — with an API that feels like it was made for devs first.",
-            lines: ['Truly', 'Unlimited']
+            lines: lastLines
         },
 
     ]
 
-    const filledData = data.map(d => <FeatureComponent title={d.title} para1={d.para1} para2={d.para2} lines={ d.lines } />)
+    const filledData = data.map((d,i) => <FeatureComponent key={i} title={d.title} para1={d.para1} para2={d.para2} lines={ d.lines } />)
 
     return (
         <>
