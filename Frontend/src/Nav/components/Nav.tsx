@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import '../styles/Nav.css';
 
 export function Nav() {
@@ -6,28 +6,6 @@ export function Nav() {
     function handelShowSideBar() {
         setShowSideBar((p)=>!p)
     }
-
-    useEffect(() => {
-        const myObserver = new ResizeObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.contentRect.width < 650) {
-                    setShowSideBar(true)
-                } else {
-                    setShowSideBar(false)
-                }
-            });
-        });
-        
-        const body = document.body;
-        myObserver.observe(body)
-
-
-        return (() => {
-            myObserver.disconnect()
-        })
-
-    }, [])
-    
 
     return (
         <>
@@ -52,9 +30,9 @@ export function Nav() {
                     className={`nav-items${showSideBar ? " showNav" : ""}`}
                 >
                         <li><a href="/docs">Documentation</a></li>
-                        <li><a href="">Github</a></li>
-                        <li><a href="">Login</a></li>
-                        <li><a href="">Sign Up</a></li>
+                        <li><a href="https://github.com/Gyanaa-Vaibhav/ipwho.org">Github</a></li>
+                        {/*<li><a href="">Login</a></li>*/}
+                        {/*<li><a href="">Sign Up</a></li>*/}
                     </ul>
             </nav>
         </>

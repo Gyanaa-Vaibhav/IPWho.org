@@ -7,9 +7,9 @@ export function Footer() {
                 <div className='footerNavigation'>
                     <h4>Navigation</h4>
                     <ul>
-                        <li><a href="">Docs</a></li>
+                        <li><a href="/docs">Docs</a></li>
                         <li><a href="https://github.com/Gyanaa-Vaibhav/ipwho.org" target="_blank">GitHub</a></li>
-                        <li><a href="">API Status</a></li>
+                        <li><a href="/home">API Status</a></li>
                     </ul>
                 </div>
                 <div className='footerOpenSource'>

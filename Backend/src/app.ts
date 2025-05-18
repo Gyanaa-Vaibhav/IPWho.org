@@ -42,10 +42,25 @@ app.get('/docs', (req, res) => {
 
 app.get('/ip/:ip', async (req, res) => {
     const ip = req.params.ip
+    const requestIp = req.ip;
     const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
-    if(cachedData){
-        res.json({ success: true, data:JSON.parse(cachedData) })
-        return
+    const rateLimit = await cacheGetter.query({type:"get",key:`${requestIp}RL`})
+    if(rateLimit && rateLimit > 100_000) {
+        res.json({ success: false, message:"Monthly Limit Exceed"});
+        return;
+    }else if(!rateLimit){
+        await cacheSetter.query({type:"set",value:"1",key:`${requestIp}RL`,expiry: 25_92_000})
+    }
+    if (cachedData) {
+        const data = JSON.parse(cachedData)
+        if(!data.success) {
+            await cacheSetter.query({type:'incr',key:`${requestIp}RL`})
+            res.json({ ...data });
+            return
+        }
+        await cacheSetter.query({type:'incr',key:`${requestIp}RL`})
+        res.json({ success: true, data: JSON.parse(cachedData) });
+        return;
     }
 
     const getQuery = req.query.get
@@ -72,22 +87,30 @@ app.get('/ip/:ip', async (req, res) => {
                 newData[item] = data[item];
             }
         }
-        await cacheSetter.query({type:'incr',key:`${ip}RM`})
-        await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
+        await cacheSetter.query({type:"set",key:`${requestIp}RL`,expiry: 25_92_000, value:"1"})
+        await cacheSetter.query({ type: 'set', key: `${ip}D`, value: JSON.stringify(data || {success:false,message:"Reserved range"}), expiry: 1800 });
         res.json({ success: true, data:newData })
         return;
     }
     }
 
-    await cacheSetter.query({type:'incr',key:`${ip}RM`})
-    await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
+    await cacheSetter.query({type:'incr',key:`${ip}RL`})
+    await cacheSetter.query({ type: 'set', key: `${ip}D`, value: JSON.stringify(data || {success:false,message:"Reserved range"}), expiry: 1800 });
     res.json({ success: true, data })
 })
 
 app.get('/me', async (req, res) => {
     const ip = req.ip;
     const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
+    const rateLimit = await cacheGetter.query({type:"get",key:`${ip}RL`})
+    if(rateLimit && rateLimit > 100_000) {
+        res.json({ success: false, message:"Monthly Limit Exceed"});
+        return;
+    }else if(!rateLimit){
+        await cacheSetter.query({type:"set",key:`${ip}RL`,expiry: 25_92_000, value:'1'})
+    }
     if(cachedData){
+        await cacheSetter.query({type:'incr',key:`${ip}RL`})
         res.json({ success: true, data:JSON.parse(cachedData) })
         return
     }
@@ -96,7 +119,7 @@ app.get('/me', async (req, res) => {
         res.json({success:false,message:"Failed"})
         return
     }
-    await cacheSetter.query({type:'incr',key:`${ip}RM`})
+    await cacheSetter.query({type:"set",key:`${ip}RL`,expiry: 25_92_000, value:"1"})
     await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
     res.json({ success: true, data })
 })
