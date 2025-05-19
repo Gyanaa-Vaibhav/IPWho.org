@@ -13,7 +13,7 @@ nav {
 }
 
 #ipWho{
-    font-family: Sora;
+    font-family: Sora, serif;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--Primary-Color);
@@ -25,7 +25,7 @@ nav ul{
 }
 
 nav ul li{
-    font-family: Inter;
+    font-family: Inter, sans-serif;
     font-size: 1.125rem;
     padding: 0.4rem 0.6rem;
     border-radius: 1rem;
@@ -101,7 +101,11 @@ nav ul li:nth-last-child(1):active {
         padding: 1rem 0;
         transition: all 250ms ease-in-out;
     }
-    
+
+    .hideNav{
+        display: none;
+    }
+
     .showNav{
         transform: translate(0%);
         transition: all 250ms ease-in-out;
