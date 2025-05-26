@@ -68,7 +68,6 @@
 │   └── src/               # Vite + React landing page
 ├── LICENSE
 ├── README.md
-└── tsconfig.json
 ```
 
 ## Run Locally
@@ -83,8 +82,48 @@ cd ../Frontend
 npm install
 npm run dev
 ```
-
 > ⚠️ Proprietary DB files (mainFiles/) not included in open source.
+
+## How to Get the MaxMind GeoLite2 Database
+
+ipwho.org uses MaxMind’s [GeoLite2 City](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) database for accurate IP geolocation.
+
+Here’s how you can set it up:
+
+---
+
+#### 🔗 Step-by-Step Guide
+
+1. **Create a MaxMind Account**
+   → Go to [https://www.maxmind.com](https://www.maxmind.com) and sign up (free)
+
+2. **Download the GeoLite2-City Database**
+   → After logging in, visit
+   [https://www.maxmind.com/en/accounts/current/license-key](https://www.maxmind.com/en/accounts/current/license-key)
+   and generate your free license key.
+
+3. **Use This Script or Download Manually**
+   Run the download script:
+
+   ```bash
+   wget https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz
+   ```
+
+   Or manually download `.tar.gz` → extract `.mmdb` file.
+
+4. **Place the File in `mainFiles/`**
+   Copy the extracted `.mmdb` file into the `Backend/mainFiles/GeoLite2-City/` directory.
+
+   ```
+   Backend/
+   ├── mainFiles/
+   |   └── GeoLite2-City/
+   │       └── GeoLite2-City.mmdb
+   ```
+
+---
+
+> **Note**: The DB path is configured in the service file — no extra setup required once file is in place. follow same pattern with GeoLite2-ASN as well
 
 ## 📄 License
 
