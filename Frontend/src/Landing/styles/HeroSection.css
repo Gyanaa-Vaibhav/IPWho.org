@@ -18,7 +18,7 @@ main {
     right: 0;
     top: -25%;
     position: absolute;
-    animation: spin 10s linear infinite;
+    /*animation: spin 10s linear infinite;*/
     transform-origin: center center;
 }
 
