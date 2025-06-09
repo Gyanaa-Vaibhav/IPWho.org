@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "compile": "npx tsc --watch",
-    "dev": "node --watch ./dist/app.js"
+    "dev": "node --watch ./dist/app.js",
+    "runTest": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -14,17 +15,28 @@
   "type": "module",
   "dependencies": {
     "@maxmind/geoip2-node": "^6.1.0",
+    "cidr-matcher": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "ip2proxy-nodejs": "^4.4.0",
+    "ip6addr": "^0.2.5",
     "maxmind": "^4.3.25",
+    "mocha": "^11.5.0",
+    "moment-timezone": "^0.6.0",
     "redis": "^5.0.1",
+    "supertest": "^7.1.1",
     "typescript": "^5.8.3",
+    "vitest": "^3.2.2",
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@types/cidr-matcher": "^2.1.2",
     "@types/cors": "^2.8.18",
-    "@types/express": "^5.0.1"
+    "@types/express": "^5.0.1",
+    "@types/ip6addr": "^0.2.6",
+    "@types/jest": "^29.5.14",
+    "@types/mocha": "^10.0.10",
+    "@types/supertest": "^6.0.3"
   }
 }
