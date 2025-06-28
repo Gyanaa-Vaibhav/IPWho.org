@@ -1,0 +1,173 @@
+/* Styles for Landing */
+main {
+    margin: 150px 100px 0;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-around;
+    min-height: calc(100vh - 200px);
+}
+
+.content{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.content img{
+    right: 0;
+    top: -25%;
+    position: absolute;
+    /* animation: spin 10s linear infinite; */
+    transform-origin: center center;
+}
+
+@keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }  
+
+main h1{
+    font-family: Sora, serif;
+    font-weight: 700;
+    font-size: 3rem;
+    color: var(--Primary-Color);
+}
+
+main h3{
+    margin-top: 10px;
+    font-family: Inter,sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+main p{
+    font-family: Inter,sans-serif;
+    max-width: 50ch;
+    margin-top: 20px;
+    font-size: 1.125rem;
+}
+
+.signUpCTA {
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    font-size: 1.115rem;
+    font-family: Sora, serif;
+    margin-top: 1rem;
+    font-weight: 400;
+    background-color: var(--Accent-Color);
+    border: none;
+}
+
+.signUpCTA span{
+    font-weight: 600;
+}
+
+.content small{
+    margin-top: 5px;
+    font-family: Inter,sans-serif;
+}
+
+.line, .line p{
+    margin: 1px;
+}
+
+@media screen and (min-width:1250px) {
+    main{
+        margin: 0 100px;
+        align-items: center;
+    }
+}
+
+
+@media screen and (max-width:1200px) {
+    main {
+        justify-content: space-between;
+        align-items: unset;
+    }
+
+    .title{
+        font-size: 2.5rem;
+    }
+
+    .subTitle {
+        font-size: 1.25rem;
+    }
+
+    .content p{
+        font-size: 1rem;
+    }
+
+    .line, .line p{
+        font-size: 1rem;
+    }
+
+    .signUpCTA{
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width:850px) {
+    main {
+        margin: 200px 60px 0;
+        min-height: calc(100vh - 200px);
+    }
+}
+
+@media screen and (max-width:700px) {
+    main {
+        margin: 100px 60px 0;
+        gap: 2rem;
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width:650px) {
+    .content img{
+        height: 180px;
+    }
+
+    .title{
+        font-size: 2rem;
+    }
+
+    .subTitle {
+        font-size: 1.125rem;
+    }
+
+    .content p{
+        font-size: 0.95rem;
+    }
+
+    .line, .line p{
+        font-size: 0.95rem;
+    }
+
+    .signUpCTA{
+        font-size: 0.95rem;
+    }
+}
+
+@media screen and (max-width:450px) {
+    main {
+        margin: 80px 30px 0;
+        justify-content: unset;
+        min-height: calc(100vh - 150px);
+    }
+
+    .title{
+        font-size: 2rem;
+    }
+
+    .subTitle {
+        font-size: 1rem;
+    }
+
+    .content p, .line, .line p, .signUpCTA{
+        font-size: 0.85rem;
+    }
+}

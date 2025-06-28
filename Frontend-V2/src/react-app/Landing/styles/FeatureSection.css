@@ -1,0 +1,49 @@
+.featureSection{
+    margin: 50px 100px;
+    min-height: 80vh;
+}
+
+.featureSectionTitle{
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--Primary-Color);
+    text-align: center;
+    font-family: Sora;
+}
+
+.featureHolder{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+@media screen and (max-width : 850px) {
+    .featureSection{
+        margin: 50px 60px;
+    }
+
+    .featureSectionTitle{
+        font-size: 1.75rem;
+    }
+
+    .featureHolder{
+        margin-top: 25px;
+        gap: 30px;
+    }
+}
+
+@media screen and (max-width : 550px) {
+    .featureSection{
+        margin: 30px;
+    }
+
+    .featureSectionTitle{
+        font-size: 1.5rem;
+    }
+
+    .featureHolder{
+        gap: 20px;
+        margin-top: 25px;
+    }
+}
