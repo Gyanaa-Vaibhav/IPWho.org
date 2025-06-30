@@ -7,6 +7,7 @@
     "test": "jest",
     "compile": "npx tsc --watch",
     "dev": "node --watch ./dist/app.js",
+    "runDev": "concurrently \"npx tsc --watch\" \"node --watch ./dist/app.js\"",
     "runTest": "vitest"
   },
   "keywords": [],
@@ -37,6 +38,7 @@
     "@types/ip6addr": "^0.2.6",
     "@types/jest": "^29.5.14",
     "@types/mocha": "^10.0.10",
-    "@types/supertest": "^6.0.3"
+    "@types/supertest": "^6.0.3",
+    "concurrently": "^9.2.0"
   }
 }

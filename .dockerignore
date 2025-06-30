@@ -1,0 +1,6 @@
+dist
+node_modules
+*Dockerfile
+.idea
+.code
+.git
