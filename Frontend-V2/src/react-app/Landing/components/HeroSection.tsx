@@ -2,7 +2,7 @@ import '../styles/HeroSection.css';
 import globe from '../../../assets/svg/Globe.svg?url'
 import React, { useEffect, useState } from "react";
 
-const url = import.meta.env.VITE_SERVER ? `${import.meta.env.VITE_SERVER}/me` : "/me";
+const url = import.meta.env.VITE_SERVER ? `${import.meta.env.VITE_SERVER}me` : "/me";
 
 function formatData(data: any) {
     return {

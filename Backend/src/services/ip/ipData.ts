@@ -57,7 +57,6 @@ class IPData{
         const extraData = this.getExtras(cityData?.country?.iso_code ?? '')
         const timeData = this.getTimeInfo(cityData?.location?.time_zone ?? '')
         const isProxy = isBlocked(ip);
-        console.log(isProxy)
         
         return {
             ip,
@@ -92,6 +91,9 @@ class IPData{
                 number: asnData?.autonomous_system_number || null,
                 org: asnData?.autonomous_system_organization || null,
             },
+            security: {
+                ...isProxy
+            }
         }
     }
 
@@ -158,6 +160,6 @@ class IPData{
 }
 
 export const ipDataService = await IPData.getInstance()
-console.log(ipDataService.getData('223.241.100.90'))
+// console.log(ipDataService.getData('223.241.100.90'))
 // console.log(ipDataService.getData('171.25.193.25'))
 

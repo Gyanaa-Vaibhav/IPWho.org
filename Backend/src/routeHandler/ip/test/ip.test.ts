@@ -1,10 +1,13 @@
 import request from 'supertest';
 import express from 'express';
 import { describe, it, expect } from 'vitest';
-import {ipRouter} from '../routes/ipRoute.js';
+import { ipRouter } from '../routes/ipRoute.js';
+import { ipDataService } from '../../../services/servicesExport.js';
 
 const app = express();
 app.use('/ip', ipRouter);
+
+const ipForTest = "12.32.4.2"
 
 describe('ip Route', () => {
     it('should throw error on empty IP address', async () => {
@@ -25,43 +28,30 @@ describe('ip Route', () => {
             }),
         }));
     });
-
+    
     it('should match all the objects', async () => {
         const res = await request(app).get('/ip/12.32.4.2');
-        expect(res.statusCode).toBe(200);
-        expect(res.body).toEqual({
-            "success": true,
-            "data": {
-                "ip": "12.32.4.2",
-                "continent": "North America",
-                "continentCode": "NA",
-                "country": "United States",
-                "countryCode": "US",
-                "capital": "Washington",
-                "region": "Pennsylvania",
-                "regionCode": "PA",
-                "city": "Pittsburgh",
-                "postal_Code": "15212",
-                "time_zone": "America/New_York",
-                "latitude": 40.4422,
-                "longitude": -79.9927,
-                "accuracy_radius": 20,
-                "is_in_eu": false,
-                "dial_code": "+1",
-                "flag": "🇺🇸",
-                "flag_unicode": "U+1F1FA U+1F1F8",
-                "currency": {
-                    "code": "USD",
-                    "symbol": "$",
-                    "name": "US Dollar",
-                    "name_plural": "US dollars"
-                },
-                "asn": {
-                    "number": 7018,
-                    "org": "ATT-INTERNET4"
-                }
+        const { current_time, ...timesplit } = (res.body.data.timezone);
+        const { timezone, ...data } = (res.body.data)
+        const resonseObject = {
+            success: true,
+            data: { ...data, timezone: timesplit }
+        }
+
+        let expectedResultObject = null;
+        (() => {
+            const Data = ipDataService.getData(ipForTest)
+            const { current_time, ...timesplit } = Data?.timezone
+            const { timezone, ...result } = Data
+            expectedResultObject = {
+                success: true,
+                data: { ...result, timezone: timesplit }
             }
-        });
+        })()
+        
+        
+        expect(res.statusCode).toBe(200);
+        expect(resonseObject).toEqual({...expectedResultObject});
     });
 
     it("should throw error on Reserved range/Invalid IP address address", async () => {

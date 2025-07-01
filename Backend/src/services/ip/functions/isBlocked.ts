@@ -34,14 +34,24 @@ const matcher = new CidrMatcher(validCidrs);
 export function isBlocked(ip: string): { isProxy: boolean, isVpn?: boolean, isTor?: boolean, matchedCidr?: string } {
     const vpnMatch = matcher.contains(ip);
     const torMatch = blockList.tor_exit_nodes.includes(ip);
+    
+    const proxyMap = {
+        isProxy: false,
+        isTor: false,
+        isThreat:false,
+    }
 
     if (torMatch) {
-        return { isProxy: true, isTor: true };
+        proxyMap["isTor"] = true;
     }
-
+    
     if (vpnMatch) {
-        return { isProxy: true, isVpn: true };
+        proxyMap["isProxy"] = true;
+    }
+    
+    if (vpnMatch && torMatch) {
+        proxyMap["isThreat"] = true;
     }
 
-    return { isProxy: false };
+    return proxyMap;
 }

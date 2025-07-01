@@ -4,7 +4,7 @@ services:
       context: ./Frontend-V2
       dockerfile: frontend.Dockerfile
     ports:
-      - "$FRONTEND_PORT:5173"
+      - "$FRONTEND_PORT:$FRONTEND_PORT"
     volumes:
       - "./Frontend-V2:/app"
       - "/app/node_modules"
@@ -17,7 +17,7 @@ services:
       context: ./Backend
       dockerfile: backend.Dockerfile
     ports:
-      - "$BACKEND_PORT:5172"
+      - "$BACKEND_PORT:$BACKEND_PORT"
     env_file:
       - ./Backend/.env
     container_name: "ipWho_backend"
@@ -34,7 +34,7 @@ services:
       - "6380:6379"
     volumes:
       - redis-data:/data
-    command: redis-server --requirepass $REDIS_PASSWORD
+#    command: redis-server --requirepass $REDIS_PASSWORD
     restart: unless-stopped
 
 volumes:

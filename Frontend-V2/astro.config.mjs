@@ -10,5 +10,10 @@ export default defineConfig({
   server: { 
     host: '0.0.0.0',
     port: Number(process.env.PORT)
+  },
+  vite: {
+    define: {
+      'import.meta.env.VITE_SERVER': JSON.stringify(process.env.VITE_SERVER)
+    }
   }
 });
