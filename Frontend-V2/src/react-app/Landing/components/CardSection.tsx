@@ -56,7 +56,7 @@ export function CardSection() {
     ]
 
     const filledData = data.map((d,i) => {
-        return <CardComponent key={i} image={d.image} imageAlt={d.image} title={d.title} desc={d.desc} />
+        return <CardComponent key={i} image={d.image} imageAlt={d.imageAlt} title={d.title} desc={d.desc} />
     })
         
     return (

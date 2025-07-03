@@ -38,7 +38,7 @@ main h1{
     color: var(--Primary-Color);
 }
 
-main h3{
+main h2{
     margin-top: 10px;
     font-family: Inter,sans-serif;
     font-weight: 500;

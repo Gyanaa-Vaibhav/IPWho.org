@@ -1,5 +1,7 @@
 FROM node
 
+ENV TZ=Asia/Kolkata
+
 WORKDIR /app
 
 COPY package.json .

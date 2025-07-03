@@ -24,6 +24,7 @@ services:
     volumes:
       - "/app/node_modules"
       - "./Backend:/app"
+      - "./logs:/logs"
     depends_on:
       - redis
 

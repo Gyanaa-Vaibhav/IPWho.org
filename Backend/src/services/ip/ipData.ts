@@ -2,7 +2,7 @@ import * as path from 'node:path';
 import * as url from "node:url";
 import moment from 'moment-timezone';
 import maxmind, { CityResponse, AsnResponse, Reader } from 'maxmind';
-import {isBlocked, getCurrencyMap, getCountryExtras} from './functions/functionExport.js'
+import {isBlocked, getCurrencyMap, getCountryExtras, CurrencyType, CountryExtraType} from './functions/functionExport.js'
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -10,6 +10,56 @@ const cityPath = path.resolve(__dirname, '../../../mainFiles/GeoLite2-City/GeoLi
 const asnPath = path.resolve(__dirname, '../../../mainFiles/GeoLite2-ASN/GeoLite2-ASN.mmdb');
 const currencyMap = getCurrencyMap();
 const countryExtraMap = getCountryExtras();
+
+type timeInfoType = {
+    timezone: string;
+    current_time: string;
+    utc_time_zone: string;
+    offset: number;
+    is_dst: boolean;
+    abbr: string;
+}
+
+export type IpGeoResponse = {
+    ip: string;
+    continent: string | null;
+    continentCode: string | null;
+    country: string | null;
+    countryCode: string | null;
+    capital: string | null;
+    region: string | null;
+    regionCode: string | null;
+    city: string | null;
+    postal_Code: string | null;
+    dial_code: string | null;
+    is_in_eu: boolean | null;
+    latitude: number | null;
+    longitude: number | null;
+    accuracy_radius: number | null;
+    timezone: {
+        time_zone: string | null;
+        abbr: string | null;
+        offset: number | null;
+        is_dst: boolean | null;
+        utc: string | null;
+        current_time: string | null;
+    };
+    flag: {
+        flag_Icon: string | null;
+        flag_unicode: string | null;
+    };
+    currency: CurrencyType;
+    connection: {
+        number: number | null;
+        org: string | null;
+    };
+    security: {
+        isVpn: boolean;
+        isTor: boolean;
+        isThreat: "low" | "medium" | "high";
+    };
+};
+
 
 class IPData{
     static ipData: IPData | null;
@@ -31,11 +81,12 @@ class IPData{
             return this.getGeoData(ip)
         } catch (e) {
             console.log(e);
+            // throw new Error("Error ")
             return false
         }
     }
 
-    private getGeoData(ip: string) {
+    private getGeoData(ip: string):IpGeoResponse | null {
         ip = ip.trim();
         const valid = maxmind.validate(ip)
         if (!valid) {
@@ -48,45 +99,47 @@ class IPData{
         const asnData = IPData.asnLookup.get(ip);
         let subdivisions
         
-        if(!cityData || !asnData) return
+        if(!cityData || !asnData) {
+            throw new Error("ASNData or CityData are missing")
+        }
         
         if (cityData.subdivisions) {
             subdivisions = cityData.subdivisions[0]
         }
-        const currencyData = this.getCurrency(cityData?.country?.iso_code ?? '')
+        const currencyData:CurrencyType | null = this.getCurrency(cityData?.country?.iso_code ?? '')
         const extraData = this.getExtras(cityData?.country?.iso_code ?? '')
-        const timeData = this.getTimeInfo(cityData?.location?.time_zone ?? '')
+        const timeData: timeInfoType = this.getTimeInfo(cityData?.location?.time_zone ?? '')
         const isProxy = isBlocked(ip);
-        
+
         return {
             ip,
-            continent: cityData?.continent?.names?.en,
-            continentCode: cityData?.continent?.code,
-            country: cityData?.country?.names?.en,
-            countryCode: cityData?.country?.iso_code,
-            capital: extraData?.capital,
+            continent: cityData?.continent?.names?.en || null,
+            continentCode: cityData?.continent?.code || null,
+            country: cityData?.country?.names?.en || null,
+            countryCode: cityData?.country?.iso_code || null,
+            capital: extraData?.capital || null,
             region: subdivisions?.names?.en || null,
             regionCode: subdivisions?.iso_code || null,
             city: cityData?.city?.names?.en || null,
-            postal_Code: cityData?.postal?.code,
-            dial_code: extraData?.dial_code,
-            is_in_eu: extraData?.is_in_eu,
-            latitude: cityData?.location?.latitude,
-            longitude: cityData?.location?.longitude,
-            accuracy_radius: cityData?.location?.accuracy_radius,
+            postal_Code: cityData?.postal?.code || null,
+            dial_code: extraData?.dial_code || null,
+            is_in_eu: extraData?.is_in_eu || null,
+            latitude: cityData?.location?.latitude || null,
+            longitude: cityData?.location?.longitude || null,
+            accuracy_radius: cityData?.location?.accuracy_radius || null,
             timezone:{
-                time_zone: cityData?.location?.time_zone,
+                time_zone: timeData?.timezone,
                 abbr: timeData?.abbr,
                 offset: timeData?.offset,
                 is_dst: timeData?.is_dst,
-                utc: timeData?.time_zone,
+                utc: timeData?.utc_time_zone,
                 current_time: timeData?.current_time,
             },
             flag:{
-                flag_Icon: extraData?.flag,
-                flag_unicode: extraData?.unicode,
+                flag_Icon: extraData?.flag || null,
+                flag_unicode: extraData?.unicode || null,
             },
-            currency: { ...currencyData },
+            currency: currencyData as CurrencyType,
             connection: {
                 number: asnData?.autonomous_system_number || null,
                 org: asnData?.autonomous_system_organization || null,
@@ -97,15 +150,15 @@ class IPData{
         }
     }
 
-    private getCurrency(countryCode:string) {
+    private getCurrency(countryCode:string): CurrencyType | null {
         return currencyMap[countryCode] || null
     }
 
-    private getExtras(countryCode:string) {
-        return countryExtraMap[countryCode] || null;
+    private getExtras(countryCode:string): CountryExtraType | null {
+        return countryExtraMap[countryCode] || null
     }
 
-    private getTimeInfo(timeZone: string) {
+    private getTimeInfo(timeZone: string):timeInfoType {
         const now = new Date();
         const getAbbrIst = this.getAbbrAndDST(timeZone);
 
@@ -137,8 +190,9 @@ class IPData{
         const offset = `${sign}${offsetHours}:${offsetMins}`;
 
         return {
+            timezone: timeZone,
             current_time: `${localTimeString}${offset}`,
-            time_zone: offset,
+            utc_time_zone: offset,
             offset: offsetMinutes*60,
             abbr: getAbbrIst?.abbr,
             is_dst: getAbbrIst?.is_dst,
@@ -162,4 +216,5 @@ class IPData{
 export const ipDataService = await IPData.getInstance()
 // console.log(ipDataService.getData('223.241.100.90'))
 // console.log(ipDataService.getData('171.25.193.25'))
+
 

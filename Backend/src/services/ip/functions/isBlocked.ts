@@ -30,27 +30,35 @@ const validCidrs = blockList.cidrs
 //     !/^[0-9.]+$/.test(cidr.trim()) && !/^[0-9.]+\/\d{1,2}$/.test(cidr.trim())
 // )
 
+type proxyType = {
+    isThreat: "low" | "medium" | "high",
+    isVpn: boolean,
+    isTor: boolean
+}
+
 const matcher = new CidrMatcher(validCidrs);
-export function isBlocked(ip: string): { isProxy: boolean, isVpn?: boolean, isTor?: boolean, matchedCidr?: string } {
+export function isBlocked(ip: string):proxyType {
     const vpnMatch = matcher.contains(ip);
     const torMatch = blockList.tor_exit_nodes.includes(ip);
     
-    const proxyMap = {
-        isProxy: false,
+    const proxyMap:proxyType = {
+        isVpn: false,
         isTor: false,
-        isThreat:false,
+        isThreat:"low",
     }
 
     if (torMatch) {
         proxyMap["isTor"] = true;
+        proxyMap["isThreat"] = "medium";
     }
     
     if (vpnMatch) {
-        proxyMap["isProxy"] = true;
+        proxyMap["isVpn"] = true;
+        proxyMap["isThreat"] = "medium";
     }
     
     if (vpnMatch && torMatch) {
-        proxyMap["isThreat"] = true;
+        proxyMap["isThreat"] = "high";
     }
 
     return proxyMap;

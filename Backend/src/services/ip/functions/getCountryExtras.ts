@@ -15,16 +15,17 @@ const countryExtraMap = JSON.parse(fs.readFileSync(countryExtraMapPath, 'utf-8')
 //         "capital": "Andorra la Vella"
 // },
 
-type CountryExtra = {
-    [countryCode: string]: {
-        flag: string;
-        unicode: string;
-        dial_code: string;
-        is_in_eu: boolean;
-        capital: string;
-    };
+export type CountryExtraType = {
+    flag: string;
+    unicode: string;
+    dial_code: string;
+    is_in_eu: boolean;
+    capital: string;
 }
 
-export function getCountryExtras():CountryExtra {
+type CountryExtras = {
+    [countryCode: string]: CountryExtraType
+}
+export function getCountryExtras():CountryExtras {
     return countryExtraMap;
 }

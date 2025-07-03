@@ -37,7 +37,7 @@ class CacheSetter implements CacheInterface {
         expiry?: number;
         field?: string;
         index?: number;
-        type?: 'set' | 'hset' | 'lset' | 'incr' | 'decr' | 'lPush';
+        type?: 'set' | 'hset' | 'lset' | 'incr' | 'decr' | 'lPush' | "del";
     }): Promise<any> {
         try{
             const { key, value, expiry, field, index, type } = data;
@@ -64,6 +64,8 @@ class CacheSetter implements CacheInterface {
                     return await this.lPush(key,value);
                 case 'decr':
                     return await this.decr(key);
+                case 'del':
+                    return await this.del(key);
                 case 'set':
                 default:
                     if (!key || value === undefined) {
@@ -106,6 +108,10 @@ class CacheSetter implements CacheInterface {
 
     private async decr(key: string) {
         return await this.cache.decr(key);
+    }
+
+    private async del(key: string) {
+        return await this.cache.del(key);
     }
 }
 
