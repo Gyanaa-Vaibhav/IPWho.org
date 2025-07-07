@@ -3,8 +3,15 @@ import { Request, Response } from 'express';
 import {cacheGetter,cacheSetter,ipDataService} from '../../../services/servicesExport.js'
 import { monthlyRateLimit } from '../../helperFunctions/helperExport.js'
 
+function getCleanIp(req:Request) {
+    if(!req.ip) {
+        throw new Error('Missing ip');
+    }
+    return req.ip.replace(/^::ffff:/, '');
+}
+
 export async function renderMe (req:Request, res:Response)  {
-    const ip = req.ip;
+    const ip = getCleanIp(req);
     const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
     const rateLimit = await cacheGetter.query({type:"get",key:`${ip}RL`})
 

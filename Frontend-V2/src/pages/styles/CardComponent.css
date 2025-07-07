@@ -1,0 +1,67 @@
+.cardComponent{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #003E6BCC;
+    border-radius: 10px;
+    padding: 1rem 0.75rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardComponent img{
+    width: 40px;
+    height: 40px;
+}
+
+.cardComponent h3{
+    text-align: center;
+    font-size: 1.25rem;
+    font-family: Graphik-Medium, sans-serif;
+    font-weight: 600;
+    color: #FFF;
+}
+
+.cardComponent p{
+    font-size: 1rem;
+    text-align: center;
+    font-family: Graphik-Regular, sans-serif;
+    color: #FFF;
+    margin: 0;
+}
+
+@media screen and (max-width : 960px) {
+    .cardComponent h3{
+        font-size: 1.125rem;
+    }
+
+    .cardComponent p{
+        font-size: 0.95rem;
+    }
+
+    .cardComponent img{
+        width: 35px;
+        height: 35px;
+    }
+}
+
+@media screen and (max-width : 720px){
+    .cardComponent{
+        gap: 0.8rem;
+    }
+
+    .cardComponent h3{
+        font-size: 0.9rem;
+    }
+
+    .cardComponent p{
+        font-size: 0.80rem;
+    }
+}
+
+@media screen and (max-width : 550px) {
+    .cardComponent img{
+        width: 30px;
+        height: 30px;
+    }
+}

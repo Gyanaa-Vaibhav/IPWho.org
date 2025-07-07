@@ -1,0 +1,88 @@
+.lookUp-Modal{
+    display: flex;
+    z-index: 1;
+    max-height: fit-content;
+    width: 350px;
+    flex-direction: column;
+    border-radius: 15px 15px 10px 10px;
+    box-shadow: 0 5px 15px 0 #D9E2EC;
+}
+
+.input-Bar{
+    display: flex;
+    align-self: stretch;
+    border-radius: 12px 12px 0 0;
+    background: #FFF;
+}
+
+.input-Bar input{
+    display: flex;
+    border-top-left-radius: 10px;
+    font-size: 16px;
+    padding: 6px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    color: #000;
+    border: none;
+    font-family: Proximanova-Semibold, serif;
+}
+
+.input-Bar input:focus{
+    border-color: #000088;
+    border-style: solid;
+    border-left-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-right-width: 0;
+    outline: none;
+}
+
+.input-Bar button{
+    display: flex;
+    padding: 6px 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 0 12px 0 0;
+    border: none;
+    background: #FADB5F;
+}
+
+.input-Bar button img{
+    width: 25px;
+    height: 25px;
+}
+
+.input-Bar button:hover{
+    cursor: pointer;
+    background: #cfb33b;
+}
+
+.response-Container{
+    padding: 12px;
+    overflow-y: scroll;
+    overflow-x: clip;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #003E6BCC;
+    box-shadow: 0 5px 15px 0 #D9E2EC;
+}
+
+@media screen and (max-width: 1000px){
+    .input-Bar button img{
+        width: 20px;
+        height: 20px;
+    }
+
+    .input-Bar input{
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 450px){
+    .lookUp-Modal{
+        width: 325px;
+    }
+}

@@ -1,8 +1,91 @@
 ---
-import type { late } from 'astro:schema'
+// Styles
 import '../react-app/index.css'
-import IndexPage from "../react-app/Landing/components/Index.tsx"
-import Nav from '../react-app/Nav/components/Nav.tsx'
+import './styles/TitleInfo.css'
+import './styles/CardComponent.css'
+import './styles/CardSection.css'
+import './styles/FeatureSection.css'
+import './styles/FeatureComponent.css'
+
+// Regular Imports
+import HeroSection from '../react-app/HeroSection/HeroSection.tsx'
+import WorldMapDotted from '../assets/World Map Dotted.png?url'
+import LightningLogo from '../assets/svg/Lightning.svg?url'
+import World from '../assets/svg/World.svg?url'
+import Tool from '../assets/svg/Tool-kit.svg?url'
+import Money from '../assets/svg/Money.svg?url'
+import Brain from '../assets/svg/Brain.svg?url'
+import SafeAndSecure from '../assets/svg/Secure-window.svg?url'
+
+// Regular Javascript
+const featureCardData = [
+    {
+        image: LightningLogo,
+        imageAlt: "Fast performance",
+        title: "Blazing Fast API",
+        desc: "Hosted on high-speed VPS. Low latency. No rate-limiting headaches.",
+    },
+    {
+        image: World,
+        imageAlt: "Global geolocation support",
+        title: "Geolocation + ASN",
+        desc: "Get accurate location, country, city, ASN, and ISP from a single endpoint.",
+    },
+    {
+        image: Tool,
+        imageAlt: "Easy integration tools",
+        title: "Easy Integration",
+        desc: "REST API. JSON responses. Copy-paste examples in curl, JS, and Python.",
+    },
+    {
+        image: Money,
+        imageAlt: "Free tier with generous limits",
+        title: "100% Free, No BS",
+        desc: "Free up to 100K requests/month. No credit card. No hidden throttling.",
+    },
+    {
+        image: Brain,
+        imageAlt: "Open source and transparent",
+        title: "Open Source & Auditable",
+        desc: "MIT licensed. Built on MaxMind, open for contributions.",
+    },
+    {
+        image: SafeAndSecure,
+        imageAlt: "Secure connection via HTTPS",
+        title: "Safe and Secure",
+        desc: "All data sent to and processed by our servers is secured via 256-bit SSL encryption (HTTPS).",
+    },
+]
+
+const infoData = [
+    {
+        title: "Pinpoint Any IP in the World",
+        para1: "IPWHO gives you high-accuracy IP geolocation without complexity. You’ll get precise information like city, region, postal code, and timezone — down to the GPS-level coordinates with an estimated accuracy radius. Whether you’re building a security layer, location-based customization, or analytics dashboards, this data is vital.",
+        para2: "Traditional APIs hide this behind paywalls. We’re offering full geolocation data built on top of MaxMind’s GeoLite2 — for free. You don’t even need to set up billing to start using it.",
+        // lines: locationLines,
+    },
+    {
+        title: "Currency, Language, and Cultural Context",
+        para1: "Every IP tells a deeper story than just location. IPWHO enriches your data with powerful country-level intelligence — including currency info, phone calling code, official languages, flag emoji, capital city, and even whether the IP is inside the EU (great for GDPR compliance).",
+        para2: "This kind of enriched data is usually spread across several APIs. We bring it together in one fast, free call — perfect for building localized apps, regional pricing, or showing contextual details to users worldwide.",
+        // lines: currencyLines,
+    },
+    {
+        title: "Know Who Owns the IP",
+        para1: "Understanding who owns or operates an IP is critical for fraud detection, infrastructure decisions, and even customer intelligence. IPWHO provides real-time ASN (Autonomous System Number) and ISP information — telling you if it’s a datacenter, residential IP, or tied to a big player like Google, AWS, or Cloudflare.",
+        para2: "This gives context about the IP’s trustworthiness and source. Many premium APIs reserve ASN/ISP data for higher tiers — we deliver it by default.",
+        // lines: asnLines,
+    },
+    {
+        title: "No Tokens. No Waiting. Just Speed.",
+        para1: "Every call to ipwho.org is blazing fast and completely rate-limit-free for up to 100,000 requests/month. You don’t need a credit card, signup, or API token to try it — just make a request. That means faster development, better prototyping, and one less barrier between you and your users.",
+        para2: "Most IP APIs gate everything behind tokens, keys, quotas, and sometimes even region blocks. We want to change that — with an API that feels like it was made for devs first.",
+        // lines: lastLines
+    },
+
+]
+
+
 ---
 
 <html lang="en">
@@ -50,7 +133,57 @@ import Nav from '../react-app/Nav/components/Nav.tsx'
 		
 </head>
 	<body>
-		<Nav client:load/>
-		<IndexPage client:load/>
+        <main>
+            <img
+                    class="WorldMap-Dotted"
+                    src={WorldMapDotted}
+                    alt="World Map dotted"
+                    loading="eager"
+            />
+            <div class="title-container">
+                <h1 class='main-title'>Open Source IP <br/> Intelligence API</h1>
+                <h2 class='sub-title'>With AI Insights</h2>
+                <div class='title-info'>
+                    <p>Free and Unlimited for Everyone Forever</p>
+                    <p>Easy to Integrate, chose to get response in JSON,XML or CSV Format</p>
+                    <p>Used and Trusted by thousands of developers all around the world</p>
+                </div>
+                <a href="/documentation">Documentation</a>
+            </div>
+            <HeroSection client:load/>
+        </main>
+            <section class='cardSection'>
+                <h2 class="cardSectionTitle">Effortless, Powerful, and Actually Free.</h2>
+                <div class='cardHolder'>
+                    {featureCardData.map(({image,imageAlt,title,desc})=>{
+                        return(
+                            <div class="cardComponent">
+                                <img src={image} alt={imageAlt} role="presentation" loading="lazy" />
+                                <h3>{ title }</h3>
+                                <p>{ desc }</p>
+                            </div>
+                        )
+                    })
+                    }
+                </div>
+            </section>
+        <section class='featureSection'>
+            <h3 class="featureSectionTitle">Powerful Features, Zero Cost</h3>
+            <div class='featureHolder'>
+                {infoData.map(({title,para1,para2}) => {
+                    return(
+                            <div class="featureComponentHolder">
+                                <div class="featureInfo">
+                                <h3 class="featureTitle">{title}</h3>
+                                <p class="featurePara1">{para1}</p>
+                                <p class="featurePara2">{para2}</p>
+                            </div>
+                            <div class='codeBlock'>
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+        </section>
 	</body>
 </html>

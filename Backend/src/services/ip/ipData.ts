@@ -32,7 +32,7 @@ export type IpGeoResponse = {
     city: string | null;
     postal_Code: string | null;
     dial_code: string | null;
-    is_in_eu: boolean | null;
+    is_in_eu: boolean;
     latitude: number | null;
     longitude: number | null;
     accuracy_radius: number | null;
@@ -98,9 +98,10 @@ class IPData{
         const cityData = IPData.cityLookup.get(ip);
         const asnData = IPData.asnLookup.get(ip);
         let subdivisions
-        
-        if(!cityData || !asnData) {
-            throw new Error("ASNData or CityData are missing")
+
+        if(!cityData) {
+            return null;
+            // throw new Error("ASNData or CityData are missing")
         }
         
         if (cityData.subdivisions) {
@@ -123,7 +124,7 @@ class IPData{
             city: cityData?.city?.names?.en || null,
             postal_Code: cityData?.postal?.code || null,
             dial_code: extraData?.dial_code || null,
-            is_in_eu: extraData?.is_in_eu || null,
+            is_in_eu: extraData?.is_in_eu !== false,
             latitude: cityData?.location?.latitude || null,
             longitude: cityData?.location?.longitude || null,
             accuracy_radius: cityData?.location?.accuracy_radius || null,
