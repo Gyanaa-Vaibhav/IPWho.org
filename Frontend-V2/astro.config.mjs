@@ -15,5 +15,6 @@ export default defineConfig({
     define: {
       'import.meta.env.VITE_SERVER': JSON.stringify(process.env.VITE_SERVER)
     }
-  }
+  },
+  outDir: (process.env.OUTDIR || "./build")
 });

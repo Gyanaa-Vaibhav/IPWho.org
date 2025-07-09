@@ -1,18 +1,20 @@
 services:
+  redis:
+    image: redis
+    ports:
+      - "$REDIS_PORT:6379"
+    container_name: "ipWho_redis_testing"
+
   frontend:
     build:
       context: ./Frontend-V2
       dockerfile: frontend.Dockerfile
     ports:
       - "$FRONTEND_PORT:$FRONTEND_PORT"
-    volumes:
-      - "./Frontend-V2:/app"
-      - "/app/node_modules"
-    container_name: "ipWho_frontend"
+    container_name: "ipWho_frontend_testing"
+    command: npm run build
     env_file:
       - $FRONTEND_ENV
-    depends_on:
-      - backend
 
   backend:
     build:
@@ -22,24 +24,11 @@ services:
       - "$BACKEND_PORT:$BACKEND_PORT"
     env_file:
       - $BACKEND_ENV
-    container_name: "ipWho_backend"
+    container_name: "ipWho_backend_testing"
     volumes:
       - "/app/node_modules"
-      - "./Backend:/app"
       - "$BACKEND_LOGS_LOCATION:/logs"
       - "$BACKEND_FILE_LOCATION:/app/mainFiles:ro"
     depends_on:
-      - redis
-
-  redis:
-    image: redis
-    container_name: "ipWho_redis"
-    ports:
-      - "$REDIS_PORT:6379"
-    volumes:
-      - redis-data:/data
-#    command: redis-server --requirepass $REDIS_PASSWORD
-    restart: unless-stopped
-
-volumes:
-  redis-data:
+      frontend
+      redis

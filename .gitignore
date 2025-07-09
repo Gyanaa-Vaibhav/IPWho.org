@@ -17,6 +17,7 @@ flags
 docker-compose-prod.yml
 coverage
 .env.development
+.fleet
 
 # Editor directories and files
 .vscode/*
