@@ -36,13 +36,19 @@ export async function renderIp (req:Request, res:Response) {
     }
 
     const data = ipDataService.getData(ip)
+    await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
+    await cacheSetter.query({ type: 'set', key: `${ip}D`, value: JSON.stringify(data || {success:false,message:"Reserved range/Invalid IP address",invalid:true}), expiry: 1800 });
+
+    if(!data){
+        res.statusCode = 404
+        res.json({success:false,message:"Reserved range/Invalid IP address"})
+        return
+    }
 
     if(getQuery){
         await getQueryHelper({getQuery,ip,lookUpIP,res,data})
         return
     }
 
-    await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
-    await cacheSetter.query({ type: 'set', key: `${ip}D`, value: JSON.stringify(data || {success:false,message:"Reserved range/Invalid IP address",invalid:true}), expiry: 1800 });
     res.json({ success: true, data })
 }
