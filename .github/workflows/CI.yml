@@ -11,7 +11,7 @@ jobs:
         run: docker compose -f docker-compose-test.yml --env-file /env/ipWho/.env up -d --build
 
       - name: Run test's
-        run: docker exec -i ipWho_backend_testing bash -c "npm run test"
+        run: docker exec -i ipWho_backend_testing sh -c "npm run test"
       
       - name: Stop Containers
         run: docker compose -f docker-compose-test.yml --env-file /env/ipWho/.env down
