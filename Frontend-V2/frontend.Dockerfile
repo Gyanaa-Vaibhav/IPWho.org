@@ -1,6 +1,4 @@
-FROM node
-
-ENV TZ=Asia/Kolkata
+FROM node:current-alpine
 
 WORKDIR /app
 
@@ -11,7 +9,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 5173
-
-VOLUME [ "/app/node_modules" ]
 
 CMD [ "npm", "run", "dev" ]

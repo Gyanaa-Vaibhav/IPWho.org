@@ -1,6 +1,4 @@
-FROM node
-
-ENV TZ=Asia/Kolkata
+FROM node:current-alpine
 
 WORKDIR /app
 

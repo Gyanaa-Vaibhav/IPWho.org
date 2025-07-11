@@ -24,6 +24,7 @@ export default function IPLookupModal() {
         fetch(`${url}${ip ? `ip/${ip}` : "me"}`)
             .then(j => j.json())
             .then(d => {
+                if(!d.success) return
                 setLoading(false)
                 setData(
                     [
