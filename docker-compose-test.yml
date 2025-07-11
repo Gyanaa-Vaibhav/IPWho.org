@@ -30,5 +30,5 @@ services:
       - "$BACKEND_LOGS_LOCATION:/logs"
       - "$BACKEND_FILE_LOCATION:/app/mainFiles:ro"
     depends_on:
-      frontend
-      redis
+      - frontend
+      - redis
