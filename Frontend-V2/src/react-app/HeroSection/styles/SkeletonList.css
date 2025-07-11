@@ -1,0 +1,30 @@
+.loading .skeleton-line {
+    height: 18px;
+    /*background: linear-gradient(90deg, #C2C2C2 0%, #fff 50%, #C2C2C2 100%);*/
+    background: linear-gradient(90deg,rgba(194, 194, 194, 1) 15%, rgba(0, 118, 196, 1) 50%, rgba(194, 194, 194, 1) 95%);
+    background-size: 400% 100%;
+    animation: skeleton-loading 2s linear infinite alternate;
+    border-radius: 4px;
+}
+
+.skeleton-line {
+    margin: 2px 0;
+}
+
+.loading{
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 150% 0;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+
+

@@ -12,7 +12,7 @@ const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const reactStaticPath = path.resolve(__dirname, '..', '..', '..', 'html', 'ipwho.org');
 console.log(path.resolve(__dirname,'..','..','..','html','ipwho.org'))
-
+console.log(PORT)
 app.set('trust proxy', true);
 app.use(cors())
 

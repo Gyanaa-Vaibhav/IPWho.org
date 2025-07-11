@@ -1,5 +1,5 @@
 export {isBlocked} from './isBlocked.js'
 
-export {getCurrencyMap} from './getCurrencyMap.js'
+export {getCurrencyMap, CurrencyType} from './getCurrencyMap.js'
 
-export {getCountryExtras} from './getCountryExtras.js'
+export {getCountryExtras, CountryExtraType} from './getCountryExtras.js'

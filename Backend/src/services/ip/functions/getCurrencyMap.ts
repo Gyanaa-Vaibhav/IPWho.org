@@ -14,15 +14,15 @@ const currencyMap = JSON.parse(fs.readFileSync(currencyPath, 'utf-8'));
 //         "name_plural": "euros"
 // },
 
-type Currency = {
-    [countryCode: string]: {
-        code: string,
-        symbol: string,
-        name: string,
-        name_plural: string,
-    },
+
+export type CurrencyType = {
+    code: string | null,
+    symbol: string | null,
+    name: string | null,
+    name_plural: string | null
 }
 
+type Currency = { [countryCode: string]: CurrencyType }
 /**
  * returns Currency object
  */

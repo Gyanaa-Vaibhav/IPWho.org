@@ -1,0 +1,45 @@
+services:
+  frontend:
+    build:
+      context: ./Frontend-V2
+      dockerfile: frontend.Dockerfile
+    ports:
+      - "$FRONTEND_PORT:$FRONTEND_PORT"
+    volumes:
+      - "./Frontend-V2:/app"
+      - "/app/node_modules"
+    container_name: "ipWho_frontend"
+    env_file:
+      - $FRONTEND_ENV
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: backend.Dockerfile
+    ports:
+      - "$BACKEND_PORT:$BACKEND_PORT"
+    env_file:
+      - $BACKEND_ENV
+    container_name: "ipWho_backend"
+    volumes:
+      - "/app/node_modules"
+      - "./Backend:/app"
+      - "$BACKEND_LOGS_LOCATION:/logs"
+      - "$BACKEND_FILE_LOCATION:/app/mainFiles:ro"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    container_name: "ipWho_redis"
+    ports:
+      - "$REDIS_PORT:6379"
+    volumes:
+      - redis-data:/data
+#    command: redis-server --requirepass $REDIS_PASSWORD
+    restart: unless-stopped
+
+volumes:
+  redis-data:

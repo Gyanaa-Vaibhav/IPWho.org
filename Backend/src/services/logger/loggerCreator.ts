@@ -2,6 +2,7 @@ import winston from "winston";
 import * as url from "node:url";
 import * as fs from 'node:fs'
 import * as path from "node:path";
+import DailyRotateFile from 'winston-daily-rotate-file';
 const { combine, timestamp,colorize,align,printf,errors } = winston.format;
 
 const __filename = url.fileURLToPath(import.meta.url);
@@ -25,32 +26,56 @@ enum LoggerLevel {
     SILLY = "silly",
 }
 
-const format = combine(
+const consoleFormat = combine(
     colorize({ all: true }),
-    errors({stack:true}),
-    timestamp({
-        format: 'YYYY-MM-DD hh:mm:ss.SSS A',
-    }),
+    errors({ stack: true }),
+    timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SSS A' }),
     align(),
     printf((info) => {
         return info.stack
-            ? `\n[${info.timestamp}] ${info.level}: ${info.message}${info.stack ? `\nStack Trace - ${info.stack}` : ''}`
-            :  `[${info.timestamp}] ${info.level}: ${info.message}`;
+            ? `[${info.timestamp}] ${info.level}: ${info.message}\nStack Trace - ${info.stack}`
+            : `[${info.timestamp}] ${info.level}: ${info.message}`;
     })
-)
+);
 
-// TODO need to add Daily File exports manually to all the loggers
-const transports = [new winston.transports.Console({
-    level: LoggerLevel.SILLY,
-})]
+const fileFormat = combine(
+    errors({ stack: true }),
+    timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SSS A' }),
+    align(),
+    printf((info) => {
+        return info.stack
+            ? `[${info.timestamp}] ${info.level}: ${info.message}\nStack Trace - ${info.stack}\n`
+            : `[${info.timestamp}] ${info.level}: ${info.message}`;
+    })
+);
 
-const createLogger = (level:LoggerLevel) => {
+const createLogger = (level: LoggerLevel) => {
+    const levelLogDir = path.join(logPath, level);
+    if (!fs.existsSync(levelLogDir)) {
+        fs.mkdirSync(levelLogDir, { recursive: true });
+    }
+
     return winston.createLogger({
         level,
-        format,
-        transports
-    })
-}
+        format: fileFormat,
+        transports: [
+            // new winston.transports.Console({
+            //     level: LoggerLevel.SILLY,
+            //     format: consoleFormat,
+            // }),
+            new DailyRotateFile({
+                level,
+                dirname: levelLogDir,
+                filename: `%DATE%.log`,
+                datePattern: 'YYYY-MM-DD',
+                zippedArchive: false,
+                maxSize: '10m',
+                maxFiles: '14d',
+                format: fileFormat,
+            }),
+        ],
+    });
+};
 
 /**
  * LoggerCreator class provides separate Winston loggers for each log level.

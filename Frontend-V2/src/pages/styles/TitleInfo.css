@@ -1,0 +1,152 @@
+main{
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    min-height: 100vh;
+    gap: 1rem;
+    align-items: center;
+}
+
+.main-title{
+    color: var(--Primary-Color);
+    font-size: 3rem;
+    font-family: HarmoniaSansPro-Bold, sans-serif;
+}
+
+.title-container{
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    justify-content: center;
+}
+
+.sub-title{
+    color: var(--Primary-Color);
+    font-size: 1.5rem;
+    margin-top: -4px;
+    font-family: HarmoniaSansPro-Bold, sans-serif;
+}
+
+.title-info{
+    font-size: 1.25rem;
+    font-family: Graphik-Regular, serif;
+    color: var(--SecondaryColor);
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+main a{
+    background-color: var(--Accent-Color);
+    color: var(--Primary-Color);
+    padding: 8px 12px;
+    font-size: 18px;
+    width: fit-content;
+    border-radius: 10px;
+    font-family: Proximanova-Bold, serif;
+}
+
+main a:hover{
+    cursor: pointer;
+    background: #d5ba4b;
+    scale: 1.05;
+    transition: all 200ms;
+    color: #014880;
+}
+
+.WorldMap-Dotted{
+    top: -50px;
+    left: 100px;
+    z-index: -1;
+    position: absolute;
+    overflow-x: hidden;
+}
+
+@media screen and (max-width: 1120px){
+    main{
+        margin: 0 80px;
+    }
+
+    .WorldMap-Dotted{
+        top: -50px;
+        left: 0;
+    }
+
+    .main-title{
+        font-size: 2.75rem;
+    }
+
+    .sub-title{
+        font-size: 1.2rem;
+    }
+
+    .title-info, main a{
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 840px){
+    main{
+        margin: 0 60px;
+    }
+
+    .WorldMap-Dotted{
+        top: -50px;
+        left: -10px;
+    }
+
+    .main-title{
+        font-size: 2.4rem;
+    }
+
+    .sub-title{
+        font-size: 1.125rem;
+    }
+
+    .title-info, main a{
+        font-size: 0.95rem;
+    }
+}
+
+@media screen and (max-width: 720px){
+    main .WorldMap-Dotted{
+        opacity: 60%;
+        height: 500px;
+        aspect-ratio: 100/66;
+    }
+
+    main {
+        margin: 120px 60px 0;
+        flex-direction: column;
+        gap: 80px;
+    }
+
+    .title-container{
+        align-items: center;
+    }
+
+    .WorldMap-Dotted{
+        top: -160px;
+        left: -120px;
+    }
+
+    .main-title{
+        font-size: 2rem;
+    }
+
+    .sub-title{
+        font-size: 1rem;
+    }
+
+    .title-info{
+        font-size: 0.88rem;
+        text-align: center;
+    }
+
+    main a{
+        font-size: 0.88rem;
+    }
+}

@@ -7,12 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 build
+.astro
 mainFiles
 node_modules
 dist
 dist-ssr
 *.local
 flags
+docker-compose-prod.yml
+coverage
+.env.development
+.fleet
 
 # Editor directories and files
 .vscode/*
