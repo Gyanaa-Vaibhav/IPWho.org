@@ -1,3 +1,5 @@
+name: ipwho-dev
+
 services:
   frontend:
     build:
@@ -14,6 +16,15 @@ services:
     depends_on:
       - backend
 
+  frontend-build:
+    build:
+      context: ./Frontend-V2
+      dockerfile: frontend-build.Dockerfile
+    volumes:
+      - ipWho-Frontend-Build:/app/build
+      - "/app/node_modules"
+    container_name: "ipWho_frontend_build"
+
   backend:
     build:
       context: ./Backend
@@ -28,8 +39,10 @@ services:
       - "./Backend:/app"
       - "$BACKEND_LOGS_LOCATION:/logs"
       - "$BACKEND_FILE_LOCATION:/app/mainFiles:ro"
+      - ipWho-Frontend-Build:/app/frontendBuild:ro
     depends_on:
       - redis
+      - frontend-build
 
   redis:
     image: redis
@@ -43,3 +56,4 @@ services:
 
 volumes:
   redis-data:
+  ipWho-Frontend-Build:

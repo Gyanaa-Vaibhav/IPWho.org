@@ -65,6 +65,7 @@ export class redisClient {
 }
 
 // const creator = createClient();
+// CacheLayer.initialiseCache(creator)
 const redisClientConnector = createClient({
     url: 'redis://redis:6379'
 });
