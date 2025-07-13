@@ -4,12 +4,25 @@ import {cacheGetter,cacheSetter,ipDataService} from '../../../services/servicesE
 import {getQueryHelper} from "./getQueryHelper.js";
 import {monthlyRateLimit} from '../../helperFunctions/helperExport.js'
 
+function getCleanIp(req:Request) {
+    if(!req.ip) {
+        throw new Error('Missing ip');
+    }
+    return req.ip.replace(/^::ffff:/, '');
+}
+
 export async function renderIp (req:Request, res:Response) {
     const ip: string = req.params.ip
-    const lookUpIP: string | undefined = req.ip;
+    const lookUpIP: string = getCleanIp(req);
     const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
     const rateLimit = await cacheGetter.query({type:"get",key:`${lookUpIP}RL`})
     const getQuery = req.query.get as string;
+
+    await cacheSetter.query({type:"incr",key:"totalIPRequests"})
+    if(!rateLimit) {
+        // People who are sending requests or using this API
+        await cacheSetter.query({type: "incr", key: "uniqueUserIP"})
+    }
 
     // Monthly Rate Limit check
     await monthlyRateLimit(res,rateLimit,ip!)
