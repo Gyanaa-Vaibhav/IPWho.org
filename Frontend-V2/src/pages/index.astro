@@ -16,8 +16,61 @@ import Tool from '../assets/svg/Tool-kit.svg?url'
 import Money from '../assets/svg/Money.svg?url'
 import Brain from '../assets/svg/Brain.svg?url'
 import SafeAndSecure from '../assets/svg/Secure-window.svg?url'
+import Nav from '../react-app/Nav/components/Nav'
+import Footer from "./Footer.astro";
+import FAQSection from "../react-app/HeroSection/components/FAQSection";
 
 // Regular Javascript
+function formatJsonToLines(json) {
+    try {
+        const parsed = JSON.parse(json);
+        const pretty = JSON.stringify(parsed, null, 2); // 2-space indentation
+        return pretty.split('\n');
+    } catch {
+        return [`{ "error": "Invalid JSON" }`];
+    }
+}
+
+const currencyData = {
+    currency: {
+        code: "USD",
+        symbol: "$",
+        name: "US Dollar",
+        name_plural: "US dollars",
+        hex_unicode: 24
+    },
+}
+
+const locationData = {
+    timezone: {
+        time_zone: "America/Chicago",
+        abbr: "CDT",
+        offset: -18000,
+        is_dst: false,
+        utc: "-05:00",
+        current_time: "2025-07-13T03:32:07-05:00"
+    }
+}
+
+const asnData = {
+    asn: { number: 55836, org: 'Reliance Jio Infocomm Limited' }
+}
+
+const lastData = {
+    is_in_eu: false,
+    dial_code: "+1",
+    flag:{
+        flag_Icon: "🇺🇸",
+        flag_unicode: "U+1F1FA U+1F1F8",
+    }
+}
+
+const currencyLines = formatJsonToLines(JSON.stringify(currencyData)).join('\n');
+const locationLines = formatJsonToLines(JSON.stringify(locationData)).join('\n');
+const asnLines = formatJsonToLines(JSON.stringify(asnData)).join('\n');
+const lastLines = formatJsonToLines(JSON.stringify(lastData)).join('\n');
+
+
 const featureCardData = [
     {
         image: LightningLogo,
@@ -62,25 +115,29 @@ const infoData = [
         title: "Pinpoint Any IP in the World",
         para1: "IPWHO gives you high-accuracy IP geolocation without complexity. You’ll get precise information like city, region, postal code, and timezone — down to the GPS-level coordinates with an estimated accuracy radius. Whether you’re building a security layer, location-based customization, or analytics dashboards, this data is vital.",
         para2: "Traditional APIs hide this behind paywalls. We’re offering full geolocation data built on top of MaxMind’s GeoLite2 — for free. You don’t even need to set up billing to start using it.",
-        // lines: locationLines,
+        curl:"curl https://api.ipwho.org/ip/8.8.8.8",
+        lines: locationLines,
     },
     {
         title: "Currency, Language, and Cultural Context",
         para1: "Every IP tells a deeper story than just location. IPWHO enriches your data with powerful country-level intelligence — including currency info, phone calling code, official languages, flag emoji, capital city, and even whether the IP is inside the EU (great for GDPR compliance).",
         para2: "This kind of enriched data is usually spread across several APIs. We bring it together in one fast, free call — perfect for building localized apps, regional pricing, or showing contextual details to users worldwide.",
-        // lines: currencyLines,
+        curl:"curl https://api.ipwho.org/ip/8.8.8.8?get=currency",
+        lines: currencyLines,
     },
     {
         title: "Know Who Owns the IP",
         para1: "Understanding who owns or operates an IP is critical for fraud detection, infrastructure decisions, and even customer intelligence. IPWHO provides real-time ASN (Autonomous System Number) and ISP information — telling you if it’s a datacenter, residential IP, or tied to a big player like Google, AWS, or Cloudflare.",
         para2: "This gives context about the IP’s trustworthiness and source. Many premium APIs reserve ASN/ISP data for higher tiers — we deliver it by default.",
-        // lines: asnLines,
+        curl:"curl https://api.ipwho.org/ip/8.8.8.8?get=asn",
+        lines: asnLines,
     },
     {
         title: "No Tokens. No Waiting. Just Speed.",
         para1: "Every call to ipwho.org is blazing fast and completely rate-limit-free for up to 100,000 requests/month. You don’t need a credit card, signup, or API token to try it — just make a request. That means faster development, better prototyping, and one less barrier between you and your users.",
         para2: "Most IP APIs gate everything behind tokens, keys, quotas, and sometimes even region blocks. We want to change that — with an API that feels like it was made for devs first.",
-        // lines: lastLines
+        curl:"curl https://api.ipwho.org/ip/8.8.8.8",
+        lines: lastLines
     },
 
 ]
@@ -133,6 +190,7 @@ const infoData = [
 		
 </head>
 	<body>
+    <Nav client:load/>
         <main>
             <img
                     class="WorldMap-Dotted"
@@ -171,7 +229,7 @@ const infoData = [
         <section class='featureSection'>
             <h3 class="featureSectionTitle">Powerful Features, Zero Cost</h3>
             <div class='featureHolder'>
-                {infoData.map(({title,para1,para2}) => {
+                {infoData.map(({title,para1,para2,lines,curl}) => {
                     return(
                             <div class="featureComponentHolder">
                                 <div class="featureInfo">
@@ -180,11 +238,24 @@ const infoData = [
                                 <p class="featurePara2">{para2}</p>
                             </div>
                             <div class='codeBlock'>
+                                <div class="menu-bar">
+                                    <div class="menu-buttons">
+                                        <p></p>
+                                        <p></p>
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="code-holder" >
+                                    <p>{curl}</p>
+                                    <pre><code>{lines}</code></pre>
+                                </div>
                             </div>
                         </div>
                     )
                 })}
             </div>
         </section>
+    <FAQSection client:visible />
+    <Footer />
 	</body>
 </html>

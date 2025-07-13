@@ -1,5 +1,10 @@
 .FAQSection{
-    margin: 50px 100px;
+    margin: 50px auto;
+    max-width: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
 }
 
 .FAQSectionTitle{
@@ -7,12 +12,13 @@
     font-weight: 700;
     color: var(--Primary-Color);
     text-align: center;
-    font-family: Sora;
+    font-family: HarmoniaSansPro-Semibold, sans-serif;
 }
 
 .faqHolder{
     margin-top: 50px;
     display: flex;
+    width: 100%;
     flex-direction: column;
     gap: 20px;
 }
@@ -27,33 +33,42 @@
     display: flex;
     font-size: 1.15rem;
     align-items: center;
-    color: var(--Text-Light);
-    background-color: var(--Section-Divider);
+    color: var(--Primary-Color);
     border: none;
     border-radius: 10px;
-    padding: 4px 8px;
-    font-family: Sora;
+    padding: 4px 12px;
+    font-family: Graphik-Medium, serif;
+    background-color: #e7e7e7;
     justify-content: space-between;
 }
 
 .faq-motion-wrapper{
     padding: 10px 8px 8px;
-    font-family: Inter;
+    font-family: Graphik-Regular, serif;
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
     margin-top: -5px;
     font-size: 1rem;
     color: var(--Text-Light);
-    background-color: var(--Section-Divider);
+}
+
+.faq-answer{
+    color: var(--SecondaryColor);
+}
+
+@media screen and (max-width: 1120px){
+    .FAQSection{
+        margin: 50px 80px;
+    }
+
+    .FAQSectionTitle{
+        font-size: 1.75rem;
+    }
 }
 
 @media screen and (max-width : 850px) {
     .FAQSection{
         margin: 50px 60px;
-    }
-
-    .FAQSectionTitle{
-        font-size: 1.75rem;
     }
 
     .faqQuestion{
@@ -72,11 +87,11 @@
     }
 
     .FAQSectionTitle{
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 
     .faqQuestion{
-        font-size:0.95rem;
+        font-size:0.9rem;
     }
 
     .faq-answer{

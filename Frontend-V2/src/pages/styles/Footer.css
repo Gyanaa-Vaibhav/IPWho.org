@@ -1,0 +1,93 @@
+footer{
+    background-color: #1F2937;
+    padding: 30px 0 0;
+}
+
+.footerContainer{
+    margin: 0 auto;
+    max-width: 1000px;
+    display: flex;
+    gap: 50px;
+    font-family: Graphik-Regular, serif;
+    color: #ffffff;
+}
+
+.footerContainer h4{
+    font-family: Proximanova-Semibold, serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+.footerContainer div ul{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.credits{
+    font-family: Proximanova-Semibold, serif;
+    color: #ffffff;
+    margin: 0 auto;
+    max-width: 1000px;
+    padding: 20px 0 30px;
+}
+
+@media screen and (max-width: 1120px){
+    .footerContainer{
+        margin: 0 80px;
+    }
+}
+
+@media screen and (max-width : 850px) {
+    .footerContainer, .credits {
+        margin: 0 60px;
+    }
+
+    .footerContainer h4{
+        font-size: 1.125rem;
+    }
+
+    .footerContainer div ul li a{
+        font-size: 0.95rem;
+    }
+
+    .faqHolder{
+        margin-top: 30px;
+        gap: 14px;
+    }
+}
+
+@media screen and (max-width : 550px) {
+    .footerContainer{
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .footerContainer div ul{
+        margin-top: 0.5rem;
+    }
+
+    .footerContainer div ul li a{
+        font-size: 0.85rem;
+    }
+
+    .faqHolder{
+        margin-top: 25px;
+        gap: 10px;
+    }
+
+    .footerContainer h4{
+        font-size: 1rem;
+    }
+
+    .footerContainer div ul li a{
+        font-size: 0.8rem;
+    }
+}
+
+@media screen and (max-width : 450px) {
+    .footerContainer, .credits{
+        margin: 0 40px;
+    }
+}

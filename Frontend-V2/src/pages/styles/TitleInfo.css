@@ -112,7 +112,7 @@ main a:hover{
 }
 
 @media screen and (max-width: 720px){
-    main .WorldMap-Dotted{
+    .WorldMap-Dotted{
         opacity: 60%;
         height: 500px;
         aspect-ratio: 100/66;
@@ -148,5 +148,11 @@ main a:hover{
 
     main a{
         font-size: 0.88rem;
+    }
+}
+
+@media screen and (max-width:450px) {
+    main {
+        margin: 120px 40px 0;
     }
 }

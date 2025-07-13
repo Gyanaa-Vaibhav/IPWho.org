@@ -1,8 +1,16 @@
 nav {
     display: flex;
-    margin: 10px 100px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
     align-items: center;
     justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #F0F4F8;
 }
 
 .logo{
@@ -13,7 +21,7 @@ nav {
 }
 
 #ipWho{
-    font-family: Sora, serif;
+    font-family: Proximanova-Bold, serif;
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--Primary-Color);
@@ -25,35 +33,19 @@ nav ul{
 }
 
 nav ul li{
-    font-family: Inter, sans-serif;
+    font-family: Proximanova-Medium, sans-serif;
     font-size: 1rem;
     padding: 0.4rem 0.6rem;
     border-radius: 1rem;
     font-weight: 400;
     cursor: pointer;
-    color: var(--Text-Light);
+    color: var(--SecondaryColor);
 }
 
 nav ul li:hover{
-    background-color: #e1e1e1;
     scale: 1.05;
     color: var(--Primary-Color);
-    transition: all 250ms;
-}
-
-nav ul li:nth-last-child(1) {
-    background-color: var(--Accent-Color);
-}
-
-nav ul li:nth-last-child(1):hover {
-    color: var(--Text-Light);
-    scale: 1.05;
-    transition: all 150ms;
-}
-
-nav ul li:nth-last-child(1):active {
-    scale: 1;
-    transition: all 150ms;
+    transition: all 50ms;
 }
 
 .menuIcon{
@@ -65,10 +57,24 @@ nav ul li:nth-last-child(1):active {
     display: none;
 }
 
-@media screen and (max-width:850px) {
+.active-nav{
+    border-bottom: 3px solid #FADB5F;
+}
+
+@media screen and (max-width: 1120px){
     nav{
-        margin: 10px 60px;
+        margin: 0 80px;
+        /*padding: 10px;*/
     }
+}
+
+@media screen and (max-width: 960px){
+    nav{
+        margin: 0 60px;
+    }
+}
+
+@media screen and (max-width:840px) {
 
     .logo{
         gap: 0.5rem;
@@ -89,14 +95,20 @@ nav ul li:nth-last-child(1):active {
 }
 
 @media screen and (max-width: 650px) {
+    nav{
+        box-sizing: border-box;
+        min-width: 100%;
+        margin: 0;
+        padding: 10px 60px;
+    }
     .nav-items{
-        top: 60px;
+        top: 50px;
         right: 0;
         z-index: 10;
         position: absolute;
         flex-direction: column;
         transform: translate(100%);
-        background-color: var(--Section-Divider);
+        background-color: #F3F4F6FF;
         width: 100%;
         padding: 1rem 0;
         transition: all 250ms ease-in-out;
@@ -127,7 +139,7 @@ nav ul li:nth-last-child(1):active {
 
 @media screen and (max-width:450px) {
     nav{
-        margin: 5px 30px;
+        padding: 10px 40px;
     }
 
     .logo{
