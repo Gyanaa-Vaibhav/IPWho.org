@@ -1,7 +1,7 @@
 .featureSection{
     min-height: 80vh;
     display: flex;
-    margin: 50px auto 0;
+    margin: 50px auto 80px;
     max-width: 1000px;
     align-items: center;
     justify-content: space-around;
@@ -25,7 +25,7 @@
 
 @media screen and (max-width : 1120px) {
     .featureSection{
-        margin: 50px 80px 0;
+        margin: 50px 80px;
     }
 }
 

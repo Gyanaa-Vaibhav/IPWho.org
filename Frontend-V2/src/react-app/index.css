@@ -15,6 +15,7 @@
 
 body{
   margin: 0;
+  position: relative;
   background-color: #F0F4F8;
 }
 

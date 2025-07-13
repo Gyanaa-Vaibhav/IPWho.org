@@ -1,4 +1,4 @@
-import "../styles/FAQComponent.css";
+import "../../styles/FAQComponent.css";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -42,7 +42,7 @@ export function FAQComponent() {
               {faq.question}
                     <span className={`arrow ${isOpen ? "open" : ""}`}>
                         <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M22 14.4286H13.4286V23H10.5714V14.4286H2V11.5714H10.5714V3H13.4286V11.5714H22V14.4286Z" fill="#14B8A6" />
+                            <path d="M22 14.4286H13.4286V23H10.5714V14.4286H2V11.5714H10.5714V3H13.4286V11.5714H22V14.4286Z" fill="#FADB5F" />
                         </svg>
               </span>
             </button>

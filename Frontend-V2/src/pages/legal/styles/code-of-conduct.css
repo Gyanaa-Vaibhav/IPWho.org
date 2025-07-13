@@ -1,0 +1,93 @@
+.legal{
+    max-width: 1000px;
+    font-family: Inter, sans-serif;
+    background-color: #F0F4F8;
+    color: var(--SecondaryColor);
+    margin: 100px auto;
+    line-height: 1.8;
+}
+
+.legal h1{
+    color: var(--Primary-Color);
+    line-height: 1;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+}
+
+.legal h2{
+    color: var(--Primary-Color);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.legal ul{
+    padding-left: 1rem;
+    list-style: circle;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.legal li{
+    list-style: circle;
+}
+
+.legal p{
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 1120px){
+    .legal{
+        margin: 100px 80px;
+    }
+
+    .legal h1{
+        font-size: 2.75rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .legal h2{
+        font-size: 1.2rem;
+        margin-bottom: 0.35rem;
+    }
+
+    .legal p, .legal ul{
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    .legal{
+        margin: 100px 60px;
+    }
+
+    .legal h1{
+        font-size: 2.4rem;
+    }
+
+    .legal h2{
+        font-size: 1.125rem;
+    }
+
+    .legal p, .legal ul{
+        font-size: 0.88rem;
+    }
+}
+
+@media screen and (max-width:450px) {
+    .legal {
+        margin: 60px 40px;
+    }
+    .legal h1{
+        font-size: 2rem;
+    }
+
+    .legal h2{
+        font-size: 1rem;
+    }
+
+    .legal p, .legal ul{
+        font-size: 0.88rem;
+    }
+}

@@ -1,0 +1,41 @@
+.responseContainer {
+    /*margin: 50px 100px;*/
+    width: 100%;
+}
+
+.responseTable{
+    overflow-x: auto;
+}
+
+.responseContainer h3 {
+    font-family: Proximanova-Semibold, serif;
+    color: var(--Primary-Color);
+}
+
+@media screen and (max-width: 850px) {
+    .responseContainer {
+        /*margin: 50px 60px;*/
+    }
+
+    .responseContainer h3 {
+        font-size: 1rem;
+    }
+
+    code, pre{
+        font-size: 0.875rem;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .responseContainer {
+        /*margin:30px;*/
+    }
+
+    .responseContainer h3 {
+        font-size: 0.95rem;
+    }
+
+    code, pre{
+        font-size: 0.75rem;
+    }
+}

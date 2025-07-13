@@ -1,0 +1,119 @@
+main{
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    min-height: 100vh;
+    gap: 1rem;
+    align-items: center;
+}
+
+.overviewContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 50px 0;
+}
+
+.overviewContainer p{
+    margin-top: 8px;
+    color: var(--SecondaryColor);
+    font-family: Graphik-Regular, serif;
+}
+
+.overview h2{
+    color: var(--Primary-Color);
+    font-size: 2rem;
+    font-family: Proximanova-Bold, sans-serif;
+}
+
+.whyIPWHO h3, .builtFor h3{
+    color: var(--Primary-Color);
+    font-size: 1.5rem;
+    font-family: Proximanova-Medium, sans-serif;
+}
+
+.whyIPWHO ul, .builtFor ul{
+    color: var(--SecondaryColor);
+    font-family: Graphik-Regular, serif;
+    padding-left: 1rem;
+    list-style: circle;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 1rem;
+}
+
+.whyIPWHO ul li, .builtFor ul li{
+    list-style: circle;
+}
+
+.responseTable{
+    overflow-x: auto;
+}
+
+.responseContainer h3 {
+    color: var(--Primary-Color);
+    /*font-family: Proximanova-Semibold, serif;*/
+}
+
+@media screen and (max-width: 1120px){
+    main{
+        margin: 0 80px;
+    }
+
+    .overview h2{
+        font-size: 1.5rem;
+    }
+
+    .whyIPWHO h3, .builtFor h3{
+        font-size: 1.35rem;
+    }
+
+    .overviewContainer p{
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 840px){
+    main{
+        margin: 0 60px;
+    }
+
+    .overview h2{
+        font-size: 1.25rem;
+    }
+
+    .whyIPWHO h3, .builtFor h3{
+        font-size: 1.15rem;
+    }
+
+    .overviewContainer p, .whyIPWHO ul, .builtFor ul{
+        font-size: 0.95rem;
+    }
+}
+
+@media screen and (max-width: 720px){
+    main {
+        margin: 0 60px;
+    }
+    .overviewContainer{
+        gap: 1rem;
+    }
+
+    .overviewContainer p, .whyIPWHO ul, .builtFor ul{
+        font-size: 0.88rem;
+    }
+}
+
+@media screen and (max-width:450px) {
+    main {
+        margin: 0 40px;
+    }
+
+    .overviewContainer p, .whyIPWHO ul, .builtFor ul{
+        font-size: 0.8rem;
+    }
+
+}

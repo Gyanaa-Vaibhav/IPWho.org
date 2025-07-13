@@ -1,0 +1,125 @@
+---
+import '../../react-app/index.css'
+import './styles/code-of-conduct.css'
+import Nav from '../../react-app/Nav/components/Nav'
+import Footer from "../Footer.astro";
+const data = [
+    {
+        heading: "1. What We Collect",
+        data: `
+      <ul>
+        <li>IP addresses (for geolocation)</li>
+        <li>Geographic metadata (country, region, city)</li>
+        <li>Request details (timestamp, headers, errors)</li>
+      </ul>
+    `
+    },
+    {
+        heading: "2. How We Use the Data",
+        data: `
+      <ul>
+        <li>To provide accurate geolocation responses</li>
+        <li>To monitor performance and detect abuse</li>
+        <li>To ensure fair usage for all users</li>
+      </ul>
+    `
+    },
+    {
+        heading: "3. Data Retention",
+        data: "We keep anonymized logs temporarily (7–30 days) for monitoring. We do not permanently store or link data to individuals."
+    },
+    {
+        heading: "4. Third-Party Services",
+        data: "We do not sell or share your data. We may use infrastructure services (e.g. hosting, analytics) that handle anonymized technical info only."
+    },
+    {
+        heading: "5. Your Rights",
+        data: "You may contact us at <strong>admin@ipwho.org</strong> to request data clarification or deletion."
+    },
+    {
+        heading: "6. Changes to This Policy",
+        data: "We may revise this privacy policy occasionally. We will post updates directly on this page."
+    }
+]
+
+---
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free IP Geolocation API — IPWho.org</title>
+    <meta name="description" content="Free and fast IP geolocation API with JSON output. Get country, city, ASN, currency, and more. No API key, no Sign-up needed." />
+    <!-- <meta name="keywords" content="IP geolocation API, IP lookup, IPWho, free IP API, IP to location, geolocation API, IP address lookup" /> -->
+    <meta name="author" content="Gyanaa Vaibhav" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://ipwho.org/" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="IPWho.org — Free IP Geolocation API" />
+    <meta property="og:description" content="Get detailed IP data in JSON format: country, region, city, ASN, and currency. Fast & free for developers." />
+    <meta property="og:image" content="https://ipwho.org/image.png" />
+    <meta property="og:url" content="https://ipwho.org/" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="IPWho.org — Free IP Geolocation API" />
+    <meta name="twitter:description" content="Accurate, fast IP lookup service for developers. No key needed." />
+    <meta name="twitter:image" content="https://ipwho.org/image.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+
+    <script type="application/ld+json">
+		{
+		  "@context": "https://schema.org",
+		  "@type": "Organization",
+		  "name": "IPWho.org",
+		  "url": "https://ipwho.org",
+		  "logo": "https://ipwho.org/image.png",
+		  "description": "Free and fast IP geolocation API for developers. Get location, ASN, currency and more.",
+		  "sameAs": [
+			"https://github.com/gyanaavaibhav/ipwho",
+			"https://twitter.com/ipwho"
+		  ]
+		}
+		</script>
+
+</head>
+    <body>
+    <Nav client:load/>
+        <main class="legal">
+            <h1>
+                Privacy Policy
+            </h1>
+
+            <p>
+                <strong>Effective Date:</strong> May 15, 2025
+            </p>
+
+            {data.map(({heading,data})=>{
+                if(data.trim().startsWith("<ul>")){
+                    return (
+                        <>
+                            <h2>{heading}</h2>
+                            <div set:html={data}></div>
+                        </>
+                    )
+                }
+                return(
+                        <>
+                            <h2>{heading}</h2>
+                            <p set:html={data}></p>
+                        </>
+                )
+            })}
+
+            <div style={{ marginTop: '3rem', fontSize: '0.9rem' }}>
+                Questions? Contact us at <strong>admin@ipwho.org</strong>.
+            </div>
+        </main>
+    <Footer />
+    </body>
+</html>
