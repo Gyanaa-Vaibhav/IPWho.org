@@ -3,7 +3,6 @@ import express from 'express';
 import { describe, it, expect } from 'vitest';
 import { ipRouter } from '../routes/ipRoute.js';
 import { ipDataService,cacheSetter,cacheGetter } from '../../../services/servicesExport.js';
-import {IpGeoResponse} from "../../../services/ip/ipData";
 
 const app = express();
 app.set('trust proxy', true);
@@ -62,8 +61,9 @@ describe('ip Route', () => {
     });
 
     it("should throw error on Reserved range/Invalid IP address address", async () => {
-        const res = await request(app).get('/ip/12.32.4.21212');
-
+        await cacheSetter.query({type:"del",key:"1232.32.4.21212D"})
+        const res = await request(app).get('/ip/1232.32.4.21212');
+        console.log(res.body)
         expect(res.statusCode).toBe(404);
         expect(res.body).toEqual({success:false, message:"Reserved range/Invalid IP address"});
     })
