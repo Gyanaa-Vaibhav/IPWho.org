@@ -16,10 +16,11 @@ export async function renderMe (req:Request, res:Response)  {
     const rateLimit = await cacheGetter.query({type:"get",key:`${ip}RL`})
     const data = ipDataService.getData(ip!)
 
+    await cacheSetter.query({type:'incr',key:`${ip}RL`})
     if(!rateLimit) await cacheSetter.query({type:"incr",key:`meRouteUser`})
 
     // Monthly Rate Limit check
-    // await monthlyRateLimit(res,rateLimit,ip!,1000)
+    await monthlyRateLimit(res,rateLimit,ip!,1000)
 
     if(cachedData){
         res.json({ success: true, data:JSON.parse(cachedData) })
@@ -31,7 +32,6 @@ export async function renderMe (req:Request, res:Response)  {
         return
     }
 
-    // await cacheSetter.query({type:"set",key:`${ip}RL`,expiry: 6_04_800, value:"1"})
-    // await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
+    await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
     res.json({ success: true, data })
 }
