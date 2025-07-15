@@ -1,17 +1,37 @@
-name: CI Test
-on: [push,workflow_dispatch]
+name: CI Workflow
+on: [push,workflow_dispatch,pull_request]
 jobs:
-  backend-Test:
-    runs-on: [self-hosted]
+
+  Build_Image:
+    runs-on: self-hosted
     steps:
       - name: Pull Code
         uses: actions/checkout@v4
-      
-      - name: Build Image and Run Containers
-        run: docker compose -f docker-compose-test.yml --env-file /env/ipWho/.env up -d --build
 
-      - name: Run test's
+      - name: Build Image
+        run: docker compose -f docker-compose-test.yml --env-file /env/ipWho/.env build --no-cache
+
+  Linter:
+    runs-on: self-hosted
+    needs: Build_Image
+    steps:
+      - name: Start Containers
+        run: docker compose -f docker-compose-test.yml --env-file /env/ipWho/.env up -d
+
+      - name: Run Linter
+        run: docker exec -i ipWho_backend_testing sh -c "npm run lint"
+
+  Test:
+    runs-on: self-hosted
+    needs: Linter
+    steps:
+      - name: Run Test
         run: docker exec -i ipWho_backend_testing sh -c "npm run test"
-      
+
+  Clean_Up:
+    runs-on: self-hosted
+    needs: Test
+    steps:
       - name: Stop Containers
+        if: always()
         run: docker compose -f docker-compose-test.yml --env-file /env/ipWho/.env down

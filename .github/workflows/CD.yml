@@ -1,0 +1,46 @@
+name: CD
+on:
+  workflow_run:
+    workflows:
+      - "CI Workflow"
+    types:
+      - completed
+  pull_request:
+
+jobs:
+
+  Check_if_CI_Workflow_Succeed:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: self-hosted
+    steps:
+      - run: echo "Previous workflow succeeded!"
+
+  Image_Building:
+    runs-on: self-hosted
+    needs: Check_if_CI_Workflow_Succeed
+    steps:
+      - name: test Echo Run
+        run: echo "Hello World Should run after CI Workflow"
+#    steps:
+#      - name: Pull Code
+#        uses: actions/checkout@v4
+#
+#      - name: Build Images for production
+#        run: docker compose -f docker-compose-prod.yml --env-file /env/prod/ipWho/.env build --no-cache
+#
+#  Run_Containers:
+#    runs-on: self-hosted
+#    needs: ImageBuilding
+#    steps:
+#      - name: Bring Down Current Active Containers
+#        run: docker compose -f docker-compose-prod.yml --env-file /env/prod/ipWho/.env down
+#
+#      - name: Run New Containers
+#        run: docker compose -f docker-compose-prod.yml --project-name ipwho-prod --env-file /env/prod/ipWho/.env up -d
+#
+#  Delete_Build:
+#    runs-on: self-hosted
+#    needs: RunContainers
+#    steps:
+#      - name: Delete Front End Build Image
+#        run: docker rm ipWho_frontend_build
