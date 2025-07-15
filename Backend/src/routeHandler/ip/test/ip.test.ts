@@ -37,8 +37,8 @@ describe('ip Route', () => {
     
     it('should match all the objects', async () => {
         const res = await request(app).get('/ip/12.32.4.2');
-        const { _current_time, ...timesplit } = (res.body.data.timezone);
-        const { _timezone, ...data } = (res.body.data)
+        const { current_time:_current_time, ...timesplit } = (res.body.data.timezone);
+        const { timezone:_timezone, ...data } = (res.body.data)
         const responseObject = {
             success: true,
             data: { ...data, timezone: timesplit }
