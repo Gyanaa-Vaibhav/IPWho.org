@@ -18,7 +18,7 @@ jobs:
         run: docker compose -f docker-compose-test.yml --env-file /env/ipWho/.env up -d
 
       - name: Run Linter
-        run: docker exec -i ipWho_backend_testing sh "npm run lint"
+        run: docker exec -i ipWho_backend_testing sh -c "npm run lint"
 
   Test:
     runs-on: self-hosted
