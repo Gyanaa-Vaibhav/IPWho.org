@@ -8,7 +8,8 @@
     "dev": "node --watch ./dist/app.js",
     "runDev": "concurrently \"npx tsc --watch\" \"node --watch ./dist/app.js\"",
     "test": "vitest",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .js,.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,8 @@
   "type": "module",
   "dependencies": {
     "@maxmind/geoip2-node": "^6.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
     "cidr-matcher": "^2.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
@@ -36,6 +39,7 @@
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.31.0",
     "@types/cidr-matcher": "^2.1.2",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.1",
@@ -45,6 +49,9 @@
     "@types/mocha": "^10.0.10",
     "@types/supertest": "^6.0.3",
     "@vitest/coverage-v8": "^3.2.2",
-    "concurrently": "^9.2.0"
+    "concurrently": "^9.2.0",
+    "eslint": "^9.31.0",
+    "globals": "^16.3.0",
+    "typescript-eslint": "^8.37.0"
   }
 }

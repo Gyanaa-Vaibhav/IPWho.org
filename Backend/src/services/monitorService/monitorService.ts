@@ -86,10 +86,10 @@ class MonitorService{
         let newMetric;
 
         if(metric === metrics.counter) newMetric = new Counter({name, help, labelNames, registers:[registry]})
-        else if(metric === metrics.gauge) newMetric = new Gauge({name, help, labelNames, registers:[registry],})
-        else if(metric === metrics.summary) newMetric = new Summary({name, help, labelNames, registers:[registry],})
+        else if(metric === metrics.gauge) newMetric = new Gauge({name, help, labelNames, registers:[registry]})
+        else if(metric === metrics.summary) newMetric = new Summary({name, help, labelNames, registers:[registry]})
         else if(!buckets) throw new Error("Bucket not defined")
-        else if(metric === metrics.histogram){newMetric = new Histogram({ name, help, buckets, labelNames, registers:[registry],})}
+        else if(metric === metrics.histogram){newMetric = new Histogram({ name, help, buckets, labelNames, registers:[registry]})}
 
         this.metricsHolder[metric_custom_name] = newMetric;
     }
@@ -183,12 +183,26 @@ class MonitorService{
         this.metricsHolder = {};
         this.serviceInstance?.resetMetrics();
     }
+
+    public getContentType(){
+        return this.serviceInstance?.contentType
+    }
 }
 
 export const monitoringService = new MonitorService(client.register);
-monitoringService.initiateMetric({metric:metrics.counter, name:"http_total_request", help:"Total Http Requests", metric_custom_name:"httpCounter"})
-// console.log(monitoringService.getMetric("httpCounter"));
-monitoringService.getCounter("httpCounter")?.inc()
-monitoringService.getCounter("httpCounter")?.inc()
-monitoringService.getCounter("httpCounter")?.inc()
-console.log("Monitor Service ",await monitoringService.getMetricsData())
+// HTTP Metrics
+monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_http_total_request", help:"Total Http Requests", metric_custom_name:"httpTotalCounter"})
+monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_http_request", help:"Http Requests", metric_custom_name:"httpReqCounter[MRS]",labelNames:['method','route','status']})
+monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_http_errors_total", help:"Total Http Errors", metric_custom_name:"httpErrorCounter[MRS]",labelNames:['method','route','status']})
+monitoringService.initiateMetric({metric:metrics.gauge, name:"ipWho_http_active_requests", help:"Total Active Requests", metric_custom_name:"httpActiveReqGauge[R]",labelNames:['route']})
+monitoringService.initiateMetric({metric:metrics.histogram, name:"ipWho_http_request_duration_sec", help:"Tracks Https Latency", metric_custom_name:"httpDuration[MRS]",labelNames:['method','route','status'],buckets: [0.01, 0.05, 0.1, 0.3, 0.5, 1, 2, 5]})
+
+// Cache Metrics
+monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_cache_hits_total", help:"Total Cache Hits", metric_custom_name:"cacheHitsCounter[K]",labelNames:['key']})
+monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_cache_misses_total", help:"Total Cache Misses", metric_custom_name:"cacheMissCounter[K]",labelNames:['key']})
+monitoringService.initiateMetric({metric:metrics.histogram, name:"ipWho_cache_latency_sec", help:"Tracks Cache Latency", metric_custom_name:"cacheDuration[KH]",labelNames:['key','hit'],buckets:[0.001, 0.005, 0.01, 0.05, 0.1, 0.3]})
+
+// Custom Metrics
+monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_ip_service_users", help:"Tracks hits for /ip route tracking the requestor's IP", metric_custom_name:"ipServiceCounter[ip?]",labelNames:['ip']})
+monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_non_repeating_visitors", help:"Tracks unique users with /me route", metric_custom_name:"uniqueVisitorsCounter[ip?]",labelNames:['ip']})
+monitoringService.initiateMetric({metric:metrics.gauge, name:"ipWho_active_session", help:"Tracks Active users on web", metric_custom_name:"activeUsersGauge[ip?]",labelNames:['ip']})

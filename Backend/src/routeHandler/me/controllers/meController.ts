@@ -1,6 +1,6 @@
 // Controller for me
 import { Request, Response } from 'express';
-import {cacheGetter,cacheSetter,ipDataService} from '../../../services/servicesExport.js'
+import {cacheGetter, cacheSetter, ipDataService, monitoringService} from '../../../services/servicesExport.js'
 import { monthlyRateLimit } from '../../helperFunctions/helperExport.js'
 
 function getCleanIp(req:Request) {
@@ -17,7 +17,10 @@ export async function renderMe (req:Request, res:Response)  {
     const data = ipDataService.getData(ip!)
 
     await cacheSetter.query({type:'incr',key:`${ip}RL`})
-    if(!rateLimit) await cacheSetter.query({type:"incr",key:`meRouteUser`})
+    if(!rateLimit) {
+        monitoringService.getCounter("uniqueVisitorsCounter[ip?]")?.inc({ip})
+        await cacheSetter.query({type: "incr", key: `meRouteUser`})
+    }
 
     // Monthly Rate Limit check
     await monthlyRateLimit(res,rateLimit,ip!,1000)

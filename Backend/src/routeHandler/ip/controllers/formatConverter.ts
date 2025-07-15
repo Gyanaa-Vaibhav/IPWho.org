@@ -2,6 +2,7 @@ import js2xmlparser from "js2xmlparser";
 import {Parser} from "json2csv";
 import {Response} from "express";
 import {IpGeoResponse} from "../../../services/ip/ipData";
+import {logError} from "../../../services/servicesExport.js";
 
 type formatConverterType = {
     format: string;
@@ -22,6 +23,7 @@ export default function formatConverter({format, data, res}:formatConverterType)
             res.set('Content-Type', 'text/csv');
             return csv
         } catch (err) {
+            logError(err)
             throw new Error ('CSV Parsing Error')
         }
     } else {
@@ -31,7 +33,7 @@ export default function formatConverter({format, data, res}:formatConverterType)
 
 function flattenObject(obj: Record<string, any>, parentKey = '', result: Record<string, any> = {}): Record<string, any> {
     for (let key in obj) {
-        if (!obj.hasOwnProperty(key)) continue;
+        if (!Object.prototype.hasOwnProperty.call(obj, key)) continue;
 
         const newKey = parentKey ? `${parentKey}.${key}` : key;
 
