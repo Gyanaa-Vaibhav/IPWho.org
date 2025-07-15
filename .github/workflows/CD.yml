@@ -2,12 +2,9 @@ name: CD
 on:
   workflow_run:
     workflows:
-      - "CI Workflow"
+      - "CI Main"
     types:
       - completed
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:

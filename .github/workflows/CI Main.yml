@@ -1,10 +1,9 @@
-name: CI Push
+name: CI Main
 on:
   push:
-    branches-ignore:
+    branches:
       - main
   workflow_dispatch:
-
 jobs:
 
   Build_Image:
