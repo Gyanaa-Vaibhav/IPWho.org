@@ -24,17 +24,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Images for production
-        run: docker compose -f docker-compose-prod.yml --env-file /env/prod/ipWho/.env build --no-cache
+        run: docker compose -f /env/prod/docker-compose-prod.yml --env-file /env/prod/ipWho/.env build --no-cache
 
   Run_Containers:
     runs-on: self-hosted
     needs: Image_Building
     steps:
       - name: Bring Down Current Active Containers
-        run: docker compose -f docker-compose-prod.yml --env-file /env/prod/ipWho/.env down
+        run: docker compose -f /env/prod/docker-compose-prod.yml --env-file /env/prod/ipWho/.env down
 
       - name: Run New Containers
-        run: docker compose -f docker-compose-prod.yml --project-name ipwho-prod --env-file /env/prod/ipWho/.env up -d
+        run: docker compose -f /env/prod/docker-compose-prod.yml --project-name ipwho-prod --env-file /env/prod/ipWho/.env up -d
 
   Delete_Build:
     runs-on: self-hosted
