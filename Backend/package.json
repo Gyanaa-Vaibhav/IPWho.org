@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "compile": "npx tsc --watch",
+    "build": "npx tsc",
     "dev": "node --watch ./dist/app.js",
     "runDev": "concurrently \"npx tsc --watch\" \"node --watch ./dist/app.js\"",
     "test": "vitest",

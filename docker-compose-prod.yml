@@ -12,7 +12,7 @@ services:
   frontend-build:
     build:
       context: ./Frontend-V2
-      dockerfile: frontend-build.Dockerfile
+      dockerfile: frontend.build.Dockerfile
     image: ipwho-frontend:build
     container_name: ipWho_frontend_build
     volumes:
@@ -21,7 +21,7 @@ services:
   backend:
     build:
       context: Backend
-      dockerfile: backend.Dockerfile
+      dockerfile: backend.build.Dockerfile
     image: ipwho-backend:production
     volumes:
       - /app/node_modules

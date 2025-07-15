@@ -8,18 +8,17 @@ services:
   frontend:
     build:
       context: ./Frontend-V2
-      dockerfile: frontend.Dockerfile
+      dockerfile: frontend.build.Dockerfile
     ports:
       - "$FRONTEND_PORT:$FRONTEND_PORT"
     container_name: "ipWho_frontend_testing"
-    command: npm run build
     env_file:
       - $FRONTEND_ENV
 
   backend:
     build:
       context: ./Backend
-      dockerfile: backend.Dockerfile
+      dockerfile: backend.build.Dockerfile
     ports:
       - "$BACKEND_PORT:$BACKEND_PORT"
     env_file:

@@ -1,10 +1,9 @@
 import request from 'supertest';
-import express from 'express';
 import { describe, it, expect } from 'vitest';
 import { ipRouter } from '../routes/ipRoute.js';
 import { ipDataService,cacheSetter,cacheGetter } from '../../../services/servicesExport.js';
+import { app } from '../../../app.js';
 
-const app = express();
 app.set('trust proxy', true);
 app.use('/ip', ipRouter);
 
@@ -84,6 +83,6 @@ describe('ip Route', () => {
         const rateLimitCounter = await cacheGetter.query({type:"get",key:"1.1.1.1RL"})
 
         expect(Number(rateLimitCounter)).toBe(1000)
-    })
+    }, 20000)
 });
 

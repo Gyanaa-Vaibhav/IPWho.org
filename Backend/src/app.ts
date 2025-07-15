@@ -7,7 +7,7 @@ import {meRouter,ipRouter} from "./routeHandler/routeHandlerExport.js";
 import {logError, monitoringService} from './services/servicesExport.js'
 dotenv.config();
 
-const app = express()
+export const app = express()
 const PORT = Number(process.env.PORT) || 3000;
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

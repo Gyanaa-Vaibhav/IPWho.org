@@ -1,9 +1,8 @@
 import request from 'supertest';
-import express from 'express';
+import {app} from "../../../app.js";
 import {meRouter} from '../routes/meRoute.js';
 import { describe, it, expect } from 'vitest';
 
-const app = express();
 app.use('/me', meRouter);
 
 describe('me Route', () => {
