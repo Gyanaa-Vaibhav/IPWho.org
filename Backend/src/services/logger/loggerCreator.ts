@@ -3,7 +3,7 @@ import * as url from "node:url";
 import * as fs from 'node:fs'
 import * as path from "node:path";
 import DailyRotateFile from 'winston-daily-rotate-file';
-const { combine, timestamp,colorize,align,printf,errors } = winston.format;
+const { combine, timestamp,align,printf,errors } = winston.format;
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename)
@@ -25,18 +25,6 @@ enum LoggerLevel {
     DEBUG = "debug",
     SILLY = "silly",
 }
-
-const consoleFormat = combine(
-    colorize({ all: true }),
-    errors({ stack: true }),
-    timestamp({ format: 'YYYY-MM-DD hh:mm:ss.SSS A' }),
-    align(),
-    printf((info) => {
-        return info.stack
-            ? `[${info.timestamp}] ${info.level}: ${info.message}\nStack Trace - ${info.stack}`
-            : `[${info.timestamp}] ${info.level}: ${info.message}`;
-    })
-);
 
 const fileFormat = combine(
     errors({ stack: true }),

@@ -12,7 +12,7 @@ footer{
     color: #ffffff;
 }
 
-.footerContainer h4{
+.footerContainer h3{
     font-family: Proximanova-Semibold, serif;
     font-size: 1.25rem;
     font-weight: 500;
@@ -44,7 +44,7 @@ footer{
         margin: 0 60px;
     }
 
-    .footerContainer h4{
+    .footerContainer h3{
         font-size: 1.125rem;
     }
 
@@ -77,7 +77,7 @@ footer{
         gap: 10px;
     }
 
-    .footerContainer h4{
+    .footerContainer h3{
         font-size: 1rem;
     }
 

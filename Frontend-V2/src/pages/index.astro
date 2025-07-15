@@ -147,6 +147,7 @@ const infoData = [
 
 <html lang="en">
 <head>
+    <meta name="google-site-verification" content="PC88B0SZmoYew8lvhc7DwCy0ddJNfYou0-GQIvPguqU" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Free IP Geolocation API — IPWho.org</title>
@@ -197,7 +198,6 @@ const infoData = [
                     src={WorldMapDotted}
                     alt="World Map dotted"
                     loading="eager"
-                    role="presentation"
             />
             <div class="title-container">
                 <h1 class='main-title'>Open Source IP <br/> Intelligence API</h1>
@@ -217,7 +217,7 @@ const infoData = [
                     {featureCardData.map(({image,imageAlt,title,desc})=>{
                         return(
                             <div class="cardComponent">
-                                <img src={image} alt={imageAlt} role="presentation" loading="lazy" />
+                                <img src={image} alt={imageAlt} loading="lazy"/>
                                 <h3>{ title }</h3>
                                 <p>{ desc }</p>
                             </div>
