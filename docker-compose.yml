@@ -19,7 +19,7 @@ services:
   frontend-build:
     build:
       context: ./Frontend-V2
-      dockerfile: frontend-build.Dockerfile
+      dockerfile: Frontend-V2/frontend.build.Dockerfile
     volumes:
       - ipWho-Frontend-Build:/app/build
       - "/app/node_modules"
