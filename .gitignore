@@ -14,7 +14,6 @@ dist
 dist-ssr
 *.local
 flags
-docker-compose-prod.yml
 coverage
 .env.development
 .env.production
