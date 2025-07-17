@@ -40,6 +40,7 @@ export async function renderIp (req:Request, res:Response) {
         if(cacheDataTimer) cacheDataTimer({hit:"true"})
         return await formatAndReturn({res, data: JSON.parse(cachedData), getQuery, format})
     }
+    // console.log("Cache Missing first Count")
 
     if(cacheDataTimer) cacheDataTimer({hit:"false"})
     if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"true"})

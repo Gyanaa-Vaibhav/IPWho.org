@@ -6,11 +6,11 @@ services:
       context: ./Frontend-V2
       dockerfile: frontend.Dockerfile
     ports:
-      - "$FRONTEND_PORT:$FRONTEND_PORT"
+      - $FRONTEND_PORT:$FRONTEND_PORT
     volumes:
-      - "./Frontend-V2:/app"
-      - "/app/node_modules"
-    container_name: "ipWho_frontend"
+      - ./Frontend-V2:/app
+      - /app/node_modules
+    container_name: ipWho_frontend
     env_file:
       - $FRONTEND_ENV
     depends_on:
@@ -19,26 +19,27 @@ services:
   frontend-build:
     build:
       context: ./Frontend-V2
-      dockerfile: Frontend-V2/frontend.build.Dockerfile
+      dockerfile: frontend.build.Dockerfile
     volumes:
       - ipWho-Frontend-Build:/app/build
-      - "/app/node_modules"
-    container_name: "ipWho_frontend_build"
+      - /app/node_modules
+    container_name: ipWho_frontend_build
 
   backend:
     build:
       context: ./Backend
       dockerfile: backend.Dockerfile
     ports:
-      - "$BACKEND_PORT:$BACKEND_PORT"
+      - $BACKEND_PORT:$BACKEND_PORT
     env_file:
       - $BACKEND_ENV
-    container_name: "ipWho_backend"
+    container_name: ipWho_backend
     volumes:
-      - "/app/node_modules"
-      - "./Backend:/app"
-      - "$BACKEND_LOGS_LOCATION:/logs"
-      - "$BACKEND_FILE_LOCATION:/app/mainFiles:ro"
+      - ./Backend:/app
+      - /app/dist
+      - /app/node_modules
+      - $BACKEND_LOGS_LOCATION:/logs
+      - $BACKEND_FILE_LOCATION:/app/mainFiles:ro
       - ipWho-Frontend-Build:/app/frontendBuild:ro
     depends_on:
       - redis
@@ -46,9 +47,9 @@ services:
 
   redis:
     image: redis
-    container_name: "ipWho_redis"
+    container_name: ipWho_redis
     ports:
-      - "$REDIS_PORT:6379"
+      - $REDIS_PORT:6379
     volumes:
       - redis-data:/data
 #    command: redis-server --requirepass $REDIS_PASSWORD

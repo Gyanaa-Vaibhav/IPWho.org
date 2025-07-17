@@ -1,10 +1,10 @@
 name: CD
 on:
-  workflow_run:
-    workflows:
-      - "CI Main"
-    types:
-      - completed
+#  workflow_run:
+#    workflows:
+#      - "CI Main"
+#    types:
+#      - completed
   workflow_dispatch:
 
 jobs:

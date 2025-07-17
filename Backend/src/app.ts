@@ -3,8 +3,8 @@ import * as url from "node:url";
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import {meRouter,ipRouter} from "./routeHandler/routeHandlerExport.js";
-import {logError, monitoringService} from './services/servicesExport.js'
+import { meRouter,ipRouter,metricsRouter } from "./routeHandler/routeHandlerExport.js";
+import { monitoringService } from './services/servicesExport.js'
 dotenv.config();
 
 export const app = express()
@@ -77,34 +77,7 @@ app.get('/bulk/:bulkIP',(req,res)=>{
     res.json({success:false,message:"Failed"})
 })
 
-app.get('/metrics',async (req,res) => {
-    const authHeader = req.headers['authorization'];
-
-    if (!authHeader || !authHeader.startsWith('Basic ')) {
-        res.set('WWW-Authenticate', 'Basic realm="metrics"');
-        res.status(401).send('Unauthorized');
-        return
-    }
-
-    // Decode base64
-    const base64Credentials = authHeader.split(' ')[1];
-    const credentials = Buffer.from(base64Credentials, 'base64').toString('utf-8');
-    const [username, password] = credentials.split(':');
-
-    // Validate
-    if (username !== 'prometheus' || password !== 'mysecretpass') {
-        res.status(401).send('Unauthorized');
-        return
-    }
-    try {
-        res.set('Content-Type', monitoringService.getContentType());
-        const metrics = await monitoringService.getMetricsData()
-        res.send(metrics);
-    } catch (err: unknown) {
-        logError(err)
-        res.status(500).send('Error collecting metrics');
-    }
-})
+app.use('/metrics', metricsRouter)
 
 app.listen(PORT,() => {
     console.log(`Listening on Port ${PORT}`);  
