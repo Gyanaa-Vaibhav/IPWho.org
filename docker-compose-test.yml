@@ -2,16 +2,18 @@ services:
   redis:
     image: redis
     ports:
-      - "$REDIS_PORT:6379"
-    container_name: "ipWho_redis_testing"
+      - $REDIS_PORT:6379
+    container_name: ipWho_redis_testing
 
   frontend:
     build:
       context: ./Frontend-V2
       dockerfile: frontend.build.Dockerfile
     ports:
-      - "$FRONTEND_PORT:$FRONTEND_PORT"
+      - $FRONTEND_PORT:$FRONTEND_PORT
     container_name: ipWho_frontend_build_testing
+    volumes:
+      - ipWho-Frontend-Build-Test:/app/build
     env_file:
       - $FRONTEND_ENV
 
@@ -20,14 +22,18 @@ services:
       context: ./Backend
       dockerfile: backend.build.Dockerfile
     ports:
-      - "$BACKEND_PORT:$BACKEND_PORT"
+      - $BACKEND_PORT:$BACKEND_PORT
     env_file:
       - $BACKEND_ENV
-    container_name: "ipWho_backend_testing"
+    container_name: ipWho_backend_testing
     volumes:
-      - "/app/node_modules"
-      - "$BACKEND_LOGS_LOCATION:/logs"
-      - "$BACKEND_FILE_LOCATION:/app/mainFiles:ro"
+      - /app/node_modules
+      - $BACKEND_LOGS_LOCATION:/logs
+      - $BACKEND_FILE_LOCATION:/app/mainFiles:ro
+      - ipWho-Frontend-Build-Test:/app/frontendBuild:ro
     depends_on:
       - frontend
       - redis
+
+volumes:
+  ipWho-Frontend-Build-Test:
