@@ -11,7 +11,7 @@ services:
       dockerfile: frontend.build.Dockerfile
     ports:
       - "$FRONTEND_PORT:$FRONTEND_PORT"
-    container_name: "ipWho_frontend_testing"
+    container_name: ipWho_frontend_build_testing
     env_file:
       - $FRONTEND_ENV
 

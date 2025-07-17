@@ -1,11 +1,21 @@
-FROM node:current-alpine
+## === STAGE 1: Build ===
+FROM node:current-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json .
+COPY package.json package-lock.json ./
 
-RUN npm install
+RUN npm ci
 
 COPY . .
 
-CMD [ "npm", "run", "build" ]
+RUN npm run build
+
+## === STAGE 2: Production Files ===
+FROM alpine:latest AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/build ./build
+
+CMD ["exit"]

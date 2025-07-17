@@ -26,7 +26,8 @@ services:
     volumes:
       - /app/node_modules
       - /var/www/html/ipWho_Build:/app/frontendBuild
-    container_name: "ipWho_Production_Backend"
+      - $BACKEND_FILE_LOCATION:/app/mainFiles:ro
+    container_name: ipWho_Production_Backend
     env_file:
       - $BACKEND_ENV
     ports:
