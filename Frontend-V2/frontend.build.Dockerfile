@@ -18,4 +18,4 @@ WORKDIR /app
 
 COPY --from=builder /app/build ./build
 
-CMD ["exit"]
+CMD ["sh", "-c", "exit 0"]
