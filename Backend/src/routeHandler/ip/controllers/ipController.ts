@@ -25,9 +25,9 @@ export async function renderIp (req:Request, res:Response) {
     monitoringService.getCounter("ipServiceCounter[ip?]")?.inc({ip:lookUpIP})
 
     await cacheSetter.query({type:"incr",key:"totalIPRequests"})
-    await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
 
     if(!rateLimit) {
+        await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
         if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"false"})
         await cacheSetter.query({type: "incr", key: "uniqueUserIP"})
     }
