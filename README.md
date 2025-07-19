@@ -1,5 +1,9 @@
 # IPWho.org — Free, Fast IP Geolocation API
 
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Dockerized](https://img.shields.io/badge/Docker-Ready-blue.svg)](./docker-compose.yml)
+[![API](https://img.shields.io/badge/API-Open-green.svg)](#api-overview)
+
 **IPWho.org** is an open-source IP geolocation API that returns rich location + network metadata (continent → ASN → currency) with no API key, no signup. Dockerized, TypeScript-based, production-ready.
 
 Live (example):
@@ -9,7 +13,7 @@ https://ipwho.org/ip/8.8.8.8
 
 ---
 
-### ⚡ Features
+### Features
 - Zero auth / zero signup – instant usage. 
 - Fast lookups with Redis caching. 
 - Bulk queries: request multiple IPs in a single call. 
@@ -20,7 +24,7 @@ https://ipwho.org/ip/8.8.8.8
 
 ---
 
-### ⚙️ Tech Stack
+### Tech Stack
 | Layer      | Tech                                                 |
 |------------|------------------------------------------------------|
 | Backend    | Node.js · TypeScript                                 |
