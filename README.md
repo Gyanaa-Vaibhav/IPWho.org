@@ -1,141 +1,238 @@
-# 🌍 IPWho.org — Free & Fast IP Geolocation API
+# IPWho.org — Free, Fast IP Geolocation API
 
-**IPWho** is a powerful, open-source IP Geolocation API that gives you detailed location, network, timezone, and currency data for any IP address — all without signup. Built with performance, scalability, and developer simplicity in mind.
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
+[![Dockerized](https://img.shields.io/badge/Docker-Ready-blue.svg)](./docker-compose.yml)
+[![API](https://img.shields.io/badge/API-Open-green.svg)](#api-overview)
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+**IPWho.org** is an open-source IP geolocation API that returns rich location + network metadata (continent → ASN → currency) with no API key, no signup. Dockerized, TypeScript-based, production-ready.
 
----
-
-### 🔗 Live API  
-**→ https://ipwho.org/ip/8.8.8.8**
-
-### 🧑‍💻 Built by  
-[Gyanaa Vaibhav](https://medium.com/@gynanrudr0) — Passionate Backend Developer & System Design Specialist
-
----
-
-## 🚀 Features
-
-- 🔍 **Fast IP Lookup** — Get location, ASN, timezone, currency & more
-- ⚡ **Optimized Redis Caching** — For blazing fast response times
-- 🇺🇳 **Accurate Geo DBs** — Using GeoLite2 + IP2Location LITE
-- 🌐 **Free Developer Access** — No keys, no signup
-- 🛠️ **Clean TypeScript Codebase** — Follows SOLID, modular architecture
-- 🔒 **Production-Ready Logging** — Winston logger with easy integration
+Live (example):
+```
+https://ipwho.org/ip/8.8.8.8
+```
 
 ---
 
-## 📦 Example Response
+### Features
+- Zero auth / zero signup – instant usage. 
+- Fast lookups with Redis caching. 
+- Bulk queries: request multiple IPs in a single call. 
+- Field filtering to reduce payload size. 
+- Portable: simple Docker Compose (dev & prod). 
+- Watch-mode dev (node --watch + modern frontend tooling). 
+- Extensible data layer (MaxMind + IP2Location LITE supported).
 
+---
+
+### Tech Stack
+| Layer      | Tech                                                 |
+|------------|------------------------------------------------------|
+| Backend    | Node.js · TypeScript                                 |
+| Frontend   | Astro + Vite/React components                        |
+| Data       | MaxMind GeoLite2, IP2Location LITE (manual download) |
+| Cache      | Redis                                                |
+| Containers | Docker & Docker Compose (dev/prod variants)          |
+
+
+---
+
+### API Overview
+
+1. Single IP Lookup
+
+   - GET /ip/:ip 
+   - Example
+   ```http request
+    GET https://ipwho.org/ip/8.8.8.8
+    ```
+2. Client IP (implicit)
+   - GET /me
+   - Returns data for the caller’s IP.
+
+3. Bulk Lookup
+   - GET /bulk/:ip1,ip2,ip3
+   - Comma-separated list (no spaces).
+   - Example
+    ```http request
+    GET https://ipwho.org/bulk/8.8.8.8,1.1.1.1
+    ```
+   
+4. Field Filtering
+    - Add ?fields=ip,country,city,latitude,longitude to limit response keys.
+   - Example
+    ```http request
+    GET https://ipwho.org/ip/8.8.8.8?fields=ip,country,asn
+    ```
+   
+5. Health / Misc (if exposed)
+   - If you add internal endpoints (e.g. /health) they are not guaranteed public—document them if you choose.
+
+Note: Exact endpoint paths may evolve; keep this section in sync with code if you add more.
+
+---
+
+### Sample Response
 ```json
 {
-  "ip": "17.45.67.2",
-  "continent": "North America",
-  "country": "Canada",
-  "region": "British Columbia",
-  "city": "Vancouver",
-  "postal_Code": "V6B",
-  "time_zone": "America/Vancouver",
-  "latitude": 49.282,
-  "longitude": -123.1103,
-  "currency": {
-    "code": "CAD",
-    "symbol": "CA$"
-  },
-  "asn": {
-    "number": 714,
-    "org": "APPLE-ENGINEERING"
+  "success": true,
+  "data": {
+    "ip": "36.255.18.252",
+    "continent": "Asia",
+    "continentCode": "AS",
+    "country": "India",
+    "countryCode": "IN",
+    "capital": "New Delhi",
+    "region": "Tamil Nadu",
+    "regionCode": "TN",
+    "city": null,
+    "postal_Code": null,
+    "dial_code": "+91",
+    "is_in_eu": false,
+    "latitude": 11.7342,
+    "longitude": 78.9566,
+    "accuracy_radius": 1000,
+    "timezone": {
+      "time_zone": "Asia/Kolkata",
+      "abbr": "IST",
+      "offset": 19800,
+      "is_dst": false,
+      "utc": "+05:30",
+      "current_time": "2025-07-19T21:43:42+05:30"
+    },
+    "flag": {
+      "flag_Icon": "🇮🇳",
+      "flag_unicode": "U+1F1EE U+1F1F3"
+    },
+    "currency": {
+      "code": "INR",
+      "symbol": "₹",
+      "name": "Indian Rupee",
+      "name_plural": "Indian rupees",
+      "hex_unicode": "20b9"
+    },
+    "connection": {
+      "number": 24186,
+      "org": "RailTel Corporation of India Ltd"
+    },
+    "security": {
+      "isVpn": false,
+      "isTor": false,
+      "isThreat": "low"
+    }
   }
 }
 ```
+Filtered example (?fields=ip,country,asn):
 
-## 🧰 Tech Stack
-* Backend: Node.js, Express, TypeScript
-* Caching: Redis (via Singleton pattern)
-* DBs: MaxMind GeoLite2, IP2Location LITE
-* Logging: Winston Logger (modular, scalable)
-* Frontend: Vite + React (Landing Page)
-
-## 📁 Project Structure (Simplified)
+```json
+{
+  "ip": "8.8.8.8",
+  "country": "United States",
+  "asn": { "number": 15169, "org": "GOOGLE" }
+}
 ```
-├── Backend/
-│   ├── src/
-│   │   ├── app.ts         # Express server entry
-│   │   ├── ipData.ts      # IP parsing + data aggregation
-│   │   └── services/      # Caching, Logger, etc.
-│   └── mainFiles/         # Excluded proprietary DBs
-├── Frontend/
-│   └── src/               # Vite + React landing page
-├── LICENSE
-├── README.md
+Bulk example:
+```json
+{ "results":[
+    {
+      "ip": "8.8.8.8",
+      "country": "United States",
+      "asn": { "number": 15169, "org": "GOOGLE" }
+    },
+    {
+      "ip": "1.1.1.1",
+      "country": "Australia",
+      "asn": { "number": 13335, "org": "CLOUDFLARENET" }
+    }
+  ]
+}
 ```
-
-## Run Locally
-```
-# Backend
-cd Backend
-npm install
-npm run dev
-
-# Frontend (optional)
-cd ../Frontend
-npm install
-npm run dev
-```
-> ⚠️ Proprietary DB files (mainFiles/) not included in open source.
-
-## How to Get the MaxMind GeoLite2 Database
-
-ipwho.org uses MaxMind’s [GeoLite2 City](https://dev.maxmind.com/geoip/geolite2-free-geolocation-data) database for accurate IP geolocation.
-
-Here’s how you can set it up:
 
 ---
 
-#### 🔗 Step-by-Step Guide
+💻 Quick Usage Examples
 
-1. **Create a MaxMind Account**
-   → Go to [https://www.maxmind.com](https://www.maxmind.com) and sign up (free)
+cURL
+```bash
+curl https://ipwho.org/ip/8.8.8.8
+curl "https://ipwho.org/ip/8.8.8.8?fields=ip,country,asn"
+curl https://ipwho.org/bulk/8.8.8.8,1.1.1.1
+```
+Node (fetch)
+```js
+const res = await fetch('https://ipwho.org/ip/8.8.8.8?fields=ip,country,asn');
+const data = await res.json();
+console.log(data);
+```
+Python
 
-2. **Download the GeoLite2-City Database**
-   → After logging in, visit
-   [https://www.maxmind.com/en/accounts/current/license-key](https://www.maxmind.com/en/accounts/current/license-key)
-   and generate your free license key.
-
-3. **Use This Script or Download Manually**
-   Run the download script:
-
-   ```bash
-   wget https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz
-   ```
-
-   Or manually download `.tar.gz` → extract `.mmdb` file.
-
-4. **Place the File in `mainFiles/`**
-   Copy the extracted `.mmdb` file into the `Backend/mainFiles/GeoLite2-City/` directory.
-
-   ```
-   Backend/
-   ├── mainFiles/
-   |   └── GeoLite2-City/
-   │       └── GeoLite2-City.mmdb
-   ```
+```python
+import requests
+r = requests.get("https://ipwho.org/ip/8.8.8.8", params={"fields":"ip,country,asn"})
+print(r.json())
+```
 
 ---
 
-> **Note**: The DB path is configured in the service file — no extra setup required once file is in place. follow same pattern with GeoLite2-ASN as well
+📂 Project Structure (High Level)
+```
+.
+├── Backend/            # API source (TypeScript)
+│   ├── src/            # App code
+│   └── mainFiles/      # (Path for Geo DBs if you store them here)
+├── Frontend/           # Astro + Vite/React frontend
+├── docker-compose.yml          # Dev stack
+├── docker-compose-prod.yml     # Production stack
+├── .env.sample                 # Root env sample (ports/paths/redis)
+├── Backend/.env.sample
+├── Frontend/.env.sample
+├── SETUP.md                    # Full setup instructions
+└── README.md
+```
 
-## 📄 License
+---
 
-This project is licensed under the MIT License. See [LICENSE](./LICENSE) for more info.
+### Setup
 
+All installation / environment / deployment instructions are in [SETUP.md](./SETUP.md).
+Go there for: .env variables, local dev, prod compose, volumes, troubleshooting.
 
-## 🤝 Contribute / Collaborate
+---
 
-Open to collaboration, contributions, and feedback.
-<!-- Contact: abc@ipwho.org -->
+### Performance (Context)
 
+Designed to handle high request throughput with Redis caching and lightweight lookups. Bulk mode reduces overhead on multiple sequential client requests.
 
-## 🙌 Support This Project
+Actual performance will depend on your host resources, DB choice, and network latency.
 
-If you find this useful, a ⭐ on GitHub or a clap on Medium goes a long way.
+---
+
+### Contributing
+1.	Fork
+2.	Create feature branch: git checkout -b feature/x
+3.	Commit: git commit -m "feat: ..."
+4.	Push & PR
+5.	Keep scope tight; open an issue first for larger changes
+
+Ideas: automated DB sync scripts, proxy/VPN detection flags, rate-limit middleware refinements, monitoring hooks.
+
+---
+
+### License
+
+MIT. See [LICENSE.](./LICENSE)
+
+---
+
+### Support
+
+- Open an issue for bugs / feature requests
+- Star the repo if this saved you time ✨
+
+---
+
+### Disclaimer
+
+Geolocation accuracy is not guaranteed (standard limitation of IP-based methods). Always verify critical use cases with additional signals.
+
+---

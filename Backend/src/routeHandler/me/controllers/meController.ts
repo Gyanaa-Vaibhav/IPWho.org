@@ -16,7 +16,6 @@ export async function renderMe (req:Request, res:Response)  {
     const rateLimit = await cacheGetter.query({type:"get",key:`${ip}RL`})
     const data = ipDataService.getData(ip!)
 
-    await cacheSetter.query({type:'incr',key:`${ip}RL`})
     if(!rateLimit) {
         monitoringService.getCounter("uniqueVisitorsCounter[ip?]")?.inc({ip})
         await cacheSetter.query({type: "incr", key: `meRouteUser`})
@@ -25,6 +24,7 @@ export async function renderMe (req:Request, res:Response)  {
     // Monthly Rate Limit check
     await monthlyRateLimit(res,rateLimit,ip!,1000)
 
+    await cacheSetter.query({type:'incr',key:`${ip}RL`})
     if(cachedData){
         res.json({ success: true, data:JSON.parse(cachedData) })
         return

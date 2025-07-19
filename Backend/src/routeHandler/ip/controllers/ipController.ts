@@ -25,7 +25,6 @@ export async function renderIp (req:Request, res:Response) {
     monitoringService.getCounter("ipServiceCounter[ip?]")?.inc({ip:lookUpIP})
 
     await cacheSetter.query({type:"incr",key:"totalIPRequests"})
-    await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
 
     if(!rateLimit) {
         if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"false"})
@@ -35,12 +34,12 @@ export async function renderIp (req:Request, res:Response) {
     // Monthly Rate Limit check
     await monthlyRateLimit(res,rateLimit,ip!)
 
+    await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
     if (cachedData) {
         monitoringService.getCounter("cacheHitsCounter[K]")?.inc({key: 'ipData'})
         if(cacheDataTimer) cacheDataTimer({hit:"true"})
         return await formatAndReturn({res, data: JSON.parse(cachedData), getQuery, format})
     }
-    // console.log("Cache Missing first Count")
 
     if(cacheDataTimer) cacheDataTimer({hit:"false"})
     if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"true"})
