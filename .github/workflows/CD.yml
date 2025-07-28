@@ -9,38 +9,50 @@ on:
 
 jobs:
 
-  Check_if_CI_Workflow_Succeed:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    runs-on: self-hosted
-    steps:
-      - run: echo "Previous workflow ${{ github.event.workflow_run.name }} succeeded!"
+#  Check_if_CI_Workflow_Succeed:
+#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#    runs-on: self-hosted
+#    steps:
+#      - run: echo "Previous workflow ${{ github.event.workflow_run.name }} succeeded!"
 
   Image_Building:
-    runs-on: self-hosted
-    needs: Check_if_CI_Workflow_Succeed
+    runs-on: [self-hosted, CI]
+#    needs: Check_if_CI_Workflow_Succeed
     steps:
       - name: Pull Code
         uses: actions/checkout@v4
 
-      - name: Build Images for production
-        run: docker compose -f docker-compose-prod.yml --env-file /env/prod/ipWho/.env build --no-cache
+      - name: Build Backend Image
+        working-directory: ./Backend
+        run: |
+          docker buildx build \
+            -t registry.gyanaavaibhav.in/ipwho-backend-prod:latest \
+            -t registry.gyanaavaibhav.in/ipwho-backend-prod:${{ github.sha }} \
+            -f backend.build.Dockerfile \
+            --push .
+
+      - name: Build Frontend Image
+        working-directory: ./Frontend
+        run: |
+          docker buildx build \
+            -t registry.gyanaavaibhav.in/ipwho-frontend-prod:latest \
+            -t registry.gyanaavaibhav.in/ipwho-frontend-prod:${{ github.sha }} \
+            -f frontend.build.Dockerfile \
+            --push .
 
   Run_Containers:
-    runs-on: self-hosted
+    runs-on: [self-hosted, k8s]
     needs: Image_Building
     steps:
-      - name: Bring Down Current Active Containers
-        run: docker compose -f docker-compose-prod.yml --env-file /env/prod/ipWho/.env down
+      - name: Apply the new Config's
+        working-directory: ./k8s
+        run: kubectl apply -f .
 
-      - name: Run New Containers
-        run: docker compose -f docker-compose-prod.yml --project-name ipwho-prod --env-file /env/prod/ipWho/.env up -d
+      - name: Deploy new backend to Kubernetes
+        run: |
+          kubectl set image deployment/ipwho \
+            ipwho=registry.gyanaavaibhav.in/ipwho-backend-prod:${{ github.sha }} \
+            ipwho-frontend-build=registry.gyanaavaibhav.in/ipwho-frontend-prod:${{ github.sha }}
 
-  Delete_Build:
-    runs-on: self-hosted
-    needs: Run_Containers
-    steps:
-      - name: Wait for 5 seconds
-        run: sleep 10
-
-      - name: Delete Front End Build Image
-        run: docker rm ipWho_frontend_build
+      - name: Wait for Deployment rollout
+        run: kubectl rollout status deployment/ipwho --timeout=120s

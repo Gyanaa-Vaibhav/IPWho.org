@@ -7,7 +7,7 @@ on:
 jobs:
 
   Build_Image:
-    runs-on: self-hosted
+    runs-on: [self-hosted, CI]
     steps:
       - name: Pull Code
         uses: actions/checkout@v4
@@ -16,7 +16,7 @@ jobs:
         run: docker compose -f docker-compose-test.yml --env-file /env/ipWho/.env build --no-cache
 
   Linter:
-    runs-on: self-hosted
+    runs-on: [self-hosted, CI]
     needs: Build_Image
     steps:
       - name: Start Containers
@@ -26,14 +26,14 @@ jobs:
         run: docker exec -i ipWho_backend_testing sh -c "npm run lint"
 
   Test:
-    runs-on: self-hosted
+    runs-on: [self-hosted, CI]
     needs: Linter
     steps:
       - name: Run Test
         run: docker exec -i ipWho_backend_testing sh -c "npm run test"
 
   Clean_Up:
-    runs-on: self-hosted
+    runs-on: [self-hosted, CI]
     needs: Test
     steps:
       - name: Stop Containers

@@ -3,12 +3,12 @@ name: ipwho-dev
 services:
   frontend:
     build:
-      context: ./Frontend-V2
+      context: ./Frontend
       dockerfile: frontend.Dockerfile
     ports:
       - $FRONTEND_PORT:$FRONTEND_PORT
     volumes:
-      - ./Frontend-V2:/app
+      - ./Frontend:/app
       - /app/node_modules
     container_name: ipWho_frontend
     env_file:
@@ -18,7 +18,7 @@ services:
 
   frontend-build:
     build:
-      context: ./Frontend-V2
+      context: ./Frontend
       dockerfile: frontend.build.Dockerfile
     volumes:
       - ipWho-Frontend-Build:/app/build

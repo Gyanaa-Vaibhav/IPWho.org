@@ -5,7 +5,7 @@ import url from "node:url";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const blockListPath = path.resolve(__dirname, '../../../../mainFiles/json/blockList.json');
+const blockListPath = path.resolve(__dirname, '/app/mainFiles/json/blockList.json');
 const blockList: Blocklist = JSON.parse(fs.readFileSync(blockListPath, 'utf8'));
 
 interface Blocklist {

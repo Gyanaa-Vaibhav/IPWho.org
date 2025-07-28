@@ -4,7 +4,7 @@ import url from "node:url";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const countryExtraMapPath = path.resolve(__dirname, '../../../../mainFiles/json/CountryExtras2.json');
+const countryExtraMapPath = path.resolve(__dirname, '/app/mainFiles/json/CountryExtras2.json');
 const countryExtraMap = JSON.parse(fs.readFileSync(countryExtraMapPath, 'utf-8'));
 
 // "AD": {
