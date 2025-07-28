@@ -6,8 +6,8 @@ import {isBlocked, getCurrencyMap, getCountryExtras, CurrencyType, CountryExtraT
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const cityPath = path.resolve(__dirname, '../../../mainFiles/GeoLite2-City/GeoLite2-City.mmdb');
-const asnPath = path.resolve(__dirname, '../../../mainFiles/GeoLite2-ASN/GeoLite2-ASN.mmdb');
+const cityPath = path.resolve('/app/mainFiles/GeoLite2-City/GeoLite2-City.mmdb');
+const asnPath = path.resolve('/app/mainFiles/GeoLite2-ASN/GeoLite2-ASN.mmdb');
 const currencyMap = getCurrencyMap();
 const countryExtraMap = getCountryExtras();
 

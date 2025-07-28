@@ -1,4 +1,5 @@
-FROM node:current-alpine
+## === STAGE 1: Build ===
+FROM node:current-alpine AS builder
 
 WORKDIR /app
 
@@ -10,6 +11,15 @@ COPY . .
 
 RUN npm run build
 
-EXPOSE 5172
+RUN npm run bundle
 
-CMD ["npm", "run", "dev"]
+## === STAGE 2: Production Files ===
+FROM node:current-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder /app/bundle ./build
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/package.json ./package.json
+
+CMD ["node","build/app.mjs"]

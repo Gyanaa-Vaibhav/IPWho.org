@@ -7,7 +7,7 @@ services:
 
   frontend:
     build:
-      context: ./Frontend-V2
+      context: ./Frontend
       dockerfile: frontend.build.Dockerfile
     ports:
       - $FRONTEND_PORT:$FRONTEND_PORT
@@ -20,7 +20,7 @@ services:
   backend:
     build:
       context: ./Backend
-      dockerfile: backend.build.Dockerfile
+      dockerfile: backend.Dockerfile
     ports:
       - $BACKEND_PORT:$BACKEND_PORT
     env_file:

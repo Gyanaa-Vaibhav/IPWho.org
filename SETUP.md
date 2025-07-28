@@ -44,7 +44,7 @@ PORT=3001
 
 3. Frontend .env
 
-Inside Frontend/ (renamed from Frontend-V2):
+Inside Frontend/ (renamed from Frontend):
 ```env
 PORT=3000
 VITE_SERVER=http://localhost

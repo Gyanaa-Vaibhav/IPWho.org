@@ -6,19 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-build
-.astro
-mainFiles
+
 node_modules
 dist
 dist-ssr
 *.local
-flags
-coverage
-.env.development
-.env.production
-.fleet
-bundle
 
 # Editor directories and files
 .vscode/*
@@ -30,4 +22,3 @@ bundle
 *.njsproj
 *.sln
 *.sw?
-.env

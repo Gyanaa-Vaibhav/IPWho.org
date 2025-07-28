@@ -4,7 +4,7 @@ import url from "node:url";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const currencyPath = path.resolve(__dirname, '../../../../mainFiles/json/FinalCountryCurrencyMap.json');
+const currencyPath = path.resolve(__dirname, '/app/mainFiles/json/FinalCountryCurrencyMap.json');
 const currencyMap = JSON.parse(fs.readFileSync(currencyPath, 'utf-8'));
 
 // "AD": {
