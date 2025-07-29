@@ -79,6 +79,10 @@ app.get('/bulk/:bulkIP',(req,res)=>{
 
 app.use('/metrics', metricsRouter)
 
+app.get('/health', (req, res) => {
+    res.status(200).send('Working')
+})
+
 app.listen(PORT,() => {
     console.log(`Listening on Port ${PORT}`);  
 })

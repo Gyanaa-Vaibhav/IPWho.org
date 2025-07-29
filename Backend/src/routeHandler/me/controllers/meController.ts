@@ -22,7 +22,8 @@ export async function renderMe (req:Request, res:Response)  {
     }
 
     // Monthly Rate Limit check
-    await monthlyRateLimit(res,rateLimit,ip!,1000)
+    await monthlyRateLimit(res,rateLimit,ip!)
+    if (res.headersSent) return;
 
     await cacheSetter.query({type:'incr',key:`${ip}RL`})
     if(cachedData){
