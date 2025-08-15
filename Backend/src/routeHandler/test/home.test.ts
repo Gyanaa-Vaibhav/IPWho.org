@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { describe, it, expect } from 'vitest';
-import {app} from "../app.js";
+import {app} from "../../app.js";
 
 describe("Home Route Test",async()=>{
     it("Should Match the Title on landing page",async () => {

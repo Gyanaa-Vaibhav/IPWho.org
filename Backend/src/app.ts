@@ -25,7 +25,8 @@ app.use((req,res,next) => {
         '/_astro',
         '/static',
         '/public',
-        '/assets'
+        '/assets',
+        '/up-time',
     ];
 
     const method = req.method;
@@ -55,7 +56,6 @@ app.use((req,res,next) => {
 
 app.use(express.static(frontendBuildPath));
 
-
 app.get('/', (req, res) => {
     res.sendFile(path.resolve(__dirname,'..','frontendBuild','index.html'));
 })
@@ -81,6 +81,10 @@ app.use('/metrics', metricsRouter)
 
 app.get('/health', (req, res) => {
     res.status(200).send('Working')
+})
+
+app.get('/up-time',(req,res)=>{
+    res.status(200).json({success:true})
 })
 
 app.listen(PORT,() => {

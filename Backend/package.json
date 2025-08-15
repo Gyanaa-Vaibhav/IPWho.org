@@ -23,7 +23,7 @@
     "@typescript-eslint/parser": "^8.37.0",
     "cidr-matcher": "^2.1.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
+    "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "ip2proxy-nodejs": "^4.4.0",
     "ip6addr": "^0.2.5",
