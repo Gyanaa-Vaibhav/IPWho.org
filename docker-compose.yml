@@ -10,7 +10,7 @@ services:
     volumes:
       - ./Frontend:/app
       - /app/node_modules
-    container_name: ipWho_frontend
+    container_name: ipWho_dev_frontend
     env_file:
       - $FRONTEND_ENV
     depends_on:
@@ -23,7 +23,7 @@ services:
     volumes:
       - ipWho-Frontend-Build:/app/build
       - /app/node_modules
-    container_name: ipWho_frontend_build
+    container_name: ipWho_dev_frontend_build
 
   backend:
     build:
@@ -33,7 +33,7 @@ services:
       - $BACKEND_PORT:$BACKEND_PORT
     env_file:
       - $BACKEND_ENV
-    container_name: ipWho_backend
+    container_name: ipWho_dev_backend
     volumes:
       - ./Backend:/app
       - /app/dist
@@ -42,12 +42,33 @@ services:
       - $BACKEND_FILE_LOCATION:/app/mainFiles:ro
       - ipWho-Frontend-Build:/app/frontendBuild:ro
     depends_on:
-      - redis
-      - frontend-build
+      redis:
+        condition: service_started
+      frontend-build:
+        condition: service_started
+      ipwho_postgres:
+        condition: service_healthy
+
+  status_monitor:
+    build:
+      context: ./Backend/statusMonitor
+      dockerfile: statusMonitor.Dockerfile
+    container_name: ipWho_dev_status_monitor
+    env_file:
+      - $BACKEND_ENV
+    volumes:
+      - ./Backend/statusMonitor:/app
+      - /app/node_modules
+    depends_on:
+      backend:
+        condition: service_started
+      ipwho_postgres:
+        condition: service_healthy
+
 
   redis:
     image: redis
-    container_name: ipWho_redis
+    container_name: ipWho_dev_redis
     ports:
       - $REDIS_PORT:6379
     volumes:
@@ -55,6 +76,26 @@ services:
 #    command: redis-server --requirepass $REDIS_PASSWORD
     restart: unless-stopped
 
+  ipwho_postgres:
+    image: postgres:15-alpine
+    container_name: ipWho_dev_psql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "ipWho_admin"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    ports:
+      - $PSQL_PORT:5432
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+      TZ: Asia/Kolkata
+    volumes:
+      - psql-data:/var/lib/postgresql/data
+
 volumes:
   redis-data:
   ipWho-Frontend-Build:
+  psql-data:
