@@ -4,7 +4,7 @@ import '../styles/Nav.css';
 
 export default function Nav() {
     const [showSideBar, setShowSideBar] = useState<boolean>(false);
-    const [path,setPath] = useState<{ documentation:boolean,faq:boolean }>({documentation: false, faq: false});
+    const [path,setPath] = useState<{ [key: string]:boolean}>({});
 
     function handelShowSideBar() {
         setShowSideBar((p) => !p)
@@ -12,11 +12,10 @@ export default function Nav() {
 
     React.useEffect(() => {
         const pathname = window.location.href.split('/')[3].toLowerCase()
-        if(pathname === 'documentation'){
-            setPath(prev => ({...prev,documentation:true}))
-        }else if(pathname === 'faq' || pathname === '#faq'){
-            setPath(prev => ({...prev,faq:true}))
-        }
+        setPath(prev => {
+            Object.keys(prev).forEach(key => prev[key] = false);
+            return ({...prev, [pathname]:true,})
+        })
         const myObserver = new ResizeObserver(entries => {
             entries.forEach(entry => {
                 if (entry.contentRect.width > 650) {
@@ -66,8 +65,9 @@ export default function Nav() {
                 <ul
                     className={`nav-items${showSideBar ? " showNav" : " hideNav"}`}
                 >
-                    <li><a className={path.documentation ? 'active-nav' : ''} href="/docs">Documentation</a></li>
-                    <li><a className={path.faq ? 'active-nav' : ''} href="/#FAQ">FAQ</a></li>
+                    <li><a className={path.documentation ? 'active-nav' : ''} href="/documentation">Documentation</a></li>
+                    <li><a className={path['#faq'] ? 'active-nav' : ''} href="/#FAQ">FAQ</a></li>
+                    <li><a className={path.status ? 'active-nav' : ''} href="/status">Status</a></li>
                     <li><a target='_blank' href="https://github.com/Gyanaa-Vaibhav/ipwho.org">Github</a></li>
                     {/*<li><a href="">Login</a></li>*/}
                     {/*<li><a href="">Sign Up</a></li>*/}

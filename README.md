@@ -3,6 +3,7 @@
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 [![Dockerized](https://img.shields.io/badge/Docker-Ready-blue.svg)](./docker-compose.yml)
 [![API](https://img.shields.io/badge/API-Open-green.svg)](#api-overview)
+![Processed Over](https://img.shields.io/badge/Processed_Over-2M_IP's-blue.svg)
 
 **IPWho.org** is an open-source IP geolocation API that returns rich location + network metadata (continent → ASN → currency) with no API key, no signup. Dockerized, TypeScript-based, production-ready.
 

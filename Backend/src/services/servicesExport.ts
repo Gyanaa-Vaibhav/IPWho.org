@@ -9,3 +9,6 @@ export {ipDataService} from './ip/ipData.js'
 
 //Monitor Service
 export {monitoringService} from './monitorService/monitorService.js'
+
+//Database Service
+export {getTodayService,getMonthService,getWeekService} from './databaseService/databaseExports.js'

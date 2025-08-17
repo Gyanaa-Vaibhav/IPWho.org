@@ -3,9 +3,10 @@ import * as url from "node:url";
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { meRouter,ipRouter,metricsRouter } from "./routeHandler/routeHandlerExport.js";
+import { meRouter,ipRouter,metricsRouter,statusRouter } from "./routeHandler/routeHandlerExport.js";
 import { monitoringService } from './services/servicesExport.js'
 dotenv.config();
+// import Database from
 
 export const app = express()
 const PORT = Number(process.env.PORT) || 3000;
@@ -69,6 +70,7 @@ app.get('/sitemap.xml', (req, res) => {
 });
 
 app.use('/ip', ipRouter);
+app.use('/status', statusRouter);
 app.use('/me', meRouter);
 
 app.get('/bulk/:bulkIP',(req,res)=>{

@@ -1,0 +1,16 @@
+---
+import './styles/Status.css';
+import Layout from '../layouts/Layout.astro';
+import Footer from "../layouts/Footer.astro";
+import '../react-app/index.css';
+import Nav from '../react-app/Nav/components/Nav';
+import StatusComponent from '../react-app/Status/components/StatusComponent';
+---
+
+<Layout title="Status">
+    <Nav client:load/>
+    <main>
+        <StatusComponent client:load/>
+    </main>
+    <Footer />
+</Layout>
