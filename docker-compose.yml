@@ -31,6 +31,8 @@ services:
       dockerfile: backend.Dockerfile
     ports:
       - $BACKEND_PORT:$BACKEND_PORT
+    environment:
+      - POD_NAME=ipWho_dev_backend
     env_file:
       - $BACKEND_ENV
     container_name: ipWho_dev_backend
@@ -42,6 +44,8 @@ services:
       - $BACKEND_FILE_LOCATION:/app/mainFiles:ro
       - ipWho-Frontend-Build:/app/frontendBuild:ro
     depends_on:
+      pushgateway:
+        condition: service_started
       redis:
         condition: service_started
       frontend-build:
@@ -62,6 +66,16 @@ services:
     depends_on:
       backend:
         condition: service_started
+      ipwho_postgres:
+        condition: service_healthy
+
+  pushgateway:
+    image: prom/pushgateway
+    container_name: ipwho_pushgateway
+    ports:
+      - $PUSHGATEWAY_PORT:9091
+    restart: unless-stopped
+    depends_on:
       ipwho_postgres:
         condition: service_healthy
 

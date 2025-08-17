@@ -3,6 +3,9 @@ import * as url from "node:url";
 import moment from 'moment-timezone';
 import maxmind, { CityResponse, AsnResponse, Reader } from 'maxmind';
 import {isBlocked, getCurrencyMap, getCountryExtras, CurrencyType, CountryExtraType} from './functions/functionExport.js'
+import { Request } from 'express';
+import {UAParser} from 'ua-parser-js';
+import {monitoringService} from '../servicesExport.js'
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -76,9 +79,9 @@ class IPData{
         return new IPData()
     }
 
-    public getData(ip: string) {
+    public getData(ip: string, req:Request) {
         try {
-            return this.getGeoData(ip)
+            return this.getGeoData(ip, req)
         } catch (e) {
             console.log(e);
             // throw new Error("Error ")
@@ -86,7 +89,7 @@ class IPData{
         }
     }
 
-    private getGeoData(ip: string):IpGeoResponse | null {
+    private getGeoData(ip: string, req:Request):IpGeoResponse | null {
         ip = ip.trim();
         const valid = maxmind.validate(ip)
         if (!valid) {
@@ -111,6 +114,13 @@ class IPData{
         const extraData = this.getExtras(cityData?.country?.iso_code ?? '')
         const timeData: timeInfoType = this.getTimeInfo(cityData?.location?.time_zone ?? '')
         const isProxy = isBlocked(ip);
+        const userAgent = getUserAgentData(req)
+
+        monitoringService.getCounter("userDemographic[LDO]")?.inc({
+            location: cityData?.country?.names?.en || "null",
+            device: userAgent.deviceType,
+            os: userAgent.os,
+        })
 
         return {
             ip,
@@ -218,4 +228,13 @@ export const ipDataService = await IPData.getInstance()
 // console.log(ipDataService.getData('223.241.100.90'))
 // console.log(ipDataService.getData('171.25.193.25'))
 
+function getUserAgentData(req:Request):{os:string,deviceType:string}{
+    const userAgent = req.headers['user-agent'] || '';
+    const parser = new UAParser(userAgent);
+    const uaResult = parser.getResult();
 
+    const os = uaResult.os.name || 'Unknown';
+    const deviceType = uaResult.device.type || 'desktop';
+
+    return { os, deviceType }
+}

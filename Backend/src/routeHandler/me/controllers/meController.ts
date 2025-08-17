@@ -14,10 +14,9 @@ export async function renderMe (req:Request, res:Response)  {
     const ip = getCleanIp(req);
     const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
     const rateLimit = await cacheGetter.query({type:"get",key:`${ip}RL`})
-    const data = ipDataService.getData(ip!)
 
     if(!rateLimit) {
-        monitoringService.getCounter("uniqueVisitorsCounter[ip?]")?.inc({ip})
+        monitoringService.getCounter("uniqueVisitorsCounter[ip?]")?.inc()
         await cacheSetter.query({type: "incr", key: `meRouteUser`})
     }
 
@@ -30,6 +29,7 @@ export async function renderMe (req:Request, res:Response)  {
         res.json({ success: true, data:JSON.parse(cachedData) })
         return
     }
+    const data = ipDataService.getData(ip!, req)
 
     if (!data) {
         res.json({success:false,message:"Invalid/Reserved IP"})
@@ -39,3 +39,4 @@ export async function renderMe (req:Request, res:Response)  {
     await cacheSetter.query({type:'set',key:`${ip}D`,value:JSON.stringify(data),expiry: 1800})
     res.json({ success: true, data })
 }
+

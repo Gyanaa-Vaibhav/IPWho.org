@@ -5,6 +5,50 @@ services:
       - $REDIS_PORT:6379
     container_name: ipWho_redis_testing
 
+  status_monitor:
+    build:
+      context: ./Backend/statusMonitor
+      dockerfile: statusMonitor.Dockerfile
+    container_name: ipWho_status_monitor_testing
+    env_file:
+      - $BACKEND_ENV
+    volumes:
+      - /app/node_modules
+    depends_on:
+      backend:
+        condition: service_started
+      ipwho_postgres:
+        condition: service_healthy
+
+  ipwho_postgres:
+    image: postgres:15-alpine
+    container_name: ipWho_psql_testing
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "ipWho_admin"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+    ports:
+      - $PSQL_PORT:5432
+    environment:
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+      TZ: Asia/Kolkata
+#    volumes:
+#      - psql-data-testing:/var/lib/postgresql/data
+
+  pushgateway:
+    image: prom/pushgateway
+    container_name: ipwho_pushgateway_testing
+    ports:
+      - $PUSHGATEWAY_PORT:9091
+    restart: unless-stopped
+    depends_on:
+      ipwho_postgres:
+        condition: service_healthy
+
   frontend:
     build:
       context: ./Frontend
@@ -23,6 +67,8 @@ services:
       dockerfile: backend.Dockerfile
     ports:
       - $BACKEND_PORT:$BACKEND_PORT
+    environment:
+      - POD_NAME=ipWho_backend_testing
     env_file:
       - $BACKEND_ENV
     container_name: ipWho_backend_testing
@@ -32,8 +78,15 @@ services:
       - $BACKEND_FILE_LOCATION:/app/mainFiles:ro
       - ipWho-Frontend-Build-Test:/app/frontendBuild:ro
     depends_on:
-      - frontend
-      - redis
+      pushgateway:
+        condition: service_started
+      redis:
+        condition: service_started
+      frontend:
+        condition: service_started
+      ipwho_postgres:
+        condition: service_healthy
 
 volumes:
   ipWho-Frontend-Build-Test:
+#  psql-data-testing:

@@ -43,7 +43,7 @@ export async function renderIp (req:Request, res:Response) {
 
     if(cacheDataTimer) cacheDataTimer({hit:"false"})
     if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"true"})
-    const data = ipDataService.getData(ip) || {success:false,message:"Reserved range/Invalid IP address"}
+    const data = ipDataService.getData(ip, req) || {success:false,message:"Reserved range/Invalid IP address"}
     await cacheSetter.query({ type: 'set', key: `${ip}D`, value: JSON.stringify(data), expiry: 1800 });
     monitoringService.getCounter("cacheMissCounter[K]")?.inc({key: 'ipData'})
     await formatAndReturn({res, data, getQuery, format})
