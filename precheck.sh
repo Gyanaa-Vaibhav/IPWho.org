@@ -11,6 +11,11 @@ set -euo pipefail
 #  4. Clean up containers
 # ---------------------------
 
+ENV_FILE="/env/ipWho/.env"
+DOCKER_COMPOSE_FILE="docker-compose-test.yml"
+SERVICE_NAME="ipWho_backend_testing"
+
+
 # 0. Check env file
 if [ ! -f "$ENV_FILE" ]; then
   echo "ERROR: Missing environment file: $ENV_FILE"
@@ -18,9 +23,6 @@ if [ ! -f "$ENV_FILE" ]; then
   exit 1
 fi
 
-DOCKER_COMPOSE_FILE="docker-compose-test.yml"
-ENV_FILE="/env/ipWho/.env"
-SERVICE_NAME="ipWho_backend_testing"
 
 echo "[1/4] Building Docker images..."
 docker compose -f "$DOCKER_COMPOSE_FILE" --env-file "$ENV_FILE" build
