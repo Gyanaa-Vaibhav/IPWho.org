@@ -1,6 +1,7 @@
 import request from 'supertest';
 import { describe, it, expect } from 'vitest';
 import {app} from "../../../app.js";
+import { cacheSetter } from '../../../services/servicesExport.js';
 import {Database} from "../../../services/databaseService/databaseExports.js";
 
 const db = Database.getInstance();
@@ -12,11 +13,15 @@ SELECT
 FROM generate_series(NOW() - INTERVAL '30 days', NOW(), INTERVAL '10 seconds') gs;`)
 console.log(rows);
 
-describe('status Route', () => {
+describe('status Route', async () => {
+    await cacheSetter.query({type:"del",key:"weekStatusData"})
+    await cacheSetter.query({type:"del",key:"todayStatusData"})
+    await cacheSetter.query({type:"del",key:"monthStatusData"})
     it('should render the status page', async () => {
-        const res = await request(app).get('/status');
+        const res = await request(app).get('/status/');
+
         expect(res.statusCode).toBe(200);
-        expect(res.text).toBe('Render status page here');
+        expect(res.text).toContain('<title>Free IP Geolocation API — IPWho.org | Status</title>')
     });
 
     it('should return the today status data', async () => {
@@ -29,7 +34,6 @@ describe('status Route', () => {
 
     it('should return the week status data', async () => {
         const res = await request(app).get('/status/week');
-
         expect(res.statusCode).toBe(200);
         expect(res.body).toMatchObject({success:true});
         expect(res.body.data.length).toBe(7);

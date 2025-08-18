@@ -16,6 +16,11 @@ RUN npm run bundle
 ## === STAGE 2: Production Files ===
 FROM node:current-alpine AS runner
 
+RUN apk add --no-cache tzdata \
+    && cp /usr/share/zoneinfo/Asia/Kolkata /etc/localtime \
+    && echo "Asia/Kolkata" > /etc/timezone \
+    && apk del tzdata
+
 WORKDIR /app
 
 COPY --from=builder /app/bundle ./build

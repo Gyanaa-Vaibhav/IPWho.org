@@ -10,6 +10,10 @@ main{
     align-items: center;
 }
 
+.uptime-monitor {
+    font-family: Graphik-Medium, serif;
+}
+
 .custom-tooltip {
     background-color: #fff;
     border: 2px solid #ccc;
@@ -29,21 +33,24 @@ main{
 
 @media screen and (max-width: 840px){
     main{
-        margin: 30px 60px 0;
+        margin: 80px 60px 0;
     }
 
 }
 
 @media screen and (max-width: 720px){
     main {
-        margin: 25px 60px 0;
+        margin: 80px 60px 0;
     }
 
 }
 
 @media screen and (max-width:450px) {
     main {
-        margin: 20px 40px 0;
+        margin: 80px 40px 0;
     }
 
+    .uptime-monitor h2 {
+        font-size: 1.2rem;
+    }
 }

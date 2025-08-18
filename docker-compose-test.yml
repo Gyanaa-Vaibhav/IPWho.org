@@ -1,3 +1,5 @@
+name: ipwho-test
+
 services:
   redis:
     image: redis

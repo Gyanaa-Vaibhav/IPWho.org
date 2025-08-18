@@ -18,7 +18,6 @@ export default function Chart({data,xAxis}: {data: any,xAxis:string}) {
     };
 
     const calculateInterval = () => {
-        console.log("Calculate interval",window.innerWidth);
         const totalDataPoints = data.length;
         if (totalDataPoints === 7) {
             if(window.innerWidth < 800) return 1
@@ -64,7 +63,7 @@ export default function Chart({data,xAxis}: {data: any,xAxis:string}) {
             <ResponsiveContainer width="100%" height={chartHeight}>
                 <LineChart width={600} height={300} data={data}>
                     <CartesianGrid vertical={false} />
-                    <Line dataKey="uptime_percent" stroke="#003E6B" fill='#003E6B' activeDot={{ stroke: '#0A558C', strokeWidth: sizeDeterminer() ? 2 : 1, r: sizeDeterminer() ? 5 : 3 }} strokeWidth={3}/>
+                    <Line dataKey="uptime_percent" stroke="#003E6B" fill='#003E6B' dot={{ strokeWidth: sizeDeterminer() ? 4 : 1 }} activeDot={{ stroke: '#0A558C', strokeWidth: sizeDeterminer() ? 2 : 1, r: sizeDeterminer() ? 5 : 2 }} strokeWidth={3}/>
                     <XAxis
                         dataKey={xAxis}
                         tickFormatter={formatXAxisLabel}

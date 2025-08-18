@@ -16,7 +16,7 @@ class GetWeek implements GetInterface {
                 DATE(log_time) AS day,
                 ROUND(100.0 * SUM(CASE WHEN up THEN 1 ELSE 0 END) / COUNT(*), 2) AS uptime_percent
             FROM uptime_logs
-            WHERE log_time >= DATE_TRUNC('week', CURRENT_DATE)
+            WHERE log_time >= CURRENT_DATE - INTERVAL '6 days'
             GROUP BY week_start, day
             ORDER BY week_start, day;
         `

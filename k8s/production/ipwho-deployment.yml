@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipwho-production
+  namespace: ipwho
+  labels:
+    app: ipwho-production
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: ipwho-production
+
+  template:
+    metadata:
+      name: ipwho-production
+      labels:
+        app: ipwho-production
+
+    spec:
+      initContainers:
+        - name: ipwho-frontend-build
+          image: registry.gyanaavaibhav.in/ipwho-frontend-prod:latest
+          imagePullPolicy: Always
+          command:
+            - /bin/sh
+            - -c
+            - cp -r /app/build/. /build/
+          volumeMounts:
+            - name: frontend-build
+              mountPath: /build
+        - name: copy-mmdb
+          image: busybox
+          command:
+            - sh
+            - -c
+            - cp -r /app/mainFiles/* /local-data
+          volumeMounts:
+            - name: mainfiles
+              mountPath: /app/mainFiles
+            - name: mainfiles-copy
+              mountPath: /local-data
+
+      containers:
+        - name: ipwho-backend
+          image: registry.gyanaavaibhav.in/ipwho-backend-prod:latest
+          imagePullPolicy: Always
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          command:
+            - /bin/sh
+            - -c
+            - node build/app.mjs
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            timeoutSeconds: 3
+            failureThreshold: 3
+
+          volumeMounts:
+            - name: mainfiles-copy
+              mountPath: /app/mainFiles
+              readOnly: true
+
+            - name: frontend-build
+              mountPath: /app/frontendBuild
+              readOnly: true
+
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
+
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+
+      imagePullSecrets:
+        - name: regcred
+
+      volumes:
+        - name: frontend-build
+          emptyDir: {}
+
+        - name: mainfiles
+          persistentVolumeClaim:
+            claimName: ipwho-backend-readonly-pvc
+
+        - name: mainfiles-copy
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipwho-backend
+  namespace: ipwho
+spec:
+  selector:
+    app: ipwho-production
+  type: ClusterIP
+  ports:
+    - port: 3000
+      targetPort: 3000 # The port inside the Pod
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ipwho-production-hpa
+  namespace: ipwho
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ipwho-production
+  minReplicas: 2
+  maxReplicas: 8
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80

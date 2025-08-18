@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ipwho-ingress
+  namespace: ipwho
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"  # if using cert-manager for auto TLS
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: ipwho.org
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ipwho-backend
+                port:
+                  number: 3000
+  tls:
+    - hosts:
+        - ipwho.org
+      secretName: secret-tls   # This secret is updated and managed by cluster-issuer

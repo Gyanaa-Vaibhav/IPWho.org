@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-production
+  namespace: ipwho
+  labels:
+    app: redis-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-prod
+  template:
+    metadata:
+      name: redis
+      labels:
+        app: redis-prod
+    spec:
+      containers:
+        - name: redis
+          image: redis:8.0-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - mountPath: /data
+              name: redis-pvc
+
+      volumes:
+        - name: redis-pvc
+          persistentVolumeClaim:
+            claimName: redis-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: ipwho
+spec:
+  selector:
+    app: redis-prod
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379
