@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipwho-pushgateway
+  namespace: ipwho
+  labels:
+    app: ipwho-pushgateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ipwho-pushgateway
+  template:
+    metadata:
+      name: ipwho-pushgateway
+      labels:
+        app: ipwho-pushgateway
+
+    spec:
+      containers:
+        - name: pushgateway
+          image: prom/pushgateway
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9091
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipwho-pushgateway
+  namespace: ipwho
+spec:
+  ports:
+    - name: http
+      port: 9091
+      targetPort: 9091
+  selector:
+    app: ipwho-pushgateway

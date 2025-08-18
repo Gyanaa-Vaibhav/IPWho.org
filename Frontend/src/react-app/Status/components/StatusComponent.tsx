@@ -50,11 +50,22 @@ export default function StatusComponent() {
         <>
             {todayData &&
                 <>
+                    <h2>Up Time 24 hrs</h2>
                     <Chart data={todayData} xAxis="hour" />
                 </>
             }
-            {weekData && <Chart data={weekData} xAxis="day" />}
-            {monthData && <Chart data={monthData} xAxis="day" />}
+            {weekData &&
+                <>
+                    <h2>Up Time 1 Week</h2>
+                    <Chart data={weekData} xAxis="day" />
+                </>
+            }
+            {monthData &&
+                <>
+                    <h2>Up Time 1 Month</h2>
+                    <Chart data={monthData} xAxis="day" />
+                </>
+            }
         </>
     );
 }

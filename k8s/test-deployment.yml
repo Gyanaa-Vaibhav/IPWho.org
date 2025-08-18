@@ -1,0 +1,326 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ipwho-test
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ipwho-test
+  name: redis-ipwho-test
+  labels:
+    app: redis-ipwho-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-ipwho-test
+  template:
+    metadata:
+      name: redis-ipwho-test
+      labels:
+        app: redis-ipwho-test
+
+    spec:
+      containers:
+        - name: redis
+          image: redis:8.0-alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: ipwho-test
+spec:
+  selector:
+    app: redis-ipwho-test
+  type: ClusterIP
+  ports:
+    - port: 6379
+      targetPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipwho-psql-test
+  namespace: ipwho-test
+  labels:
+    app: ipwho-psql-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ipwho-psql-test
+  template:
+    metadata:
+      labels:
+        app: ipwho-psql-test
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: XXXX
+            - name: POSTGRES_PASSWORD
+              value: XXXX
+            - name: POSTGRES_DB
+              value: XXXX
+            - name: TZ
+              value: XXXX
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ipwho-test
+  name: ipwho-postgres-service
+spec:
+  selector:
+    app: ipwho-psql-test
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipwho-pushgateway-test
+  namespace: ipwho-test
+  labels:
+    app: ipwho-pushgateway-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ipwho-pushgateway-test
+  template:
+    metadata:
+      name: ipwho-pushgateway-test
+      labels:
+        app: ipwho-pushgateway-test
+    spec:
+      containers:
+        - name: pushgateway
+          image: prom/pushgateway
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9091
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipwho-pushgateway
+  namespace: ipwho-test
+spec:
+  ports:
+    - name: http
+      port: 9091
+      targetPort: 9091
+  selector:
+    app: ipwho-pushgateway-test
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ipwho-test
+  namespace: ipwho-test
+  labels:
+    app: ipwho-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ipwho-test
+  template:
+    metadata:
+      name: ipwho-test
+      labels:
+        app: ipwho-test
+    spec:
+      initContainers:
+        - name: ipwho-frontend-build
+          image: YOUR IMAGE HERE
+          imagePullPolicy: Always
+          command:
+            - /bin/sh
+            - -c
+            - cp -r /app/build/. /build/
+          volumeMounts:
+            - name: frontend-build
+              mountPath: /build
+        - name: copy-mmdb
+          image: busybox
+          command:
+            - sh
+            - -c
+            - cp -r /app/mainFiles/* /local-data
+          volumeMounts:
+            - name: mainfiles
+              mountPath: /app/mainFiles
+            - name: mainfiles-copy
+              mountPath: /local-data
+
+      containers:
+        - name: ipwho-backend
+          image: YOUR IMAGE HERE
+          imagePullPolicy: Always
+
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: PUSHGATEWAYURL
+              value: ipwho-pushgateway
+            - name: DB_HOSTNAME
+              value: ipwho-postgres-service
+            - name: DB_USER
+              value: XXXX
+            - name: DB_NAME
+              value: XXXX
+            - name: DB_PASSWORD
+              value: XXXX
+            - name: DB_PORT
+              value: "5432"
+
+          command:
+            - /bin/sh
+            - -c
+            - node build/app.mjs
+
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    echo "Checking for postgres, redis and pushgateway"
+                    until nc -z ipwho-pushgateway 9091; do echo waiting for pushgateway; sleep 2; done
+                    until nc -z ipwho-postgres-service 5432; do echo waiting for postgres; sleep 2; done
+                    until nc -z redis 6379; do echo waiting for redis; sleep 2; done
+                    echo "All dependencies are up!"
+
+          volumeMounts:
+            - name: mainfiles-copy
+              mountPath: /app/mainFiles
+              readOnly: true
+
+            - name: frontend-build
+              mountPath: /app/frontendBuild
+              readOnly: true
+
+      volumes:
+        - name: frontend-build
+          emptyDir: {}
+
+        - name: mainfiles
+          persistentVolumeClaim:
+            claimName: ipwho-backend-readonly-pvc
+
+        - name: mainfiles-copy
+          emptyDir: {}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: ipwho-mainfiles-test
+  labels:
+    type: ipWho-Mainfiles-test
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+    - ReadOnlyMany
+  nfs:
+    server: XXXX
+    path: XXXX
+  persistentVolumeReclaimPolicy: Retain
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ipwho-backend-readonly-pvc
+  namespace: ipwho-test
+spec:
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 10Gi
+  selector:
+    matchLabels:
+      type: ipWho-Mainfiles-test
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ipwho-backend
+  namespace: ipwho-test
+spec:
+  selector:
+    app: ipwho-test
+  type: NodePort
+  ports:
+    - port: 3000
+      targetPort: 3000 # Default PORT if no EVN provided
+      nodePort: 30007
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ipwho-test
+  name: ipwho-status-mointor-test
+  labels:
+    app: ipwho-status-mointor-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ipwho-status-mointor-test
+  template:
+    metadata:
+      name: ipwho-status-mointor-test
+      labels:
+        app: ipwho-status-mointor-test
+
+    spec:
+      containers:
+        - name: statusmonitor
+          image: YOUR IMAGE HERE
+          imagePullPolicy: Always
+
+          env:
+            - name: SERVICE_NAME
+              value: ipwho-backend
+            - name: DB_HOSTNAME
+              value: ipwho-postgres-service
+            - name: DB_USER
+              value: XXXX
+            - name: DB_NAME
+              value: XXXX
+            - name: DB_PASSWORD
+              value: XXXX
+            - name: DB_PORT
+              value: "5432"
+
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    echo "Checking for postgres and backend"
+                    until nc -z ipwho-postgres-service 5432; do echo waiting for postgres; sleep 2; done
+                    until nc -z ipwho-backend 3000; do echo waiting for redis; sleep 2; done
+                    echo "All dependencies are up!"
+---

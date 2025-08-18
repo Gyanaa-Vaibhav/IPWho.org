@@ -17,7 +17,7 @@ const InitQuery = `
     CREATE TABLE IF NOT EXISTS uptime_logs(
         ID SERIAL PRIMARY KEY,
         log_date DATE DEFAULT CURRENT_DATE,
-        log_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        log_time TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
         up BOOLEAN DEFAULT FALSE
     );
 `
