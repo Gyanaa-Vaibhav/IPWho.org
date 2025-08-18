@@ -120,8 +120,8 @@ class IPData{
             location: cityData?.country?.names?.en || "null",
             device: userAgent.deviceType,
             os: userAgent.os,
-            lat: cityData?.location?.latitude,
-            long: cityData?.location?.longitude
+            latitude: cityData?.location?.latitude,
+            longitude: cityData?.location?.longitude
         })
 
         return {
