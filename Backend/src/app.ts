@@ -11,7 +11,7 @@ dotenv.config();
 export const app = express()
 const PORT = Number(process.env.PORT) || 3000;
 const __filename = url.fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+export const __dirname = path.dirname(__filename);
 const frontendBuildPath = path.resolve(__dirname, '../frontendBuild');
 
 app.set('trust proxy', true);

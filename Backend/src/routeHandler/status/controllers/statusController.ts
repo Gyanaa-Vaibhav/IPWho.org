@@ -1,9 +1,12 @@
 // Controller for status
 import { Request, Response } from 'express';
 import {getWeekService,getMonthService,getTodayService,cacheSetter,cacheGetter} from "../../../services/servicesExport.js";
+import path from "node:path";
+import {__dirname} from '../../../app.js';
 
 export async function renderStatus (req:Request, res:Response) {
-    res.send('Render status page here');
+    res.sendFile(path.resolve(__dirname,'..','frontendBuild','status','index.html'));
+    // res.send('Render status page here');
 }
 
 export async function getStatus(req:Request, res:Response) {
