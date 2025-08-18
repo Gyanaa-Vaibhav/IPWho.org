@@ -207,7 +207,7 @@ monitoringService.initiateMetric({metric:metrics.histogram, name:"ipWho_cache_la
 // Custom Metrics
 monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_ip_service_users", help:"Tracks hits for /ip route tracking the requestor's IP", metric_custom_name:"ipServiceCounter[ip?]",labelNames:['ip']})
 monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_non_repeating_visitors", help:"Tracks unique users with /me route", metric_custom_name:"uniqueVisitorsCounter[ip?]",labelNames:['ip']})
-monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_user_demographic_tracker", help:"Tracks users Demopraphic", metric_custom_name:"userDemographic[LDO]",labelNames:['location','device','os']})
+monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_user_demographic_tracker", help:"Tracks users Demopraphic", metric_custom_name:"userDemographic[LDOLL]",labelNames:['location','device','os','lat','long']})
 monitoringService.initiateMetric({metric:metrics.gauge, name:"ipWho_active_session", help:"Tracks Active users on web", metric_custom_name:"activeUsersGauge[ip?]",labelNames:['ip']})
 
 const PUSHGATEWAYURL = process.env.PUSHGATEWAYURL
