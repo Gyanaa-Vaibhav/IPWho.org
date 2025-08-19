@@ -192,6 +192,7 @@ class MonitorService{
 }
 
 export const monitoringService = new MonitorService(client.register);
+client.collectDefaultMetrics()
 // HTTP Metrics
 monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_http_total_request", help:"Total Http Requests", metric_custom_name:"httpTotalCounter"})
 monitoringService.initiateMetric({metric:metrics.counter, name:"ipWho_http_request", help:"Http Requests", metric_custom_name:"httpReqCounter[MRS]",labelNames:['method','route','status']})
