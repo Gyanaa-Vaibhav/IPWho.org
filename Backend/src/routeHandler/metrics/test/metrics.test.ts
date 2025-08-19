@@ -126,10 +126,10 @@ describe('/metrics Route', () => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain('# HELP ipWho_user_demographic_tracker Tracks users Demopraphic');
         expect(res.text).toContain('# TYPE ipWho_user_demographic_tracker counter');
-        expect(res.text).toContain('ipWho_user_demographic_tracker{location="United States",device="mobile",os="iOS"} 1');
-        expect(res.text).toContain('ipWho_user_demographic_tracker{location="United States",device="desktop",os="Windows"} 1');
-        expect(res.text).toContain('ipWho_user_demographic_tracker{location="Japan",device="desktop",os="macOS"} 1');
-        expect(res.text).toContain('ipWho_user_demographic_tracker{location="Singapore",device="mobile",os="Android"} 1');
+        expect(res.text).toContain('ipWho_user_demographic_tracker{location="United States",device="mobile",os="iOS",latitude="44.482",longitude="-88.0185"} 1');
+        expect(res.text).toContain('ipWho_user_demographic_tracker{location="Singapore",device="mobile",os="Android",latitude="1.3667",longitude="103.8"} 1');
+        expect(res.text).toContain('ipWho_user_demographic_tracker{location="United States",device="desktop",os="Windows",latitude="37.751",longitude="-97.822"} 1');
+        expect(res.text).toContain('ipWho_user_demographic_tracker{location="Japan",device="desktop",os="macOS",latitude="35.6364",longitude="139.5465"} 1');
     })
 });
 

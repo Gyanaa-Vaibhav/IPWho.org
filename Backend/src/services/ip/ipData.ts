@@ -116,10 +116,12 @@ class IPData{
         const isProxy = isBlocked(ip);
         const userAgent = getUserAgentData(req)
 
-        monitoringService.getCounter("userDemographic[LDO]")?.inc({
+        monitoringService.getCounter("userDemographic[LDOLL]")?.inc({
             location: cityData?.country?.names?.en || "null",
             device: userAgent.deviceType,
             os: userAgent.os,
+            latitude: cityData?.location?.latitude,
+            longitude: cityData?.location?.longitude
         })
 
         return {
