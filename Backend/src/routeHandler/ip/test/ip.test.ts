@@ -2,7 +2,7 @@ import request from 'supertest';
 import { Request } from 'express';
 import { describe, it, expect } from 'vitest';
 import { ipRouter } from '../routes/ipRoute.js';
-import { ipDataService,cacheSetter,cacheGetter } from '../../../services/servicesExport.js';
+import { ipDataService,cacheSetter } from '../../../services/servicesExport.js';
 import { app } from '../../../app.js';
 
 app.set('trust proxy', true);
@@ -74,23 +74,5 @@ describe('ip Route', () => {
         expect(res.statusCode).toBe(404);
         expect(res.body).toEqual({success:false, message:"Reserved range/Invalid IP address"});
     })
-
-    it("Should throw and Rate Limit Exceed Error",async ()=>{
-        await cacheSetter.query({type:"set",value:"1000000",key:`123.123.123.123RL`,expiry: 25_92_000})
-        const res = await request(app).get('/ip/12.32.4.23').set("X-Forwarded-For","123.123.123.123");
-
-        expect(res.statusCode).toBe(429);
-        expect(res.body).toEqual({success:false, message:"Monthly Limit Exceed"});
-    })
-
-    it("Should Count Correct user requests",async ()=>{
-        await cacheSetter.query({type:"del",key:"1.1.1.1RL"})
-        for(let i = 1; i <= 1000; i++){
-            await request(app).get('/ip/12.32.4.21').set("X-Forwarded-For","1.1.1.1");
-        }
-        const rateLimitCounter = await cacheGetter.query({type:"get",key:"1.1.1.1RL"})
-
-        expect(Number(rateLimitCounter)).toBe(1000)
-    }, 20000)
 });
 

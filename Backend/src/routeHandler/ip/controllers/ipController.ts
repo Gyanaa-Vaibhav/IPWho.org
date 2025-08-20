@@ -2,7 +2,6 @@
 import { Request, Response } from 'express';
 import {cacheGetter, cacheSetter, ipDataService, monitoringService} from '../../../services/servicesExport.js'
 import {getQueryHelper} from "./getQueryHelper.js";
-import {monthlyRateLimit} from '../../helperFunctions/helperExport.js'
 import formatConverter from "./formatConverter.js";
 import {IpGeoResponse} from "../../../services/ip/ipData.js";
 
@@ -20,21 +19,19 @@ export async function renderIp (req:Request, res:Response) {
     const cacheDataTimer = monitoringService.getHistogram("cacheDuration[KH]")?.startTimer({key:"ipData"})
     const cacheUserRetrievalTimer = monitoringService.getHistogram("cacheDuration[KH]")?.startTimer({key:"userRL"})
     const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
-    const rateLimit = await cacheGetter.query({type:"get",key:`${lookUpIP}RL`})
     const getQuery = req.query.get as string;
     monitoringService.getCounter("ipServiceCounter[ip?]")?.inc({ip:lookUpIP})
 
-    await cacheSetter.query({type:"incr",key:"totalIPRequests"})
+//    const rateLimit = await cacheGetter.query({type:"get",key:`${lookUpIP}RL`})
+//    await cacheSetter.query({type:"incr",key:"totalIPRequests"})
+//    if(!rateLimit) {
+//        if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"false"})
+//        await cacheSetter.query({type: "incr", key: "uniqueUserIP"})
+//    }
+//    // Monthly Rate Limit check
+//    await monthlyRateLimit(res,rateLimit,ip!)
+//    await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
 
-    if(!rateLimit) {
-        if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"false"})
-        await cacheSetter.query({type: "incr", key: "uniqueUserIP"})
-    }
-
-    // Monthly Rate Limit check
-    await monthlyRateLimit(res,rateLimit,ip!)
-
-    await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
     if (cachedData) {
         monitoringService.getCounter("cacheHitsCounter[K]")?.inc({key: 'ipData'})
         if(cacheDataTimer) cacheDataTimer({hit:"true"})

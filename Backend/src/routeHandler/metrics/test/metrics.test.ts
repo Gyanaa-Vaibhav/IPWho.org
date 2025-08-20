@@ -69,24 +69,6 @@ describe('/metrics Route', () => {
         expect(res.text).toContain('ipWho_ip_service_users{ip="127.0.0.1"} 30');
     })
 
-    it("Should track non repeating Visitors for the website or /me route", async () => {
-        await cacheSetter.query({type:'del',key:'120.120.120.120RL'})
-        await cacheSetter.query({type:'del',key:'121.121.121.121RL'})
-        await cacheSetter.query({type:'del',key:'122.122.122.122RL'})
-        await cacheSetter.query({type:'del',key:'123.123.123.123RL'})
-        await cacheSetter.query({type:'del',key:'124.124.124.124RL'})
-        for(let i = 0 ; i < 5; i++) {
-            await request(app)
-                .get('/me')
-                .set("X-Forwarded-For",`12${i}.12${i}.12${i}.12${i}`)
-                .set('User-Agent', userAgent);
-        }
-        const res = await request(app).get('/metrics').set('authorization', 'Basic cHJvbWV0aGV1czpteXNlY3JldHBhc3M=');
-        expect(res.text).toContain('# HELP ipWho_non_repeating_visitors Tracks unique users with /me route');
-        expect(res.text).toContain('# TYPE ipWho_non_repeating_visitors counter');
-        expect(res.text).toContain('ipWho_non_repeating_visitors 5');
-    })
-
     it('should reflect active requests during long request', async () => {
         const res = await request(app).get('/metrics').set('authorization', 'Basic cHJvbWV0aGV1czpteXNlY3JldHBhc3M=');
 
@@ -108,7 +90,7 @@ describe('/metrics Route', () => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain('# HELP ipWho_http_total_request Total Http Requests');
         expect(res.text).toContain('# TYPE ipWho_http_total_request counter');
-        expect(res.text).toContain(`ipWho_http_total_request ${42 + num}`);
+        expect(res.text).toContain(`ipWho_http_total_request ${36 + num}`);
     })
 
     it("Should Check if Demoprapgics is working", async()=>{
@@ -126,10 +108,10 @@ describe('/metrics Route', () => {
         expect(res.statusCode).toBe(200);
         expect(res.text).toContain('# HELP ipWho_user_demographic_tracker Tracks users Demopraphic');
         expect(res.text).toContain('# TYPE ipWho_user_demographic_tracker counter');
-        expect(res.text).toContain('ipWho_user_demographic_tracker{location="United States",device="mobile",os="iOS",latitude="44.482",longitude="-88.0185"} 1');
-        expect(res.text).toContain('ipWho_user_demographic_tracker{location="Singapore",device="mobile",os="Android",latitude="1.3667",longitude="103.8"} 1');
-        expect(res.text).toContain('ipWho_user_demographic_tracker{location="United States",device="desktop",os="Windows",latitude="37.751",longitude="-97.822"} 1');
-        expect(res.text).toContain('ipWho_user_demographic_tracker{location="Japan",device="desktop",os="macOS",latitude="35.6364",longitude="139.5465"} 1');
+        expect(res.text).toContain('ipWho_user_demographic_tracker{location="United States",device="mobile",os="iOS"} 1');
+        expect(res.text).toContain('ipWho_user_demographic_tracker{location="Singapore",device="mobile",os="Android"} 1');
+        expect(res.text).toContain('ipWho_user_demographic_tracker{location="United States",device="desktop",os="Windows"} 1');
+        expect(res.text).toContain('ipWho_user_demographic_tracker{location="Japan",device="desktop",os="macOS"} 1');
     })
 });
 
