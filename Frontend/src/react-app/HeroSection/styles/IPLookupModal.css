@@ -63,6 +63,8 @@
 .response-Container{
     padding: 12px;
     overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
     overflow-x: clip;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
