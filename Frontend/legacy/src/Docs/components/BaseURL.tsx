@@ -45,33 +45,33 @@ export function BaseURL() {
                 <pre>
                     Get your own IP info:
                     <SyntaxHighlighter language={'https'} style={a11yDark}>
-                        {"GET https://api.ipwho.org/me"}
+                        {"GET https://ipwho.org/me"}
                     </SyntaxHighlighter>
                     Get info for a specific IP:
                     <SyntaxHighlighter language={'https'} style={a11yDark}>
-                        {"GET https://api.ipwho.org/8.8.8.8"}
+                        {"GET https://ipwho.org/ip/8.8.8.8"}
                     </SyntaxHighlighter>
                     Filter response (only country, city, currency):
                     <SyntaxHighlighter language={'https'} style={a11yDark}>
-                        {"GET https://api.ipwho.org/8.8.8.8?get=country,city,currency"}
+                        {"GET https://ipwho.org/ip/8.8.8.8?get=country,city,currency"}
                     </SyntaxHighlighter>
                     Bulk lookup:
                     <SyntaxHighlighter language={'https'} style={a11yDark}>
-                        {"GET https://api.ipwho.org/bulk/8.8.8.8,1.1.1.1"}
+                        {"GET https://ipwho.org/bulk/8.8.8.8,1.1.1.1"}
                     </SyntaxHighlighter>
                 </pre>
 
                 <h3>JavaScript Fetch Example</h3>
                 <pre>
                     <SyntaxHighlighter language="javascript" style={a11yDark}>
-                        {`fetch('https://api.ipwho.org/8.8.8.8?get=country,city,currency')\n.then(res => res.json())\n.then(data => console.log(data));`}
+                        {`fetch('https://ipwho.org/ip/8.8.8.8?get=country,city,currency')\n.then(res => res.json())\n.then(data => console.log(data));`}
                     </SyntaxHighlighter>
                 </pre>
 
                 <h3>cURL Examples</h3>
                 <pre>
                     <SyntaxHighlighter language="bash" style={a11yDark}>
-                        {`curl "https://api.ipwho.org/me"\ncurl "https://api.ipwho.org/1.1.1.1"\ncurl "https://api.ipwho.org/1.1.1.1?get=country,city"\ncurl "https://api.ipwho.org/bulk/1.1.1.1,8.8.8.8"`}
+                        {`curl "https://ipwho.org/me"\ncurl "https://ipwho.org/ip/1.1.1.1"\ncurl "https://ipwho.org/ip/1.1.1.1?get=country,city"\ncurl "https://ipwho.org/bulk/1.1.1.1,8.8.8.8"`}
                     </SyntaxHighlighter>
 </pre>
             </div>

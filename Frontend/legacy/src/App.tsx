@@ -30,7 +30,7 @@
 //       }}
 //     >
 //       <div style={{ marginBottom: "1rem", color: "#38bdf8" }}>
-//         curl https://api.ipwho.org/json/8.8.8.8
+//         curl https://ipwho.org/ip/8.8.8.8
 //       </div>
 //       <motion.div
 //         initial={{ opacity: 0 }}
@@ -122,7 +122,7 @@ export function App() {
                 transition={{delay: 0.2, duration: 0.4}}
                 style={{color: "#38bdf8", marginBottom: "1rem"}}
             >
-                curl https://api.ipwho.org/json/8.8.8.8
+                curl https://ipwho.org/ip/8.8.8.8
             </motion.div>
 
             {displayedLines.map((line, i) => (
