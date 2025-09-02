@@ -24,13 +24,18 @@ export function BaseURL() {
                     </tr>
                     <tr>
                         <td>GET</td>
-                        <td>/ip/:ip</td>
+                        <td>/ip/8.8.8.8</td>
                         <td>Returns data for a specific IP address</td>
                     </tr>
                     <tr>
                         <td>GET</td>
-                        <td>/ip/:ip?get=country,city,currency</td>
+                        <td>/ip/8.8.8.8?get=country,city,currency</td>
                         <td>Filters response to specific fields only</td>
+                    </tr>
+                    <tr>
+                        <td>GET</td>
+                        <td>/ip/8.8.8.8?format=json</td>
+                        <td>Returns data for in multiple formats such as json,csv and xml</td>
                     </tr>
                     <tr>
                         <td>GET</td>
@@ -49,11 +54,15 @@ export function BaseURL() {
                     </SyntaxHighlighter>
                     Get info for a specific IP:
                     <SyntaxHighlighter language={'https'} style={a11yDark}>
-                        {"GET https://api.ipwho.org/8.8.8.8"}
+                        {"GET https://api.ipwho.org/ip/8.8.8.8"}
                     </SyntaxHighlighter>
                     Filter response (only country, city, currency):
                     <SyntaxHighlighter language={'https'} style={a11yDark}>
-                        {"GET https://api.ipwho.org/8.8.8.8?get=country,city,currency"}
+                        {"GET https://api.ipwho.org/ip/8.8.8.8?get=country,city,currency"}
+                    </SyntaxHighlighter>
+                    Get Response in Multiple format (json,csv,xml):
+                    <SyntaxHighlighter language={'https'} style={a11yDark}>
+                        {"GET https://api.ipwho.org/ip/8.8.8.8?format=json \n or \nGET https://api.ipwho.org/ip/8.8.8.8?format=xml \n or \nGET https://api.ipwho.org/ip/8.8.8.8?format=csv"}
                     </SyntaxHighlighter>
                     Bulk lookup:
                     <SyntaxHighlighter language={'https'} style={a11yDark}>

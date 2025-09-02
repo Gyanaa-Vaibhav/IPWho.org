@@ -3,7 +3,7 @@ import * as url from "node:url";
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { meRouter,ipRouter,metricsRouter,statusRouter } from "./routeHandler/routeHandlerExport.js";
+import { meRouter,ipRouter,metricsRouter,statusRouter,bulkRouter } from "./routeHandler/routeHandlerExport.js";
 import { monitoringService } from './services/servicesExport.js'
 dotenv.config();
 // import Database from
@@ -73,11 +73,7 @@ app.use('/ip', ipRouter);
 app.use('/status', statusRouter);
 app.use('/me', meRouter);
 
-app.get('/bulk/:bulkIP',(req,res)=>{
-    const bulkIP = req.params.bulkIP;
-    console.log(bulkIP.split(","))
-    res.json({success:false,message:"Failed"})
-})
+app.use('/bulk',bulkRouter)
 
 app.use('/metrics', metricsRouter)
 
