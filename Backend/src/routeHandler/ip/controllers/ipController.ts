@@ -20,14 +20,15 @@ export async function renderIp (req:Request, res:Response) {
     const cacheUserRetrievalTimer = monitoringService.getHistogram("cacheDuration[KH]")?.startTimer({key:"userRL"})
     const cachedData = await cacheGetter.query({type:"get",key:`${ip}D`})
     const getQuery = req.query.get as string;
-    monitoringService.getCounter("ipServiceCounter[ip?]")?.inc({ip:lookUpIP})
+    const rateLimit = await cacheGetter.query({type:"get",key:`${lookUpIP}RL`})
 
-//    const rateLimit = await cacheGetter.query({type:"get",key:`${lookUpIP}RL`})
-//    await cacheSetter.query({type:"incr",key:"totalIPRequests"})
-//    if(!rateLimit) {
-//        if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"false"})
-//        await cacheSetter.query({type: "incr", key: "uniqueUserIP"})
-//    }
+    await cacheSetter.query({type:"incr",key:"totalIPRequests"})
+    if(!rateLimit) {
+        await cacheSetter.query({type:"incr",key:`${lookUpIP}RL`})
+        if(cacheUserRetrievalTimer) cacheUserRetrievalTimer({hit:"false"})
+        await cacheSetter.query({type: "incr", key: "uniqueUserIP"})
+        monitoringService.getCounter("ipServiceCounter[ip?]")?.inc({ip:lookUpIP})
+    }
 //    // Monthly Rate Limit check
 //    await monthlyRateLimit(res,rateLimit,ip!)
 //    await cacheSetter.query({type:'incr',key:`${lookUpIP}RL`})
