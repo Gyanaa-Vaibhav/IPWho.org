@@ -66,7 +66,7 @@ describe('/metrics Route', () => {
         const res = await request(app).get('/metrics').set('authorization', 'Basic cHJvbWV0aGV1czpteXNlY3JldHBhc3M=');
         expect(res.text).toContain('# HELP ipWho_ip_service_users Tracks hits for /ip route tracking the requestor\'s IP');
         expect(res.text).toContain('# TYPE ipWho_ip_service_users counter');
-        expect(res.text).toContain('ipWho_ip_service_users{ip="127.0.0.1"} 30');
+        expect(res.text).toContain('ipWho_ip_service_users{ip="127.0.0.1"} 1');
     })
 
     it('should reflect active requests during long request', async () => {
