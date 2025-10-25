@@ -1,0 +1,161 @@
+.trusted-section {
+    background-color: #F0F4F8;
+    padding: 0 0 6rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.trusted-container {
+    max-width: 1200px;
+    margin: 0 auto 2rem;
+    text-align: center;
+}
+
+.trusted-logo-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.trusted-logo {
+    filter: grayscale(1);
+    transition: filter 0.3s ease;
+}
+
+.trusted-logo:hover {
+    filter: none;
+}
+
+.trusted-logo-item img{
+    width: 60px;
+    height: 60px;
+}
+
+.trusted-name{
+    font-family: 'Montserrat', sans-serif;
+}
+
+.trusted-heading {
+    margin-bottom: 1.5rem;
+    font-family: "HarmoniaSansPro-Semibold", sans-serif;
+    font-size: 2rem;
+    color: var(--Primary-Color, #003E6B);
+    letter-spacing: 0.3px;
+}
+
+.trusted-scroll-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 80px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.trusted-scroll {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+}
+
+.trusted-logo {
+    height: 50px;
+    width: auto;
+    opacity: 0.7;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.trusted-logo:hover {
+    opacity: 1;
+    transform: scale(1.10);
+}
+
+.trusted-fade {
+    position: absolute;
+    top: 0;
+    width: 120px;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+
+
+.fade-left {
+    left: 0;
+    background: linear-gradient(to right, #F0F4F8 80%, transparent);
+}
+
+.fade-right {
+    right: 0;
+    background: linear-gradient(to left, #F0F4F8 80%, transparent);
+}
+
+@media screen and (max-width: 1120px) {
+    .trusted-container {
+        margin: 0 80px;
+    }
+
+    .trusted-fade{
+        width: 40px;
+    }
+
+    .trusted-logo {
+        height: 36px;
+    }
+}
+
+
+@media screen and (max-width: 850px) {
+    .trusted-container {
+        margin: 50px 60px;
+    }
+
+    .trusted-section{
+        padding: 0;
+    }
+
+    .trusted-logo-item img{
+        width: 50px;
+        height: 50px;
+    }
+
+    .trusted-heading {
+        font-size: 1.75rem;
+    }
+
+    .trusted-logo {
+        height: 32px;
+    }
+
+    .trusted-scroll {
+        gap: 3rem;
+    }
+}
+
+
+@media screen and (max-width: 550px) {
+    .trusted-container {
+        margin: 30px;
+    }
+
+    .trusted-section{
+        margin-top: 60px;
+    }
+
+    .trusted-logo-item img{
+        width: 45px;
+        height: 45px;
+    }
+
+    .trusted-heading {
+        font-size: 1.25rem;
+    }
+
+    .trusted-logo {
+        height: 26px;
+    }
+
+    .trusted-scroll {
+        gap: 2rem;
+    }
+}
