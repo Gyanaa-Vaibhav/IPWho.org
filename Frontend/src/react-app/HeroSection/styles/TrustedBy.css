@@ -18,7 +18,7 @@
 }
 
 .trusted-logo {
-    filter: grayscale(1);
+/*    filter: grayscale(1);*/
     transition: filter 0.3s ease;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .trusted-heading {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     font-family: "HarmoniaSansPro-Semibold", sans-serif;
     font-size: 2rem;
     color: var(--Primary-Color, #003E6B);
