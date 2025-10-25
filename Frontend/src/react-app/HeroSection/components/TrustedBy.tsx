@@ -29,7 +29,7 @@ export default function TrustedBySection() {
         <section className="trusted-section">
             <div className="trusted-container">
                 <h2 className="trusted-heading">
-                    Trusted by top developers and leading companies
+                    Trusted by Top Developers at Leading Companies
                 </h2>
 
                 <div className="trusted-scroll-wrapper">
